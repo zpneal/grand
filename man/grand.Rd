@@ -127,13 +127,13 @@ existing \code{igraph} functions. Available topological characteristics include:
 \examples{
 data(airport)  #Load example data
 \dontrun{airport <- grand(airport)}  #Apply GRAND interactively
-G <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
-           vertex1 = "Airports",
-           vertex1.total = 382,
-           edge.pos = "Routes",
-           weight = "Passengers",
-           measure = "Count",
-           mode = "Archival",
-           year = "2019",
-           topology = c("clustering coefficient", "mean path length", "degree distribution"))
+airport <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
+                 vertex1 = "Airports",
+                 vertex1.total = 382,
+                 edge.pos = "Routes",
+                 weight = "Passengers",
+                 measure = "Count",
+                 mode = "Archival",
+                 year = "2019",
+                 topology = c("clustering coefficient", "mean path length", "degree distribution"))
 }
