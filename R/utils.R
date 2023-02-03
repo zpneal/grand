@@ -1,3 +1,13 @@
+.onAttach <- function(lib,pkg) {
+  local_version <- utils::packageVersion("grand")
+  packageStartupMessage("+-------+  grand v",local_version)
+  packageStartupMessage("| GRAND |  Cite: Neal, Z. P., (2023). grand: An R package for using the Guidelines for")
+  packageStartupMessage("| ~~~~~ |        Reporting About Network Data. GitHub. https://github.com/zpneal/grand/")
+  packageStartupMessage("| ~~~~~ |")
+  packageStartupMessage("| ~~~~~ |  Help: type vignette(\"grand\"); email zpneal@msu.edu; github zpneal/grand")
+  packageStartupMessage("+-------+  Beta: type devtools::install_github(\"zpneal/grand\", ref = \"devel\")")
+}
+
 #' Restricts `scan()` input to a specified format
 #'
 #' @param prompt string: prompt for user input
