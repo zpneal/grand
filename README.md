@@ -1,4 +1,4 @@
-# grand 
+# grand <img src='man/figures/logo.png' align="right" height="139" />
 
 ## Welcome
 Welcome to the `grand` package\! The grand package implements methods to use the Guidelines for Reporting About Network Data (GRAND) to summarize network data.
