@@ -9,7 +9,7 @@ The `incidentally` package can be cited as:
 
 ## Installation
 ~~The /release branch contains the current CRAN release of the grand package. You can install it from [CRAN](https://CRAN.R-project.org) with:~~
-~~``` r
+~~``` r~~
 install.packages("grand")
 ```
 
