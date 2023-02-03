@@ -81,15 +81,15 @@
 #' @examples
 #' data(airport)  #Load example data
 #' \dontrun{airport <- grand(airport)}  #Apply GRAND interactively
-#' G <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
-#'            vertex1 = "Airports",
-#'            vertex1.total = 382,
-#'            edge.pos = "Routes",
-#'            weight = "Passengers",
-#'            measure = "Count",
-#'            mode = "Archival",
-#'            year = "2019",
-#'            topology = c("clustering coefficient", "mean path length", "degree distribution"))
+#' airport <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
+#'                  vertex1 = "Airports",
+#'                  vertex1.total = 382,
+#'                  edge.pos = "Routes",
+#'                  weight = "Passengers",
+#'                  measure = "Count",
+#'                  mode = "Archival",
+#'                  year = "2019",
+#'                  topology = c("clustering coefficient", "mean path length", "degree distribution"))
 grand <- function(G, interactive = TRUE,
                   name = NA,
                   doi = NA,
@@ -128,7 +128,7 @@ grand <- function(G, interactive = TRUE,
   G$grand$doi <- scan2("What DOI is associated with this network (enter NA if unnamed)?", type = "character")
 
   G$grand$mode <- menu2(c("Survey", "Interview", "Sensor", "Observation", "Archival", "Simulation", "Other"), title = "How were these data collected or generated?")
-  if (G$grand$mode == "Other") {G$grand$mode <- scan2("Please describe how these data were collected", type = "character")
+  if (G$grand$mode == "Other") {G$grand$mode <- scan2("Please describe how these data were collected or generated", type = "character")
   }
 
   G$grand$year <- scan2("In what year were these data collected?", type = "integer")
