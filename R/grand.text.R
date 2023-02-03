@@ -1,5 +1,8 @@
 #' Generate a Guidelines for Reporting About Network Data (GRAND) narrative summary
 #'
+#' The `grand.text` function writes a narrative summary of GRAND attributes that were
+#'     added to an `igraph` object using [grand()].
+#'
 #' @param G An \code{\link{igraph}} object with GRAND attributed
 #' @param digits numeric: number of decimal places to report
 #'

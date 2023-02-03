@@ -1,5 +1,8 @@
 #' Apply Guidelines for Reporting About Network Data (GRAND) to an igraph object
 #'
+#' The `grand` function stores characteristics about the graph as graph attributes that can be summarized in a narrative
+#'    using the [grand.text()] or a table using [grand.table()].
+#'
 #' @param G An \code{\link{igraph}} object, with weights/signs (if present) stored in `E(G)$weight`
 #' @param interactive boolean: Should GRAND run interactively?
 #' @param name string: Name of the network
@@ -17,10 +20,8 @@
 #' @param topology string: Vector of topological metrics to be computed in GRAND summaries
 #'
 #' @details
-#' The `grand` function stores characteristics about the graph as graph attributes that can be summarized in a narrative
-#'    using the [grand.text()] or a table using [grand.table()]. The interactive mode (default) asks the user a series of
-#'    questions based on the graph object, while non-interactive mode requires the user to directly supplying the relevant
-#'    attributes.
+#' The interactive mode (default) asks the user a series of questions based on the igraph object,
+#'    while non-interactive mode allows the user to directly supply the relevant attributes.
 #'
 #' **Data**
 #'

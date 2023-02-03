@@ -1,11 +1,10 @@
 #' Generate a Guidelines for Reporting About Network Data (GRAND) summary table
 #'
+#' The `grand.table` function plots a tabular summary of GRAND attributes that were
+#'     added to an `igraph` object using [grand()].
+#'
 #' @param G An \code{\link{igraph}} object with GRAND attributed
 #' @param digits numeric: number of decimal places to report
-#'
-#' @details
-#' The `grand.table` function plots a tabular summary of GRAND attributes that were added to
-#'    an `igraph` object using [grand()].
 #'
 #' @return A plot
 #' @export
