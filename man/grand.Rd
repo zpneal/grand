@@ -57,13 +57,12 @@ grand(
 An \code{\link{igraph}} object
 }
 \description{
-Apply Guidelines for Reporting About Network Data (GRAND) to an igraph object
+The \code{grand} function stores characteristics about the graph as graph attributes that can be summarized in a narrative
+using the \code{\link[=grand.text]{grand.text()}} or a table using \code{\link[=grand.table]{grand.table()}}.
 }
 \details{
-The \code{grand} function stores characteristics about the graph as graph attributes that can be summarized in a narrative
-using the \code{\link[=grand.text]{grand.text()}} or a table using \code{\link[=grand.table]{grand.table()}}. The interactive mode (default) asks the user a series of
-questions based on the graph object, while non-interactive mode requires the user to directly supplying the relevant
-attributes.
+The interactive mode (default) asks the user a series of questions based on the igraph object,
+while non-interactive mode allows the user to directly supply the relevant attributes.
 
 \strong{Data}
 

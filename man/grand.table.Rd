@@ -15,11 +15,8 @@ grand.table(G, digits = 3)
 A plot
 }
 \description{
-Generate a Guidelines for Reporting About Network Data (GRAND) summary table
-}
-\details{
-The \code{grand.table} function plots a tabular summary of GRAND attributes that were added to
-an \code{igraph} object using \code{\link[=grand]{grand()}}.
+The \code{grand.table} function plots a tabular summary of GRAND attributes that were
+added to an \code{igraph} object using \code{\link[=grand]{grand()}}.
 }
 \examples{
 #A weighted, directed network

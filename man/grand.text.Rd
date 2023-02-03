@@ -15,7 +15,8 @@ grand.text(G, digits = 3)
 string: Narrative summary of G
 }
 \description{
-Generate a Guidelines for Reporting About Network Data (GRAND) narrative summary
+The \code{grand.text} function writes a narrative summary of GRAND attributes that were
+added to an \code{igraph} object using \code{\link[=grand]{grand()}}.
 }
 \examples{
 #A weighted, directed network
