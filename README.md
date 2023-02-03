@@ -16,7 +16,7 @@ install.packages("grand")  #NOT AVAILABLE VIA CRAN YET
 The /devel branch contains the working beta version of the next release of the grand package. All the functions are documented and have undergone various levels of preliminary debugging, so they should mostly work, but there are no guarantees. Feel free to use the devel version (with caution), and let us know if you run into any problems. You can install it You can install from GitHub with:
 ``` r
 library(devtools)
-install_github("zpneal/grand", ref = "devel")
+install_github("zpneal/grand", ref = "devel", build_vignettes = TRUE)
 ```
 
 ## Dependencies
