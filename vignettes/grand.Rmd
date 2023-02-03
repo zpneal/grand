@@ -4,7 +4,7 @@ author: "Zachary Neal"
 output: 
   rmarkdown::html_vignette:
   toc: true
-  
+   
 bibliography: grand_bib.bib
 link-citations: yes
 vignette: >
@@ -14,12 +14,11 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width=3.5, fig.height=5)
 knitr::opts_knit$set(global.par = TRUE)
 ```
 
 ```{r, echo = FALSE}
-set.seed(5)
 par(mar = c(0, 0, 0, 0) + 0.1)
 ```
 
@@ -48,10 +47,12 @@ The `grand` package can be cited as:
 
 **Neal, Z. P. (2023). grand: An R package for using the Guidelines for Reporting About Network Data. GitHub. *GitHub*. [https://github.com/zpneal/grand/](https://github.com/zpneal/grand/)**
 
-If you have questions about the grand package or would like a grand hex sticker, please contact the maintainer Zachary Neal by email ([zpneal\@msu.edu](mailto:zpneal@msu.edu)) or via Mastodon ([\@zpneal@mastodon.social](https://mastodon.social/@zpneal)). Please report bugs in the backbone package at [https://github.com/zpneal/grand/issues](https://github.com/zpneal/grand/issues).
+If you have questions about the grand package, please contact the maintainer Zachary Neal by email ([zpneal\@msu.edu](mailto:zpneal@msu.edu)) or via Mastodon ([\@zpneal@mastodon.social](https://mastodon.social/@zpneal)). Please report bugs in the backbone package at [https://github.com/zpneal/grand/issues](https://github.com/zpneal/grand/issues).
 
 ## What is GRAND? {#grand}
-XXX
+Networks can represent a wide range of social and natural phenomena at many different scales, and so network data is often quite diverse. Additionally, methods for analyzing networks have evolved over several decades across multiple disciplines. As a result, different researchers, from different disciplinary backgrounds, studying networks representing different things, often describe their network data in very different (and sometimes incomplete) ways. 
+
+The **G**uidelines for **R**eporting **A**bout **N**etwork **D**ata (GRAND) are an attempt to establish some basic reporting standards that can help facilitate consistent and complete description of networks in research publications, presentations, and data repositories. GRAND aims to be agnostic with respect to discipline, method, and content, and therefore focuses only on a limited number of fundamental characteristics that are relevant for all networks: *What* does it represent? *When* and *where* did it come from? *How* is it measured?
 
 ## Loading the package {#loading}
 The backbone package can be loaded in the usual way:
@@ -61,22 +62,113 @@ library(grand)
 Upon successful loading, a startup message will display that shows the version number, citation, ways to get help, and ways to contact us.
 
 ## Package overview {#overview}
-XXX
+The package offers three basic functions:
+
+* `grand()` interactively queries the user about a network, and saves the responses as graph attributes.
+
+* `grand.text()` writes a uniform narrative description of the network.
+
+* `grand.table()` plots a uniform tabular description of the network, in the style of a US Nutrition Label.
+
+Because the goal of GRAND is to bring consistency and uniformity to the description of network data, these functions offer relatively few options. They are designed to provide a minimal uniform description that is suitable for any network and any context, which users can supplement with additional network-specific and context-specific details.
 
 [back to Table of Contents](#toc)
 
 # Adding GRAND attributes {#attributes}
-XXX
+The `grand()` function applies GRAND to a network stored as an igraph object. It offers in *interactive* mode that guides the user through GRAND by asking a series of questions, and a *non-interactive* mode that allows the user to directly specify GRAND attributes. This section illustrates `grand()` with the example `airport` data, which is a weighted and directed network of passenger air traffic in the United States in 2019, and which can be loaded using:
+
+```{r}
+data(airport)
+```
+
+To interactively add GRAND attributes, use:
+```
+airport <- grand(airport)
+```
+
+The first set of interactive questions ask about the **data** as a whole:
+
+* _name_ - What is the name of the network? This should usually be specified ending with the word "network" or "data" (e.g. "Florentine Families Network" or "Airline Traffic Data").
+
+* _doi_ - What is the DOI associated with the network? This could be a DOI for the data itself (e.g., if it is available online), or could be the DOI for a manuscript describing the data.
+
+* Data collection _mode_ - How were these data collected or generated. Chose one of the available options (Survey, Interview, Sensor, Observation, Archival, or Simulation) or choose `Other` to enter something else.
+
+* _year_ - In what year were the data collected?
+
+The second set of interactive questions ask about the **nodes** or vertices:
+
+* _vertex1_ (and in bipartite graphs, _vertex2_) - What type of entity do the nodes/vertices represent? This should be specified as a plural noun (e.g., "People").
+
+* _vertex1.total_ (and in bipartite graphs, _vertex2.total_) - Networks often have an externally-defined boundary that determines which nodes/vertices should be included, even if some are missing from the network. If the network has a boundary: How many entities are included in the network's boundary. This is used to compute rates of missingness (e.g. a classroom contained 20 children, but only 18 provided network data; 10% node missingness).
+
+The third set of interactive questions ask about the **edges**:
+
+* _edge.pos_ (and in signed graphs, _edge.neg_) - What type of relationship do the edges represent? This should be specified as a plural noun (e.g., "Friendships").
+
+* _weight_ - What do the edge weights represent? There are four default options: Frequency (how often), Intensity (how strong), Multiplexity (how many), or Valence(positive or negative). Choosing `Other` prompts to enter another option.
+
+* _measure_ - How are the edge weights measured? There are four defauly options:Continuous, Count, Ordinal, or Categorical. Choosing `Other` prompts to enter another option.
+
+The final set of interactive questions ask about relevant **topological** characteristics. It is possible to (1) use the defaults for this network type, (2) choose characteristics from a list, (3) compute all available characteristics, or (4) compute no characteristics. For comparability and to ensure they are well-defined, all characteristics are computed on an undirected and unweighted version of the network using existing `igraph` functions. The available topological characteristics include:
+
+* _clustering coefficient_ - Computed using `transitivity(G, type = "localaverage")`
+
+* _degree centralization_ - Computed using `centr_degree(G)$centralization`
+
+* _degree distribution_ - Computed using `fit_power_law(degree(G), implementation = "plfit")`
+
+* _density_ - Computed using `edge_density(G)`
+
+* _diameter_ - Computed using `diameter(G)`
+
+* _efficiency_ - Computed using `global_efficiency(G)`
+
+* _mean degree_ - Computed using `mean(degree(G))`
+
+* _modularity_ - Computed from a partition generated by `cluster_leiden(G, objective_function = "modularity")`
+
+* _number of communities_ - Computed from a partition generated by `cluster_leiden(G, objective_function = "modularity")`
+
+* _number of components_ - Computed using `count_components(G)`
+
+* _transitivity_ - Computed using `transitivity(G, type = "global")`
+
+* _structural balance_ - Computed using the triangle index
+
+Alternatively, it is possible to add GRAND attributes directly, using:
+```{r}
+airport <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
+                 vertex1 = "Airports",
+                 vertex1.total = 382,
+                 edge.pos = "Routes",
+                 weight = "Passengers",
+                 measure = "Count",
+                 mode = "Archival",
+                 year = "2019",
+                 topology = c("clustering coefficient", "mean path length", "degree distribution"))
+```
+Using the non-interactive mode requires knowing which parameters to specify given the type of network and knowing what values to supply each parameter. For example, here we specify the `vertex1` parameter but not the `vertex2` parameter because this is a unipartite network with only one type of node. Similarly, we supply `"Archival"` as the value for the `mode` parameter because this parameter records the mode of data collection. These issues are automated in the interactive mode, however the non-interactive mode offers greater flexibility and the ability to add GRAND attributes when running R scripts.
 
 [back to Table of Contents](#toc)
 
 # Generating a GRAND narrative {#narrative}
-XXX
+The `grand.text()` function writes a complete and uniform narrative description of the network. For example:
+
+```{r}
+grand.text(airport)
+```
 
 [back to Table of Contents](#toc)
 
 # Generating a GRAND table {#table}
-XXX
+The `grand.table()` function plots writes a complete and uniform tabular description of the network, in the style of a US Nutrition Label. For example:
+
+```{r}
+grand.table(airport)
+```
+
+THE COMPLETE HEADER ISN'T DISPLAYING IN THE TABLE. WHY?
 
 [back to Table of Contents](#toc)
 
