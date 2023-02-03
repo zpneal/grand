@@ -14,7 +14,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width=3.5, fig.height=5)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width=3.5, fig.height=4)
 knitr::opts_knit$set(global.par = TRUE)
 ```
 
@@ -139,6 +139,8 @@ The final set of interactive questions ask about relevant **topological** charac
 Alternatively, it is possible to add GRAND attributes directly, using:
 ```{r}
 airport <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
+                 name = "US Air Traffic Network",
+                 doi = "10.1371/journal.pone.0269137",
                  vertex1 = "Airports",
                  vertex1.total = 382,
                  edge.pos = "Routes",
@@ -168,7 +170,12 @@ The `grand.table()` function plots writes a complete and uniform tabular descrip
 grand.table(airport)
 ```
 
-THE COMPLETE HEADER ISN'T DISPLAYING IN THE TABLE. WHY?
+A table can be exported for use in a paper or presentation using:
+```
+pdf("grand.pdf", width = 3.5, height = 4)
+grand.table(airport)
+dev.off()
+```
 
 [back to Table of Contents](#toc)
 
