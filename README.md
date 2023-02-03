@@ -3,7 +3,7 @@
 ## Welcome
 Welcome to the `grand` package\! The grand package implements methods to use the Guidelines for Reporting About Network Data (GRAND) to summarize network data.
 
-The `incidentally` package can be cited as:
+The `grand` package can be cited as:
 
 **Neal, Z. P. (2023). grand: An R package for using the Guidelines for Reporting About Network Data. *GitHub*. [https://github.com/zpneal/grand/](https://github.com/zpneal/grand/)**
 
