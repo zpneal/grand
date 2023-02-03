@@ -22,6 +22,15 @@ The \code{grand.table} function plots a tabular summary of GRAND attributes that
 an \code{igraph} object using \code{\link[=grand]{grand()}}.
 }
 \examples{
+#A weighted, directed network
 data(airport)  #Load example data
-grand.table(airport)  #Generate table
+grand.text(airport)  #Generate narrative
+
+A bipartite network
+data(cosponsor)  #Load example data
+grand.text(cosponsor)  #Generate narrative
+
+A signed network
+data(senate)  #Load example data
+grand.text(senate)  #Generate narrative
 }

@@ -18,6 +18,15 @@ string: Narrative summary of G
 Generate a Guidelines for Reporting About Network Data (GRAND) narrative summary
 }
 \examples{
+#A weighted, directed network
 data(airport)  #Load example data
 grand.text(airport)  #Generate narrative
+
+A bipartite network
+data(cosponsor)  #Load example data
+grand.text(cosponsor)  #Generate narrative
+
+A signed network
+data(senate)  #Load example data
+grand.text(senate)  #Generate narrative
 }
