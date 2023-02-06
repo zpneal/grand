@@ -22,6 +22,6 @@ Restricts \code{scan()} input to a specified format
 character <- scan2(prompt = "Type any character", type = "character")
 numeric <- scan2(prompt = "Type any number", type = "numeric")
 integer <- scan2(prompt = "Type any number", type = "integer")
-custom <- scan2(prompt = "Type any number", type = c("Y","N"))
+custom <- scan2(prompt = "Yes or No?", type = c("Y","N"))
 }
 }

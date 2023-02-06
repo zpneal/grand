@@ -4,12 +4,14 @@
 \alias{menu2}
 \title{Returns \code{menu()} response as choice text}
 \usage{
-menu2(choices, title)
+menu2(choices, title, loop = FALSE)
 }
 \arguments{
 \item{choices}{a character vector of choices}
 
 \item{title}{a character string to be used as the title of the menu. \code{NULL} is also accepted.}
+
+\item{loop}{boolean: should the menu loop to allow multiple choices?}
 }
 \value{
 string: the chosen option
@@ -19,6 +21,6 @@ Returns \code{menu()} response as choice text
 }
 \examples{
 \dontrun{  #Because menu2() is interactive
-choice <- menu2(choices = c("Y", "N"), title = "Choose Y or N")
+choice <- menu2(choices = c("A", "B", "C"), title = "Choose an option", loop = TRUE)
 }
 }
