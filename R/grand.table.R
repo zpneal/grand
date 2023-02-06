@@ -12,15 +12,15 @@
 #' @examples
 #' #A weighted, directed network
 #' data(airport)  #Load example data
-#' grand.text(airport)  #Generate narrative
+#' grand.table(airport)  #Generate narrative
 #'
-#' A bipartite network
+#' #A bipartite network
 #' data(cosponsor)  #Load example data
-#' grand.text(cosponsor)  #Generate narrative
+#' grand.table(cosponsor)  #Generate narrative
 #'
-#' A signed network
+#' #A signed network
 #' data(senate)  #Load example data
-#' grand.text(senate)  #Generate narrative
+#' grand.table(senate)  #Generate narrative
 grand.table <- function(G, digits = 3) {
 
   #### Check graph ####
