@@ -16,8 +16,7 @@ Imports:
     utils
 Suggests:
     knitr,
-    rmarkdown,
-    tinytest
+    rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/zpneal/grand
 BugReports: https://github.com/zpneal/grand/issues
