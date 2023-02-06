@@ -182,24 +182,22 @@ grand <- function(G, interactive = TRUE,
     }
 
   #### Topology ####
-  screening <- utils::menu(c("Yes, use the defaults for this type of network", "Yes, I will pick which ones", "Yes, compute everything", "No"), title = "Should topological characteristics be computed to describe this network?")
-  if (screening == 1) {
-    if (!bipartite) {topology <- c("clustering coefficient", "mean path length", "modularity")}
-    if (!bipartite & signed) {topology <- c(topology, "structural balance")}
-    if (bipartite) {topology <- c("density")}
+  if (!bipartite) {topology <- c("clustering coefficient", "mean path length", "modularity")}
+  if (!bipartite & signed) {topology <- c(topology, "structural balance")}
+  if (bipartite) {topology <- c("density")}
+
+  cat("The default topological characteristics to report for this network include: ")
+  cat(topology, sep=", ")
+  moretopo <- scan2(". Do you want to report others? (Y/N)", type = c("Y", "N", "y", "n"))
+
+  if (moretopo %in% c("Y", "y")) {
+    options <- c("clustering coefficient", "degree centralization", "degree distribution", "density", "diameter", "efficiency", "mean degree", "modularity", "number of communities", "number of components", "transitivity", "structural balance")
+    options <- options[options!=topology]  #Remove defaults from the list of options
+    moretopo <- menu2(options, "Which additional topological characteristic(s) should be reported (choose one at a time, 0 when done)?", loop = TRUE)
+    topology <- c(topology, moretopo)
   }
-  if (screening == 2) {
-    choice <- "begin"
-    choices <- c("clustering coefficient", "degree centralization", "degree distribution", "density", "diameter", "efficiency", "mean degree", "modularity", "number of communities", "number of components", "transitivity", "structural balance")
-    while (length(choices!=0) & length(choice)!=0) {
-      choice <- menu2(choices, "Which topological characteristic should be computed?")
-      if (length(choice)!=0) {                #If one is chosen...
-        topology <- c(topology, choice)       #...add it to the list of metrics to compute
-        choices <- choices[choices!=choice]   #...remove it from the list of choices
-        }
-     }
-  }
-  if (screening == 3) {topology <- c("clustering coefficient", "degree centralization", "degree distribution", "density", "diameter", "efficiency", "mean degree", "modularity", "number of communities", "number of components", "transitivity", "structural balance")}
+
+  G$grand$topology <- topology
   }
 
   #### Non-interactive mode ####
