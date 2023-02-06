@@ -31,10 +31,11 @@ grand.table <- function(G, digits = 3) {
 
   #### Determine number of rows ####
   rows <- 0
-  rows <- 3 + (!is.na(G$grand$name))*1 + (!is.na(G$grand$doi))*1  #Header
+  rows <- 3 + (!is.na(G$grand$name))*1  #Header
   if (!bipartite) {rows <- rows + 2} else {rows <- rows + 4} #Nodes
   if (weighted == "signed") {rows <- rows + 4} else {rows <- rows + 3}  #Edges
   rows <- rows + length(G$grand$topology)  #Topology
+  rows <- rows + (!is.na(G$grand$doi))*.5 + (!is.na(G$grand$url))*.5  #Open Science
   rows <- rows + 0  #Footer
   row <- rows  #Current row counter
 
@@ -50,11 +51,6 @@ grand.table <- function(G, digits = 3) {
 
   if (!is.na(G$grand$name)) {
     graphics::text(0, row, G$grand$name, cex = 1, pos = 4, offset = 0)
-    row <- row - 1
-  }
-
-  if (!is.na(G$grand$doi)) {
-    graphics::text(0, row, paste0("DOI: ", G$grand$doi), cex = 1, pos = 4, offset = 0)
     row <- row - 1
   }
 
@@ -239,8 +235,19 @@ grand.table <- function(G, digits = 3) {
     G$grand$topology <- G$grand$topology[-1]
   }
 
-  #### Footer ####
+  #### Open Science ####
   graphics::segments(x0 = 0, x1 = 5, y0 = row+.5, y1 = row+.5, lwd = 5, lend = 2)  #Thick line above
-  graphics::text(0, row-.2, bquote("Formatted"~"using"~bold(G)*"uidelines"~"for"~bold(R)*"eporting"~bold(A)*"bout"~bold(N)*"etwork"~bold(D)*"ata (GRAND; Neal, 2023)"), cex = .5, pos = 4, offset = 0)
+  if (!is.na(G$grand$doi)) {
+    graphics::text(0, row+.2, paste0("Described in ", G$grand$doi), cex = .5, pos = 4, offset = 0, font = 1)
+    row <- row-.5
+    }
+  if (!is.na(G$grand$url)) {
+    graphics::text(0, row+.2, paste0("Available from ", G$grand$url), cex = .5, pos = 4, offset = 0, font = 1)
+    row <- row-.5
+    }
+
+  #### Footer ####
+  graphics::segments(x0 = 0, x1 = 5, y0 = row+.5, y1 = row+.5, lwd = 1, lend = 2)  #Thin line above
+  graphics::text(0, row, bquote("Formatted"~"using"~bold(G)*"uidelines"~"for"~bold(R)*"eporting"~bold(A)*"bout"~bold(N)*"etwork"~bold(D)*"ata (GRAND; Neal, 2023)"), cex = .5, pos = 4, offset = 0)
 
 }

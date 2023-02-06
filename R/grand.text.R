@@ -160,5 +160,10 @@ grand.text <- function(G, digits = 3) {
     G$grand$topology <- G$grand$topology[-1]
   }
 
+  #### Open Science ####
+  if (!is.na(G$grand$doi) & !is.na(G$grand$url)) {narrative <- paste0(narrative, paste0("This network is described in ", G$grand$doi, " and is available from ", G$grand$url, "."))}
+  if (is.na(G$grand$doi) & !is.na(G$grand$url)) {narrative <- paste0(narrative, paste0("This network is available from ", G$grand$url, "."))}
+  if (!is.na(G$grand$doi) & is.na(G$grand$url)) {narrative <- paste0(narrative, paste0("This network is described in ", G$grand$doi, "."))}
+
   return(narrative)
 }

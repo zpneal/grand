@@ -7,6 +7,7 @@
 #' @param interactive boolean: Should GRAND run interactively?
 #' @param name string: Name of the network
 #' @param doi string: DOI associated with the data
+#' @param url string: Link to data
 #' @param mode string: Mode of data collection
 #' @param year numeric: Year in which data was collected
 #' @param vertex1 string: Entity represented by vertices
@@ -28,8 +29,8 @@
 #' The first set of interactive questions ask about the data as a whole:
 #' * _name_ - This should usually be specified ending with the word "network" or "data"
 #'     (e.g. "Florentine Families Network" or "Airline Traffic Data").
-#' * _doi_ - This could be a DOI for the data itself (e.g., if it is available online), or
-#'     could be the DOI for a manuscript describing the data.
+#' * _doi_ - DOI for a manuscript describing the data.
+#' * _url_ - Link to a copy of the data.
 #' * Data collection _mode_ - This describes how the data was collected or generated. Chose
 #'     one of the available options (Survey, Interview, Sensor, Observation, Archival, or
 #'    Simulation) or choose `Other` to enter something else.
@@ -93,6 +94,7 @@
 grand <- function(G, interactive = TRUE,
                   name = NA,
                   doi = NA,
+                  url = NA,
                   vertex1 = NULL,
                   vertex2 = NULL,
                   vertex1.total = 0,
@@ -125,7 +127,9 @@ grand <- function(G, interactive = TRUE,
   #### Data ####
   G$grand$name <- scan2("What is the name of this network (enter NA if unnamed)?", type = "character")
 
-  G$grand$doi <- scan2("What DOI is associated with this network (enter NA if unnamed)?", type = "character")
+  G$grand$doi <- scan2("What is the DOI for the manuscript describing this network (enter NA if none)?", type = "character")
+
+  G$grand$url <- scan2("What is the URL where these data are available for download (enter NA if none)?", type = "character")
 
   G$grand$mode <- menu2(c("Survey", "Interview", "Sensor", "Observation", "Archival", "Simulation", "Other"), title = "How were these data collected or generated?")
   if (G$grand$mode == "Other") {G$grand$mode <- scan2("Please describe how these data were collected or generated", type = "character")
@@ -204,6 +208,7 @@ grand <- function(G, interactive = TRUE,
   if (!interactive) {
     G$grand$name <- name
     G$grand$doi <- doi
+    G$grand$url <- url
     G$grand$vertex1 <- vertex1
     G$grand$vertex2 <- vertex2
     G$grand$vertex1.total <- vertex1.total
