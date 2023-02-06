@@ -23,11 +23,11 @@ added to an \code{igraph} object using \code{\link[=grand]{grand()}}.
 data(airport)  #Load example data
 grand.text(airport)  #Generate narrative
 
-A bipartite network
+#A bipartite network
 data(cosponsor)  #Load example data
 grand.text(cosponsor)  #Generate narrative
 
-A signed network
+#A signed network
 data(senate)  #Load example data
 grand.text(senate)  #Generate narrative
 }
