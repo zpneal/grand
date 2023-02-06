@@ -9,6 +9,7 @@ grand(
   interactive = TRUE,
   name = NA,
   doi = NA,
+  url = NA,
   vertex1 = NULL,
   vertex2 = NULL,
   vertex1.total = 0,
@@ -30,6 +31,8 @@ grand(
 \item{name}{string: Name of the network}
 
 \item{doi}{string: DOI associated with the data}
+
+\item{url}{string: Link to data}
 
 \item{vertex1}{string: Entity represented by vertices}
 
@@ -70,8 +73,8 @@ The first set of interactive questions ask about the data as a whole:
 \itemize{
 \item \emph{name} - This should usually be specified ending with the word "network" or "data"
 (e.g. "Florentine Families Network" or "Airline Traffic Data").
-\item \emph{doi} - This could be a DOI for the data itself (e.g., if it is available online), or
-could be the DOI for a manuscript describing the data.
+\item \emph{doi} - DOI for a manuscript describing the data.
+\item \emph{url} - Link to a copy of the data.
 \item Data collection \emph{mode} - This describes how the data was collected or generated. Chose
 one of the available options (Survey, Interview, Sensor, Observation, Archival, or
 Simulation) or choose \code{Other} to enter something else.
