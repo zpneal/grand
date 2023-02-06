@@ -132,7 +132,7 @@ The third set of interactive questions ask about the **edges**:
 
 * _edge.pos_ (and in signed graphs, _edge.neg_) - What type of relationship do the edges represent? This should be specified as a plural noun (e.g., "Friendships").
 
-* _weight_ - What do the edge weights represent? There are four default options: Frequency (how often), Intensity (how strong), Multiplexity (how many), or Valence(positive or negative). Choosing `Other` prompts to enter another option.
+* _weight_ - What do the edge weights represent? There are four default options: Frequency (how often), Intensity (how strong), Multiplexity (how many), or Valence (positive or negative). Choosing `Other` prompts to enter another option.
 
 * _measure_ - How are the edge weights measured? There are four defauly options:Continuous, Count, Ordinal, or Categorical. Choosing `Other` prompts to enter another option.
 
