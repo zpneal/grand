@@ -12,7 +12,7 @@ senate
 }
 \description{
 A signed network representing US Senators' alliances and antagonisms, inferred from
-\code{\link[=cosponsor]{cosponsor()}} using \link[backbone]{sdsm} following the procedure described by Neal (2022).
+\code{\link[=cosponsor]{cosponsor()}} using \code{backbone::sdsm()} following the procedure described by Neal (2022).
 GRAND attributes have already been added using \code{\link[=grand]{grand()}}.
 }
 \references{

@@ -12,7 +12,7 @@ cosponsor
 }
 \description{
 A bipartite network representing US Senators' (co-)sponsorship of Senate Bills during the 116th
-session (2019-2020). It was obtained using \link[incidentally]{incidence.from.congress} following the
+session (2019-2020). It was obtained using \code{incidentally::incidence.from.congress()} following the
 procedure described by Neal (2022). GRAND attributes have already been added using \code{\link[=grand]{grand()}}.
 }
 \references{

@@ -14,7 +14,7 @@ airport
 A weighted and directed network of passenger air traffic in the United States in 2019.
 Each edge represents a single takeoff and landing, and therefore does not consider possible layovers,
 connecting flights, round trips, etc. This is the directed version of the undirected air traffic network
-used by Neal (2022) to illustrate \link[backbone]{disparity}. GRAND attributes have already been added
+used by Neal (2022) to illustrate \code{backbone::disparity()}. GRAND attributes have already been added
 using \code{\link[=grand]{grand()}}.
 }
 \references{
