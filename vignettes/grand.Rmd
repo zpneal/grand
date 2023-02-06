@@ -192,13 +192,13 @@ grand.text(airport)
 # Generating a GRAND table {#table}
 The `grand.table()` function plots writes a complete and uniform tabular description of the network, in the style of a US Nutrition Label. For example:
 
-```{r, fig.width=3, fig.height=4}
+```{r, fig.width=3.5, fig.height=4}
 grand.table(airport)
 ```
 
 A table can be exported for use in a paper or presentation using:
 ```
-pdf("grand.pdf", width = 3, height = 4)
+pdf("grand.pdf", width = 3.5, height = 4)
 grand.table(airport)
 dev.off()
 ```
@@ -209,7 +209,7 @@ dev.off()
 ## A bipartite network {#bipartite}
 The example `cosponsor` data is a bipartite network representing US Senators' (co-)sponsorship of Senate Bills during the 116th session (2019-2020). It can be loaded, and both a narrative and tabular summary obtained using:
 
-```{r, fig.width=3, fig.height=4}
+```{r, fig.width=3.5, fig.height=4}
 data(cosponsor)
 grand.text(cosponsor)
 grand.table(cosponsor)
@@ -220,7 +220,7 @@ grand.table(cosponsor)
 ## A signed network {#signed}
 The example `senate` data is a signed network representing US Senators' representing US Senators' alliances and antagonisms during the 116th session (2019-2020). It can be loaded, and both a narrative and tabular summary obtained using:
 
-```{r, fig.width=3, fig.height=4}
+```{r, fig.width=3.5, fig.height=4}
 data(senate)
 grand.text(senate)
 grand.table(senate)
