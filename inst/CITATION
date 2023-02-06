@@ -1,0 +1,10 @@
+citHeader("To cite grand in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "grand: An R package for using the Guidelines for Reporting About Network Data",
+  author   = "Zachary P. Neal",
+  journal  = "GitHub",
+  year     = "2023",
+  textVersion = paste("Neal, Z. P. (2023). grand: An R package for using the Guidelines for Reporting About Network Data. GitHub. https://github.com/zpneal/grand/")
+)
