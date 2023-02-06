@@ -21,7 +21,7 @@
 #' character <- scan2(prompt = "Type any character", type = "character")
 #' numeric <- scan2(prompt = "Type any number", type = "numeric")
 #' integer <- scan2(prompt = "Type any number", type = "integer")
-#' custom <- scan2(prompt = "Type any number", type = c("Y","N"))
+#' custom <- scan2(prompt = "Yes or No?", type = c("Y","N"))
 #' }
 scan2 <- function(prompt, type) {
   cat(prompt)
@@ -69,14 +69,32 @@ scan2 <- function(prompt, type) {
 #'
 #' @param choices a character vector of choices
 #' @param title a character string to be used as the title of the menu. `NULL` is also accepted.
+#' @param loop boolean: should the menu loop to allow multiple choices?
 #'
 #' @return string: the chosen option
 #' @export
 #'
 #' @examples
 #' \dontrun{  #Because menu2() is interactive
-#' choice <- menu2(choices = c("Y", "N"), title = "Choose Y or N")
+#' choice <- menu2(choices = c("A", "B", "C"), title = "Choose an option", loop = TRUE)
 #' }
-menu2 <- function(choices, title) {answer <- choices[utils::menu(choices = choices, title = title)]}
+menu2 <- function(choices, title, loop = FALSE) {
+  answer <- choices[utils::menu(choices = choices, title = title)]  #Ask question
+  
+  if (!loop | length(answer)==0) {return(answer)}
+  
+  if (loop & length(answer)!=0) {
+    answers <- answer  #Start a vector of answers
+    choices <- choices[choices!=answer]  #Remove answer from remaining choices
+    while (length(choices!=0)) {  #While there are remaining choices
+      answer <- choices[utils::menu(choices = choices, title = title)]  #Ask question again
+      if (length(answer)!=0) {  #If an option was selected
+        answers <- c(answers, answer)  #Add it to the vector
+        choices <- choices[choices!=answer]  #Remove it from remaining choices
+      } else {choices <- character()} #If an option was not selected, remove all remaining choices
+    }
+    return(answers)
+  }
+  }
 
 
