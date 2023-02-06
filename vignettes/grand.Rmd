@@ -1,6 +1,6 @@
 ---
 title: "Introduction to GRAND"
-author: "Zachary Neal"
+author: "Zachary Neal, Michigan State University, zpneal@msu.edu"
 output: 
   rmarkdown::html_vignette:
   toc: true
@@ -32,14 +32,16 @@ par(mar = c(0, 0, 0, 0) + 0.1)
     b. [Loading the package](#loading)
     c. [Package overview](#overview)
 2. [Adding GRAND attributes](#attributes)
+    a. [Interactively](#interactive)
+    a. [Not Interactively](#noninteractive)
 3. [Generating a GRAND narrative](#narrative)
 4. [Generating a GRAND table](#table)
 5. [More examples](#examples)
     a. [Bipartite](#bipartite)
     b. [Signed](#signed)
 6. [Utility functions](#utility)
-    a. [scan2()](#scan)
-    b. [menu2()](#menu)
+    a. [`scan2()`](#scan)
+    b. [`menu2()`](#menu)
 
 # Introduction {#introduction}
 
@@ -78,6 +80,7 @@ Because the goal of GRAND is to bring consistency and uniformity to the descript
 [back to Table of Contents](#toc)
 
 # Adding GRAND attributes {#attributes}
+## Interactively {#interactive}
 The `grand()` function applies GRAND to a network stored as an igraph object. It offers in *interactive* mode that guides the user through GRAND by asking a series of questions, and a *non-interactive* mode that allows the user to directly specify GRAND attributes. This section illustrates `grand()` with the example `airport` data, which is a weighted and directed network of passenger air traffic in the United States in 2019, and which can be loaded using:
 
 ```{r}
@@ -110,7 +113,7 @@ This network contains 382 nodes. What type of entity do these represent (e.g., p
 1: Airports
 ```
 
-This code block illustrates the first several questions, and appropriate responses.
+This code block illustrates the first several questions, and appropriate responses, and they would appear in the interactive mode.
 
 The first set of interactive questions ask about the **data** as a whole:
 
@@ -136,7 +139,7 @@ The third set of interactive questions ask about the **edges**:
 
 * _measure_ - How are the edge weights measured? There are four defauly options:Continuous, Count, Ordinal, or Categorical. Choosing `Other` prompts to enter another option.
 
-The final set of interactive questions ask about relevant **topological** characteristics. It is possible to (1) use the defaults for this network type, (2) choose characteristics from a list, (3) compute all available characteristics, or (4) compute no characteristics. For comparability and to ensure they are well-defined, all characteristics are computed on an undirected and unweighted version of the network using existing `igraph` functions. The available topological characteristics include:
+The final interactive question asks about relevant **topological** characteristics. Some topological characteristics are reported by default (depending on the type of network), however it is possible to request that additional topological characteristics are also reported. The available topological characteristics include:
 
 * _clustering coefficient_ - Computed using `transitivity(G, type = "localaverage")`
 
@@ -162,7 +165,8 @@ The final set of interactive questions ask about relevant **topological** charac
 
 * _structural balance_ - Computed using the triangle index
 
-Alternatively, it is possible to add GRAND attributes directly, using:
+## Not Interactively {#noninteractive}
+It is also possible to add GRAND attributes directly, using:
 ```{r}
 airport <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
                  name = "US Air Traffic Network",
@@ -196,7 +200,7 @@ The `grand.table()` function plots writes a complete and uniform tabular descrip
 grand.table(airport)
 ```
 
-A table can be exported for use in a paper or presentation using:
+A table can be exported for use in a paper or presentation using a graphics device. For example:
 ```
 pdf("grand.pdf", width = 3.5, height = 4)
 grand.table(airport)
@@ -207,7 +211,7 @@ dev.off()
 
 # More examples {#examples}
 ## A bipartite network {#bipartite}
-The example `cosponsor` data is a bipartite network representing US Senators' (co-)sponsorship of Senate Bills during the 116th session (2019-2020). It can be loaded, and both a narrative and tabular summary obtained using:
+The example `cosponsor` data is a bipartite network representing US Senators' (co-)sponsorship of Senate Bills during the 116th session (2019-2020). It can be loaded, and narrative and tabular summaries can be obtained, using:
 
 ```{r, fig.width=3.5, fig.height=4}
 data(cosponsor)
@@ -218,7 +222,7 @@ grand.table(cosponsor)
 [back to Table of Contents](#toc)
 
 ## A signed network {#signed}
-The example `senate` data is a signed network representing US Senators' representing US Senators' alliances and antagonisms during the 116th session (2019-2020). It can be loaded, and both a narrative and tabular summary obtained using:
+The example `senate` data is a signed network representing US Senators' representing US Senators' alliances and antagonisms during the 116th session (2019-2020). It can be loaded, and narrative and tabular summaries can be obtained, using:
 
 ```{r, fig.width=3.5, fig.height=4}
 data(senate)
@@ -231,8 +235,8 @@ grand.table(senate)
 # Utility functions {#utility}
 The `grand` package includes a couple exported utility functions that are extensions of user input functions in base `R`. These functions are used by `grand()` to interactively query the user about the supplied `igraph` object.
 
-## scan2() {#scan}
-The `scan2()` function is an extension of base `scan()` that allows the specification of a required input format using the `type` parameter. Currently four input types are allowed: `character`, `numeric`, `integer`, or a vector. For example:
+## `scan2()` {#scan}
+The `scan2()` function is an extension of `scan()` that allows the specification of a required input format using the `type` parameter. Currently four input types are allowed: `character`, `numeric`, `integer`, or a vector of allowable responses. For example:
 
 ```
 #Requiring an integer input
@@ -256,7 +260,7 @@ Please enter one of these options: Y N y n
 [1] "Y"
 ```
 
-## menu2() {#menu}
+## `menu2()` {#menu}
 The `menu2()` function is an extension of `utils::menu()` that returns the text of the selected choice as a string, and allows looping so that the user can make multiple choices. For example:
 
 ```
@@ -296,4 +300,4 @@ Selection: 0
 
 [back to Table of Contents](#toc)
 
-# References
+<!-- # References -->
