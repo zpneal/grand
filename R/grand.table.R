@@ -24,7 +24,7 @@
 grand.table <- function(G, digits = 3) {
 
   #### Check graph ####
-  if (class(G) != "igraph") {stop("The input must be an igraph object")}
+  if (!is(G, "igraph")) {stop("The input must be an igraph object")}
   if (!"grand" %in% names(igraph::get.graph.attribute(G))) {stop("This graph does not have GRAND attributes. Please run `grand()` first.")}
   bipartite <- igraph::is.bipartite(G)
   if ("weight" %in% names(igraph::get.edge.attribute(G))) {if (all(igraph::E(G)$weight %in% c(-1,1))) {weighted <- "signed"} else {weighted <- "weighted"}} else {weighted <- "unweighted"}
