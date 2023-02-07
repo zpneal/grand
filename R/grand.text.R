@@ -24,7 +24,7 @@
 grand.text <- function(G, digits = 3) {
 
   #### Check input ####
-  if (!is(G, "igraph")) {stop("The input must be an igraph object")}
+  if (!methods::is(G, "igraph")) {stop("The input must be an igraph object")}
   if (!"grand" %in% names(igraph::get.graph.attribute(G))) {stop("This graph does not have GRAND attributes. Please run `grand()` first.")}
   bipartite <- igraph::is_bipartite(G)
 

@@ -108,7 +108,7 @@ grand <- function(G, interactive = TRUE,
                   topology = character()) {
 
   #### Check inputs ####
-  if (!is(G, "igraph")) {stop("The input must be an igraph object")}
+  if (!methods::is(G, "igraph")) {stop("The input must be an igraph object")}
   if (!igraph::is_simple(G)) {stop("The graph must be simple (i.e., no loops or multi-edges)")}
 
   #### Begin interactive mode ####
