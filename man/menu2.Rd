@@ -20,7 +20,5 @@ string: the chosen option
 Returns \code{menu()} response as choice text
 }
 \examples{
-\dontrun{  #Because menu2() is interactive
 choice <- menu2(choices = c("A", "B", "C"), title = "Choose an option", loop = TRUE)
-}
 }

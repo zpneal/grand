@@ -18,10 +18,8 @@ user input in specified format
 Restricts \code{scan()} input to a specified format
 }
 \examples{
-\dontrun{  #Because scan2() is interactive
 character <- scan2(prompt = "Type any character", type = "character")
 numeric <- scan2(prompt = "Type any number", type = "numeric")
 integer <- scan2(prompt = "Type any number", type = "integer")
 custom <- scan2(prompt = "Yes or No?", type = c("Y","N"))
-}
 }

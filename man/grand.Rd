@@ -129,7 +129,7 @@ existing \code{igraph} functions. Available topological characteristics include:
 }
 \examples{
 data(airport)  #Load example data
-\dontrun{airport <- grand(airport)}  #Apply GRAND interactively
+airport <- grand(airport)  #Apply GRAND interactively
 airport <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
                  vertex1 = "Airports",
                  vertex1.total = 382,
