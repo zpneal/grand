@@ -40,6 +40,8 @@ grand.table <- function(G, digits = 3) {
   row <- rows  #Current row counter
 
   #### Setup ####
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar))
   graphics::par(mar = c(0,0,0,0), oma = c(0.1,0.1,0.1,0.1))
   graphics::plot.new()
   graphics::plot.window(xlim = c(0,5), ylim = c(0,rows))
