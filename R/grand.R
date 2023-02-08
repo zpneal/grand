@@ -81,7 +81,7 @@
 #'
 #' @examples
 #' data(airport)  #Load example data
-#' \dontrun{airport <- grand(airport)}  #Apply GRAND interactively
+#' airport <- grand(airport)  #Apply GRAND interactively
 #' airport <- grand(airport, interactive = FALSE, #Apply GRAND non-interactively
 #'                  vertex1 = "Airports",
 #'                  vertex1.total = 382,
@@ -110,6 +110,12 @@ grand <- function(G, interactive = TRUE,
   #### Check inputs ####
   if (!methods::is(G, "igraph")) {stop("The input must be an igraph object")}
   if (!igraph::is_simple(G)) {stop("The graph must be simple (i.e., no loops or multi-edges)")}
+
+  #### Check if interactive session ####
+  if (!interactive() & interactive == TRUE) {
+    warning("When `interactive = TRUE`, grand() requires that R is running interactively")
+    return(G)
+  }
 
   #### Begin interactive mode ####
   if (interactive) {

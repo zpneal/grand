@@ -17,13 +17,17 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{  #Because scan2() is interactive
 #' character <- scan2(prompt = "Type any character", type = "character")
 #' numeric <- scan2(prompt = "Type any number", type = "numeric")
 #' integer <- scan2(prompt = "Type any number", type = "integer")
 #' custom <- scan2(prompt = "Yes or No?", type = c("Y","N"))
-#' }
 scan2 <- function(prompt, type) {
+
+  if (!interactive()) {
+    warning("scan2() requires that R is running interactively")
+    return(NULL)
+    }
+
   cat(prompt)
   answer <- scan(nmax = 1, what = "character", sep = "#", quiet = TRUE)
 
@@ -75,14 +79,18 @@ scan2 <- function(prompt, type) {
 #' @export
 #'
 #' @examples
-#' \dontrun{  #Because menu2() is interactive
 #' choice <- menu2(choices = c("A", "B", "C"), title = "Choose an option", loop = TRUE)
-#' }
 menu2 <- function(choices, title, loop = FALSE) {
+
+  if (!interactive()) {
+    warning("menu2() requires that R is running interactively")
+    return(NULL)
+  }
+
   answer <- choices[utils::menu(choices = choices, title = title)]  #Ask question
-  
+
   if (!loop | length(answer)==0) {return(answer)}
-  
+
   if (loop & length(answer)!=0) {
     answers <- answer  #Start a vector of answers
     choices <- choices[choices!=answer]  #Remove answer from remaining choices
