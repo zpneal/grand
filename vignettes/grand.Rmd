@@ -18,10 +18,6 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 knitr::opts_knit$set(global.par = TRUE)
 ```
 
-```{r, echo = FALSE}
-par(mar = c(0, 0, 0, 0) + 0.1)
-```
-
 # Table of Contents {#toc}
 
 [<img src='../man/figures/logo.png' align="right" height="250" />](https://www.zacharyneal.com/backbone)
