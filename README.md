@@ -1,5 +1,14 @@
 # grand <img src='man/figures/logo.png' align="right" height="139" />
 
+<!-- badges: start -->
+
+[![](https://www.r-pkg.org/badges/version/grand?color=orange)](https://cran.r-project.org/package=grand)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/grand?color=blue)](https://cran.r-project.org/package=grand)
+[![](http://cranlogs.r-pkg.org/badges/last-month/grand?color=green)](https://cran.r-project.org/package=grand)
+[![status](https://tinyverse.netlify.com/badge/grand)](https://CRAN.R-project.org/package=grand)
+<!-- badges: end -->
+
+
 ## Welcome
 Welcome to the `grand` package\! The grand package implements methods to use the Guidelines for Reporting About Network Data (GRAND) to summarize network data.
 
