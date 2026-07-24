@@ -3,16 +3,16 @@ The **G**uidelines for **R**eporting **A**bout **N**etwork **D**ata (GRAND) aim 
 
 **Get the guidelines**
 
-$\rightarrow$ [Short version](https://raw.githubusercontent.com/zpneal/grand-site/main/contents/grand_short.pdf)
+<i class="bi bi-file-earmark-text-fill"></i> [Short version](https://raw.githubusercontent.com/zpneal/grand-site/main/contents/grand_short.pdf)
 
-$\rightarrow$ [Long version with notes](https://raw.githubusercontent.com/zpneal/grand-site/main/contents/grand_long.pdf)
+<i class="bi bi-file-text-fill"></i> [Long version with notes](https://raw.githubusercontent.com/zpneal/grand-site/main/contents/grand_long.pdf)
 
-$\rightarrow$ <i class="bi bi-info-square-fill"></i> [Generate custom guidelines](https://zpneal.github.io/grand-site/contents/grand_custom.html)
+<i class="bi bi-file-person-fill"></i> [Custom for *your* data](https://zpneal.github.io/grand-site/contents/grand_custom.html)
 
-$\rightarrow$ [Generate custom summary table](https://zpneal.github.io/grand-site/contents/grand_label.html)
+**Additional Resources**
 
-$\rightarrow$ [Manuscript](https://raw.githubusercontent.com/zpneal/grand-site/main/contents/grand_manuscript.pdf)
+<i class="bi bi-table"></i> [Generate custom summary "Network Facts" table](https://zpneal.github.io/grand-site/contents/grand_label.html)
 
-Please cite GRAND as: *Neal, Z. P., Carley, K., Contractor, N., De Domenico, M., Hollway, J., Labianca, G., Landry, N. W., Lazer, D., Lubbers, M., Neal, J. W., Ortiz, F., Peixoto, T., Pescosolido, B., Prell, C., Teixeira, A. S., and the GRAND Consortium. (2026). Guidelines for Reporting About Network Data. https://www.grand-statement.org.*
+Please cite GRAND as: *Neal, Z. P., Carley, K., Contractor, N., De Domenico, M., Hollway, J., Labianca, G., Landry, N. W., Lazer, D., Lubbers, M., Neal, J. W., Ortiz, F., Peixoto, T., Pescosolido, B., Prell, C., Teixeira, A. S., and the GRAND Consortium. (2026). [Guidelines for Reporting About Network Data](https://raw.githubusercontent.com/zpneal/grand-site/main/contents/grand_manuscript.pdf). https://www.grand-statement.org.*
 
 If you would like to join the GRAND Consortium, endorsing these guidelines and participating in future revisions, please contact <zpneal@msu.edu>.
