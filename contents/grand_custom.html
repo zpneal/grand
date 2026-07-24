@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRAND Custom Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#161a15;
+    --ink-800:#20261e;
+    --ink-700:#2b332a;
+    --bone:#f2efe6;
+    --bone-dim:#a9ae9f;
+    --spice:#e2a53c;
+    --spice-dim:#7a6636;
+    --paper:#ffffff;
+    --line:#3c4438;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink-900);
+    color:var(--bone);
+    font-family:'IBM Plex Mono', monospace;
+    min-height:100vh;
+  }
+
+  .shell{max-width:1180px;margin:0 auto;padding:0 24px 80px;}
+
+  header.top{
+    padding:56px 0 36px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:40px;
+  }
+  header.top .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--spice);
+    margin:0 0 14px;
+  }
+  header.top h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(34px,5vw,56px);
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  header.top p{
+    color:var(--bone-dim);
+    max-width:560px;
+    line-height:1.55;
+    font-size:14.5px;
+    margin:0;
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(420px,520px) minmax(420px,1fr);
+    gap:32px;
+    align-items:start;
+  }
+  @media (max-width:880px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- FORM PANEL ---------- */
+  .panel{
+    background:var(--ink-800);
+    border:1px solid var(--line);
+    border-radius:2px;
+  }
+  /* ---------- COLLAPSIBLE SECTIONS ---------- */
+  details.section{
+    border-bottom:1px dashed var(--line);
+  }
+  details.section:last-of-type{border-bottom:0;}
+  details.section summary{
+    list-style:none;
+    cursor:pointer;
+    padding:18px 22px;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--spice);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    user-select:none;
+    transition:color .15s ease;
+  }
+  details.section summary::-webkit-details-marker{display:none;}
+  details.section summary:hover{color:#f0b957;}
+  details.section summary::after{
+    content:'▸';
+    font-size:10px;
+    color:var(--bone-dim);
+    transition:transform .15s ease;
+    margin-left:12px;
+  }
+  details.section[open] summary::after{
+    transform:rotate(90deg);
+  }
+  .section-body{
+    padding:0 22px 20px;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:6px 10px;
+    margin-bottom:14px;
+  }
+  .row:last-child{margin-bottom:0;}
+  .row label{
+    flex:1 1 220px;
+    font-size:13px;
+    color:var(--bone);
+    white-space:normal;
+    overflow:visible;
+    text-overflow:unset;
+    line-height:1.4;
+  }
+  .row .leader{
+    flex:1 1 20px;
+    border-bottom:1px dotted var(--bone-dim);
+    height:0;
+    margin:0 4px;
+    min-width:8px;
+  }
+  .row select{
+    flex:0 0 200px;
+    background:var(--ink-900);
+    border:1px solid var(--line);
+    color:var(--bone);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    padding:7px 9px;
+    border-radius:2px;
+    text-align:left;
+  }
+  .row select:focus{
+    outline:none;
+    border-color:var(--spice);
+  }
+  .row input[type="text"]{
+    flex:0 0 200px;
+    background:var(--ink-900);
+    border:1px solid var(--line);
+    color:var(--bone);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    padding:7px 9px;
+    border-radius:2px;
+  }
+  .row input[type="text"]:focus{
+    outline:none;
+    border-color:var(--spice);
+  }
+  .project-field{
+    padding:18px 22px 20px;
+    border-bottom:1px dashed var(--line);
+  }
+  .row.checkbox-row{
+    margin-top:14px;
+    margin-bottom:0;
+  }
+  .row.checkbox-row label{
+    flex:0 0 auto;
+    cursor:pointer;
+  }
+  .row.checkbox-row input[type="checkbox"]{
+    width:16px;
+    height:16px;
+    accent-color:var(--spice);
+    cursor:pointer;
+    flex:0 0 auto;
+    order:-1;
+    margin-right:2px;
+  }
+
+  .actions{padding:20px 22px;}
+  .btn{
+    width:100%;
+    padding:14px 16px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    border-radius:2px;
+    border:1px solid var(--spice);
+    background:transparent;
+    color:var(--spice);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .btn:hover{background:var(--spice);color:var(--ink-900);}
+  .btn.primary{
+    background:var(--spice);
+    color:var(--ink-900);
+    margin-top:10px;
+  }
+  .btn.primary:hover{background:#f0b957;}
+  .btn:disabled{opacity:.5;cursor:progress;}
+
+  /* ---------- PREVIEW PANEL ---------- */
+  .preview-wrap{
+    position:sticky;
+    top:24px;
+  }
+
+  #labelStage{
+    background:var(--paper);
+    padding:22px 22px 26px;
+    overflow-x:auto;
+  }
+
+  /* ---- Reporting guideline table ---- */
+  .guideline-table{
+    font-family:Helvetica, Arial, sans-serif;
+    color:#000;
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    transition:box-shadow .2s ease;
+  }
+  .guideline-table caption{
+    text-align:left;
+    padding-bottom:10px;
+  }
+  .guideline-table caption .table-title{
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:-0.5px;
+  }
+  .guideline-table caption .table-subtitle{
+    font-size:8pt;
+    font-weight:400;
+    font-style:normal;
+    margin-top:4px;
+  }
+  .guideline-table.pdf-mode caption .table-subtitle{
+    font-size:8pt;
+  }
+  .guideline-table th{
+    text-align:left;
+    font-size:11.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    font-weight:800;
+    padding:8px 10px;
+    border-bottom:3px solid #000;
+    background:#f2efe6;
+  }
+  .guideline-table td{
+    text-align:left;
+    font-size:13px;
+    line-height:1.45;
+    padding:12px 10px;
+    border-bottom:1px solid #000;
+    vertical-align:top;
+  }
+  .guideline-table td:first-child,
+  .guideline-table th:first-child{
+    width:1%;
+    white-space:nowrap;
+  }
+  .guideline-table td:nth-child(2),
+  .guideline-table th:nth-child(2){
+    width:1%;
+    white-space:nowrap;
+  }
+  .guideline-table td:nth-child(3),
+  .guideline-table th:nth-child(3){
+    width:48%;
+  }
+  .guideline-table td:nth-child(4),
+  .guideline-table th:nth-child(4){
+    width:34%;
+  }
+  .guideline-table tbody tr:nth-child(even){
+    background:rgba(60,68,56,.035);
+  }
+  .guideline-table.pdf-mode th,
+  .guideline-table.pdf-mode td{
+    font-size:8pt;
+    font-family:Helvetica, Arial, sans-serif;
+  }
+  .guideline-table.no-notes tbody td:nth-child(4){
+    display:none;
+  }
+  .flash{animation:flashbg .5s ease;}
+  @keyframes flashbg{
+    0%{background:#fff2cf;}
+    100%{background:transparent;}
+  }
+
+  .nf-foot{
+    font-size:10.3px;
+    line-height:1.35;
+    padding-top:12px;
+    color:#000;
+    font-family:Helvetica, Arial, sans-serif;
+  }
+
+  .download-row{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+  }
+  .download-row .btn{margin-top:0;flex:1 1 0;width:auto;}
+
+  footer.note{
+    margin-top:16px;
+    font-size:11.5px;
+    color:var(--bone-dim);
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="top">
+    <p class="eyebrow">GRAND Custom Guidelines</p>
+    <h1>Summarize your network.</h1>
+    <p>The Guidelines for Reporting About Network Data (GRAND) are intended to facilitate clarity and transparency in network research reported in scientific documents by providing guidance about the information that should always be reported. You can use this form to generate a set of guidelines that are specific to your network data. For more information about GRAND, visit <a href="https://www.grand-statement.org" target="_blank">https://www.grand-statement.org</a>.</p>
+  </header>
+
+  <div class="layout">
+    <!-- FORM PANEL -->
+    <div class="panel">
+      <div class="project-field">
+        <div class="row">
+          <label for="projectName">Project name</label>
+          <span class="leader"></span>
+          <input type="text" id="projectName" placeholder="Optional">
+        </div>
+        <div class="row checkbox-row">
+          <label for="includeNotes">Include notes</label>
+          <input type="checkbox" id="includeNotes" checked>
+        </div>
+      </div>
+
+      <details class="section" open>
+        <summary>Data</summary>
+        <div class="section-body">
+        <div class="row">
+          <label for="dataType">These data are...</label>
+          <span class="leader"></span>
+          <select id="dataType">
+            <option value="Empirical">Empirical</option>
+            <option value="Synthetic">Synthetic</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="ethicsConcern">Could the collection or use of these data present ethical concerns?</label>
+          <span class="leader"></span>
+          <select id="ethicsConcern">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="panelData">Do the data contain a panel of networks representing the same nodes at different times?</label>
+          <span class="leader"></span>
+          <select id="panelData">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="multipleNetworks">Do the data contain multiple networks that each represent the same type of system?</label>
+          <span class="leader"></span>
+          <select id="multipleNetworks">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="hasCitation">Do the data have their own citation?</label>
+          <span class="leader"></span>
+          <select id="hasCitation">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        </div>
+      </details>
+
+      <details class="section">
+        <summary>Nodes</summary>
+        <div class="section-body">
+        <div class="row">
+          <label for="multiEntityNodes">Do the nodes represent more than one type of entity?</label>
+          <span class="leader"></span>
+          <select id="multiEntityNodes">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="missingNodes" id="missingNodesLabel">Are any nodes that should be included in the network missing from the network?</label>
+          <span class="leader"></span>
+          <select id="missingNodes">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="degreeConstrained" id="degreeConstrainedLabel">Are any nodes' minimum or maximum degree constrained by the data collection process?</label>
+          <span class="leader"></span>
+          <select id="degreeConstrained">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        </div>
+      </details>
+
+      <details class="section">
+        <summary>Edges</summary>
+        <div class="section-body">
+        <div class="row">
+          <label for="multiRelationEdges">Do the edges represent more than one type of relationship?</label>
+          <span class="leader"></span>
+          <select id="multiRelationEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="directedEdges">Are any of the edges directed?</label>
+          <span class="leader"></span>
+          <select id="directedEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="weightedEdges">Are any of the edges weighted or signed?</label>
+          <span class="leader"></span>
+          <select id="weightedEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="nonSimpleEdges" id="nonSimpleEdgesLabel">Does the network contain any self-loops or multi-edges?</label>
+          <span class="leader"></span>
+          <select id="nonSimpleEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="hypergraphEdges" id="hypergraphEdgesLabel">Is the network a hypergraph?</label>
+          <span class="leader"></span>
+          <select id="hypergraphEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        </div>
+      </details>
+
+      <details class="section">
+        <summary>Transformations</summary>
+        <div class="section-body">
+        <div class="row" id="symmetrizedRow">
+          <label for="symmetrizedEdges">Were directed edges in raw data transformed into undirected edges?</label>
+          <span class="leader"></span>
+          <select id="symmetrizedEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row" id="dichotomizedRow">
+          <label for="dichotomizedEdges">Were weighted edges in raw data transformed into unweighted edges?</label>
+          <span class="leader"></span>
+          <select id="dichotomizedEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="projectedEdges" id="projectedEdgesLabel">Was the network generated from other data such that edges represent similarities, co-occurrences, or statistical associations?</label>
+          <span class="leader"></span>
+          <select id="projectedEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="excludedNodesEdges" id="excludedNodesEdgesLabel">Were any nodes or edges present in raw data excluded in the final network?</label>
+          <span class="leader"></span>
+          <select id="excludedNodesEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="aggregatedNodesEdges" id="aggregatedNodesEdgesLabel">Were any nodes or edges that were separate in raw data aggregated in the final network?</label>
+          <span class="leader"></span>
+          <select id="aggregatedNodesEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="imputedNodesEdges" id="imputedNodesEdgesLabel">Were any nodes or edges unmeasured in raw data, and their presence or absence was imputed or inferred in the final network?</label>
+          <span class="leader"></span>
+          <select id="imputedNodesEdges">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        </div>
+      </details>
+
+      <div class="actions">
+        <button class="btn" id="resetBtn" type="button">Reset to default</button>
+      </div>
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div class="preview-wrap">
+      <div id="labelStage">
+        <table class="guideline-table" id="nutritionLabel">
+          <!-- filled by JS -->
+        </table>
+      </div>
+      <div class="download-row">
+        <button class="btn" id="csvBtn" type="button">Download CSV</button>
+        <button class="btn primary" id="downloadBtn" type="button">Download PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  const FOOTER_LABEL = 'Guidelines for Reporting About Network Data';
+  const FOOTER_URL = 'https://www.grand-statement.org';
+
+  const dataTypeInput = document.getElementById('dataType');
+  const projectNameInput = document.getElementById('projectName');
+  const includeNotesInput = document.getElementById('includeNotes');
+  const ethicsConcernInput = document.getElementById('ethicsConcern');
+  const panelDataInput = document.getElementById('panelData');
+  const multipleNetworksInput = document.getElementById('multipleNetworks');
+  const hasCitationInput = document.getElementById('hasCitation');
+  const multiEntityNodesInput = document.getElementById('multiEntityNodes');
+  const missingNodesInput = document.getElementById('missingNodes');
+  const missingNodesLabel = document.getElementById('missingNodesLabel');
+  const degreeConstrainedInput = document.getElementById('degreeConstrained');
+  const degreeConstrainedLabel = document.getElementById('degreeConstrainedLabel');
+  const multiRelationEdgesInput = document.getElementById('multiRelationEdges');
+  const directedEdgesInput = document.getElementById('directedEdges');
+  const weightedEdgesInput = document.getElementById('weightedEdges');
+  const nonSimpleEdgesInput = document.getElementById('nonSimpleEdges');
+  const nonSimpleEdgesLabel = document.getElementById('nonSimpleEdgesLabel');
+  const hypergraphEdgesInput = document.getElementById('hypergraphEdges');
+  const hypergraphEdgesLabel = document.getElementById('hypergraphEdgesLabel');
+  const symmetrizedEdgesInput = document.getElementById('symmetrizedEdges');
+  const symmetrizedRow = document.getElementById('symmetrizedRow');
+  const dichotomizedEdgesInput = document.getElementById('dichotomizedEdges');
+  const dichotomizedRow = document.getElementById('dichotomizedRow');
+  const projectedEdgesInput = document.getElementById('projectedEdges');
+  const projectedEdgesLabel = document.getElementById('projectedEdgesLabel');
+  const excludedNodesEdgesInput = document.getElementById('excludedNodesEdges');
+  const excludedNodesEdgesLabel = document.getElementById('excludedNodesEdgesLabel');
+  const aggregatedNodesEdgesInput = document.getElementById('aggregatedNodesEdges');
+  const aggregatedNodesEdgesLabel = document.getElementById('aggregatedNodesEdgesLabel');
+  const imputedNodesEdgesInput = document.getElementById('imputedNodesEdges');
+  const imputedNodesEdgesLabel = document.getElementById('imputedNodesEdgesLabel');
+
+  // Single source of truth for every form field: drives the "Reset to
+  // blank" button and wires each field to trigger a re-render on change.
+  // Adding a new field only means adding one entry here, instead of
+  // touching the reset handler and listener-wiring separately.
+  const FIELDS = [
+    { key: 'projectName', el: projectNameInput, kind: 'text', default: '' },
+    { key: 'includeNotes', el: includeNotesInput, kind: 'checkbox', default: true },
+    { key: 'dataType', el: dataTypeInput, kind: 'select', default: 'Empirical' },
+    { key: 'ethicsConcern', el: ethicsConcernInput, kind: 'select', default: 'No' },
+    { key: 'panelData', el: panelDataInput, kind: 'select', default: 'No' },
+    { key: 'multipleNetworks', el: multipleNetworksInput, kind: 'select', default: 'No' },
+    { key: 'hasCitation', el: hasCitationInput, kind: 'select', default: 'No' },
+    { key: 'multiEntityNodes', el: multiEntityNodesInput, kind: 'select', default: 'No' },
+    { key: 'missingNodes', el: missingNodesInput, kind: 'select', default: 'No' },
+    { key: 'degreeConstrained', el: degreeConstrainedInput, kind: 'select', default: 'No' },
+    { key: 'multiRelationEdges', el: multiRelationEdgesInput, kind: 'select', default: 'No' },
+    { key: 'directedEdges', el: directedEdgesInput, kind: 'select', default: 'No' },
+    { key: 'weightedEdges', el: weightedEdgesInput, kind: 'select', default: 'No' },
+    { key: 'nonSimpleEdges', el: nonSimpleEdgesInput, kind: 'select', default: 'No' },
+    { key: 'hypergraphEdges', el: hypergraphEdgesInput, kind: 'select', default: 'No' },
+    { key: 'symmetrizedEdges', el: symmetrizedEdgesInput, kind: 'select', default: 'No' },
+    { key: 'dichotomizedEdges', el: dichotomizedEdgesInput, kind: 'select', default: 'No' },
+    { key: 'projectedEdges', el: projectedEdgesInput, kind: 'select', default: 'No' },
+    { key: 'excludedNodesEdges', el: excludedNodesEdgesInput, kind: 'select', default: 'No' },
+    { key: 'aggregatedNodesEdges', el: aggregatedNodesEdgesInput, kind: 'select', default: 'No' },
+    { key: 'imputedNodesEdges', el: imputedNodesEdgesInput, kind: 'select', default: 'No' }
+  ];
+
+  const ETHICS_GUIDELINE = {
+    number: '1.2',
+    item: 'Ethics',
+    guideline: 'Report whether institutional or ethical approval was obtained, the approving entity, and approval date.',
+    notes: 'Ethical concerns can arise when network data are collected from or about \u2018human subjects\u2019 (<a href="https://doi.org/10.1017/nws.2026.10034" target="_blank" rel="noopener" style="color:#000;">Ortiz Ruiz et al., 2021</a>), but they can also arise in non-human subjects data that could be used to cause harm.'
+  };
+
+  const PANEL_GUIDELINE = {
+    number: '1.3',
+    item: 'Multiple',
+    guideline: 'Report the number of waves and the interval(s) between waves.',
+    notes: 'Longitudinal panel network data captures the same system at multiple cross-sectional waves (e.g., animal interactions observed at 3 monthly intervals), and can be analyzed using specialized models (e.g., stochastic actor oriented models; <a href="https://doi.org/10.4135/9781071938904" target="_blank" rel="noopener" style="color:#000;">Duxbury, 2023</a>).'
+  };
+
+  const MULTIPLE_GUIDELINE = {
+    number: '1.3',
+    item: 'Multiple',
+    guideline: 'Report the number of networks.',
+    notes: 'A single dataset can contain a network from each of multiple sites (e.g., communication networks in 10 companies), or from each of multiple egos (e.g., personal social networks of 10 people; <a href="https://doi.org/10.1017/9781316443255" target="_blank" rel="noopener" style="color:#000;">Perry et al., 2018</a>).'
+  };
+
+  const LOCATION_GUIDELINE = {
+    number: '1.4',
+    item: 'Location',
+    guideline: 'Report the location that the data are intended to represent, at a substantively and ethically appropriate level of resolution.',
+    notes: 'Examples of possible locations include institutional locations (e.g., a company, a school), geographic locations (e.g., a country, a city), and digital locations (e.g., a social media platform).'
+  };
+
+  const BOUNDARY_GUIDELINE = {
+    number: '2.3',
+    item: 'Boundary',
+    guideline: 'Report how the set of nodes that should be included in the network was defined.',
+    notes: 'The challenge of determining the population of nodes that <em>should</em> be included is distinct from reporting the set of nodes that <em>are</em> present, and is known as the \u201cboundary specification problem\u201d (<a href="https://lccn.loc.gov/82016849" target="_blank" rel="noopener" style="color:#000;">Laumann, et al., 1983</a>). An ego network defines the nodes that should be included by ego\u2019s response to name generator questions. A bounded network defines the nodes that should be included using an a priori list of nodes in the population (e.g., a classroom roster). A non-bounded network includes any nodes for which data could be obtained (i.e., convenience sample), or which were selected via a sampling procedure (e.g., snowball).'
+  };
+
+  const TIME_GUIDELINE = {
+    number: '1.5',
+    item: 'Time',
+    guideline: 'Report the time(s) that the data are intended to represent, at a substantively and ethically appropriate level of resolution.',
+    notes: 'This is not necessarily the same as when the data were collected or compiled (e.g., in 1993 <a href="https://doi.org/10.1086/230190" target="_blank" rel="noopener" style="color:#000;">Padgett & Ansell</a> compiled marriage records that represented relationships in 1400-1434).'
+  };
+
+  const AVAILABLE_GUIDELINE = {
+    number: '1.6',
+    item: 'Available',
+    guideline: 'Report the URL or DOI linking to a repository where the data or data-generating code are available, or explain why the data are not available in a repository.',
+    notes: 'This item follows the recommendation that \u201cresearchers should share the network data and materials necessary to reproduce reported results...when an associated manuscript is published\u201d (<a href="https://doi.org/10.1017/nws.2024.16" target="_blank" rel="noopener" style="color:#000;">Neal et al., 2024</a>).'
+  };
+
+  const CITATION_GUIDELINE = {
+    number: '1.7',
+    item: 'Citation',
+    guideline: 'Provide a citation for the data.',
+    notes: 'This item follows the Joint Declaration of Data Citation Principles (<a href="https://doi.org/10.25490/a97f-egyk" target="_blank" rel="noopener" style="color:#000;">Martone et al., 2014</a>). The cited item may provide further details about the data, or may simply give credit to those who originally collected or generated the data.'
+  };
+
+  const NODES_SINGLE_GUIDELINE = {
+    number: '2.1',
+    item: 'Nodes',
+    guideline: 'Report what the nodes are intended to represent.',
+    notes: 'Nodes are sometimes also called vertices or actors. The nodes may all represent the same type of entity (e.g., a social network where all nodes represent \u201cpeople\u201d), or multiple types of entities (e.g., a two-mode pollination network where some represent \u201cplants\u201d, and others represent \u201cpollinators\u201d).'
+  };
+
+  const NODES_MULTI_GUIDELINE = {
+    number: '2.1',
+    item: 'Nodes',
+    guideline: 'Describe the network as N-mode and report what each type of node is intended to represent.',
+    notes: 'Nodes are sometimes also called vertices or actors. The nodes may all represent the same type of entity (e.g., a social network where all nodes represent \u201cpeople\u201d), or multiple types of entities (e.g., a two-mode pollination network where some represent \u201cplants\u201d, and others represent \u201cpollinators\u201d).'
+  };
+
+  const EDGES_SINGLE_GUIDELINE = {
+    number: '3.1',
+    item: 'Edges',
+    guideline: 'Report what the edges are intended to represent.',
+    notes: 'Edges are sometimes also called links, ties, arcs, or connections. The edges may all represent the same type of relationship (e.g., a social network where all edges represent \u201cfriendship\u201d), or different types of relationships (e.g., a multiplex/multilayer network where some edges represent \u201cfriendship\u201d and other edges represent \u201ckinship\u201d.)'
+  };
+
+  const EDGES_MULTI_GUIDELINE = {
+    number: '3.1',
+    item: 'Edges',
+    guideline: 'Describe the network as multiplex or multilayer, and report what each type of edge is intended to represent.',
+    notes: 'Edges are sometimes also called links, ties, arcs, or connections. The edges may all represent the same type of relationship (e.g., a social network where all edges represent \u201cfriendship\u201d), or different types of relationships (e.g., a multiplex/multilayer network where some edges represent \u201cfriendship\u201d and other edges represent \u201ckinship\u201d.)'
+  };
+
+  const DIRECTION_NOTES = 'An undirected edge connects two nodes (e.g., i and j are connected, i\u2212j), and a network composed of only undirected edges is sometimes called symmetric. A directed edge points from one node toward another (e.g., i sends to j, i\u2192j), and a network that contains directed edges is sometimes called asymmetric. If data were symmetrized, report that the network is undirected, but also see item 4.1.';
+
+  const DIRECTION_UNDIRECTED_GUIDELINE = {
+    number: '3.2',
+    item: 'Direction',
+    guideline: 'Report that the edges are undirected.',
+    notes: DIRECTION_NOTES
+  };
+
+  const DIRECTION_DIRECTED_SINGLE_GUIDELINE = {
+    number: '3.2',
+    item: 'Direction',
+    guideline: 'Report that the edges are directed, and what the direction of the edge means.',
+    notes: DIRECTION_NOTES
+  };
+
+  const DIRECTION_DIRECTED_MULTI_GUIDELINE = {
+    number: '3.2',
+    item: 'Direction',
+    guideline: 'For each type of edge, report whether it is directed or undirected. For directed edges, report what the direction of the edge means.',
+    notes: DIRECTION_NOTES
+  };
+
+  const WEIGHT_NOTES = 'In an unweighted network, edges are either present (e.g., \u2018friends\u2019) or absent (e.g. \u2018not friends\u2019). In a weighted or valued network, present edges are assigned a value that may represent a continuous or ordinal count (e.g., years of friendship), frequency (e.g., of communication), intensity (e.g., of interpersonal closeness), etc. In a signed network, present edges are either positive (.g., \u2018friendship\u2019) or negative (e.g., \u2018antagonism\u2019). If data were dichotomized, report that the network is unweighted, but also see item 4.2.';
+
+  const WEIGHT_UNWEIGHTED_GUIDELINE = {
+    number: '3.3',
+    item: 'Weight',
+    guideline: 'Report that the edges are unweighted.',
+    notes: WEIGHT_NOTES
+  };
+
+  const WEIGHT_WEIGHTED_SINGLE_GUIDELINE = {
+    number: '3.3',
+    item: 'Weight',
+    guideline: 'Report that the edges are weighted or signed. If they are weighted, report the meaning, scale of measurement, and mean, standard deviation, and range of weights. If they are signed, report the meaning of the positive edges and the meaning of the negative edges.',
+    notes: WEIGHT_NOTES
+  };
+
+  const WEIGHT_WEIGHTED_MULTI_GUIDELINE = {
+    number: '3.3',
+    item: 'Weight',
+    guideline: 'For each type of edge, report whether it is weighted, unweighted, or signed. For each type that is weighted, report the meaning, scale of measurement, and mean, standard deviation, and range of weights. For each type that is signed, report the meaning of the positive edges and the meaning of the negative edges.',
+    notes: WEIGHT_NOTES
+  };
+
+  const NONSIMPLE_GUIDELINE = {
+    number: '3.4',
+    item: 'Non-simple',
+    guideline: 'Report that self-loops or multi-edges are present and what they represent.',
+    notes: 'A self-loop is an edge that connects a node to itself. Multi-edges allow two nodes to be connected by more than one of the same type edge.'
+  };
+
+  const BIPARTITE_GUIDELINE = {
+    number: '3.5',
+    item: 'Bipartite',
+    guideline: 'Report where edges can be located.',
+    notes: 'Given a multimode network (e.g. authors and papers), this item distinguishes a bipartite network (e.g., authors can only be connected to papers) from a multilevel network (e.g., authors can be connected to papers or to other authors).'
+  };
+
+  const HYPERGRAPH_NOTES = 'In a hypergraph, a single edge can connect more than two nodes (e.g., co-authorship hypergraph where all authors of an article can be connected via a single edge).';
+
+  const HYPERGRAPH_SINGLE_GUIDELINE = {
+    number: '3.6',
+    item: 'Hypergraph',
+    guideline: 'Report that the network is a hypergraph.',
+    notes: HYPERGRAPH_NOTES
+  };
+
+  const HYPERGRAPH_MULTI_GUIDELINE = {
+    number: '3.6',
+    item: 'Hypergraph',
+    guideline: 'Report that the networks are hypergraphs.',
+    notes: HYPERGRAPH_NOTES
+  };
+
+  const NUMBER_ABBR = '<span style="font-family: Georgia, \'Times New Roman\', serif;">|<em>E</em>|</span>';
+
+  const NUMBER_GUIDELINE_HYPER = 'Report the number of (hyper)edges, and the mean and standard deviation of the size of the hyperedges.';
+  const NUMBER_GUIDELINE_SIMPLE = 'Report the number of edges present.';
+
+  const NUMBER_NOTES_HYPER = `This value is sometimes called \u201cgraph size\u201d and abbreviated ${NUMBER_ABBR}. In a hypergraph, the \u201csize\u201d of a hyperedge is the number of nodes that it connects.`;
+  const NUMBER_NOTES_SIMPLE = `This value is sometimes called \u201cgraph size\u201d and abbreviated ${NUMBER_ABBR}.`;
+
+  const NUMBER_GUIDELINE_PANEL_SENTENCE = 'Report this value for each wave, if practical; otherwise report the mean, standard deviation, and range across waves.';
+  const NUMBER_GUIDELINE_MULTIPLE_SENTENCE = 'Report this value for each network, if practical; otherwise report the mean, standard deviation, and range across networks.';
+  const NUMBER_GUIDELINE_MULTIRELATION_SENTENCE = 'Report this value separately for each type of edge.';
+
+  const NUMBER_NOTES_DIRECTED_SENTENCE = 'When a network contains directed edges, each directed edge is counted separately (e.g., a reciprocated dyad i \u21c4 j contains two edges).';
+  const NUMBER_NOTES_WEIGHTED_SENTENCE = 'When a network contains weighted edges, each present edge is counted, regardless of its weight.';
+
+  const SYMMETRIZED_GUIDELINE = {
+    number: '4.1',
+    item: 'Symmetrized',
+    guideline: 'Report the transformation method used to symmetrize edges and the percent of connected dyads that had non-reciprocal edges before the transformation.',
+    notes: 'Examples of symmetrizing transformations include confirmed edges (i.e., transforming only reciprocated edges i \u21c4 j into undirected edges i\u2212j) and unconfirmed edges (i.e., transforming any directed edges i \u2192j and i \u2190j into undirected edges i\u2212j). Symmetrizing is sometimes used to resolve reporting errors (e.g., i reports giving money to j, but does not report receiving money from i).'
+  };
+
+  const DICHOTOMIZED_GUIDELINE = {
+    number: '4.2',
+    item: 'Dichotomized',
+    guideline: 'Report the transformation method used to dichotomize edges and the number or percent edges that were deleted as a result of the transformation.',
+    notes: 'Examples of dichotomizing transformations include thresholds (i.e., count all edges with weight > X as present) and backbone models (i.e., count edges with statistically significant weights as present; <a href="https://doi.org/10.1371/journal.pone.0269137" target="_blank" rel="noopener" style="color:#000;">Neal, 2022</a>).'
+  };
+
+  const PROJECTED_GUIDELINE = {
+    number: '4.3',
+    item: 'Projected',
+    guideline: 'Report the transformation method used to construct the network.',
+    notes: 'Examples of such transformations include two-mode projection (e.g., two people are connected they attended the same event; <a href="https://doi.org/10.1093/sf/53.2.181" target="_blank" rel="noopener" style="color:#000;">Breiger, 1974</a>) and (weighted) correlation networks (e.g., two variables are connected to the extent that they are correlated in a sample; <a href="https://doi.org/10.1186/1471-2105-9-559" target="_blank" rel="noopener" style="color:#000;">Langfelder & Horvath, 2008</a>).'
+  };
+
+  const EXCLUDED_GUIDELINE = {
+    number: '4.4',
+    item: 'Excluded',
+    guideline: 'Report the criteria used to exclude nodes or edges, and the number or percent of nodes or edges that were excluded.',
+    notes: 'Nodes might be excluded for a variety of both structural (e.g., they are isolates with degree = 0, they are members of a <a href="https://en.wikipedia.org/wiki/Component_(graph_theory)" target="_blank" rel="noopener" style="color:#000;">small component</a>) and non-structural (e.g., uncertainty, implausible responses) reasons.'
+  };
+
+  const AGGREGATED_GUIDELINE = {
+    number: '4.5',
+    item: 'Aggregated',
+    guideline: 'Report the method used to aggregate nodes or edges.',
+    notes: 'Individual nodes are sometimes aggregated into \u201csupernodes\u201d when they are structurally equivalent or belong to the same community. In multiplex networks, edges connecting the same dyad (e.g., i and j are connected by friendship and kinship) are sometimes aggregated into a single edge. In longitudinal data, edges occurring at specific times are sometimes aggregated into discrete waves.'
+  };
+
+  const IMPUTED_GUIDELINE = {
+    number: '4.6',
+    item: 'Imputed',
+    guideline: 'Report the method used to impute the presence or absence of nodes or edges, and the number or percent of nodes or edges that were imputed.',
+    notes: 'A range of methods exist to impute missing data in networks (<a href="https://doi.org/10.1016/j.socnet.2020.02.004" target="_blank" rel="noopener" style="color:#000;">Krause et al., 2020</a>), and link prediction methods are sometimes used to infer missing edges.'
+  };
+
+  const SIZE_NOTES = 'This value is sometimes called network size or graph order, and abbreviated <span style="font-family: Georgia, \'Times New Roman\', serif;">|<em>V</em>|</span>.';
+
+  const SIZE_GUIDELINES = {
+    'No|No|No': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of nodes.',
+      notes: SIZE_NOTES
+    },
+    'Yes|No|No': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of nodes in each wave if practical; otherwise report the mean, standard deviation, and range.',
+      notes: SIZE_NOTES
+    },
+    'No|Yes|No': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of nodes in each network if practical; otherwise report the mean, standard deviation, and range.',
+      notes: SIZE_NOTES
+    },
+    'No|No|Yes': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of each type of node.',
+      notes: SIZE_NOTES
+    },
+    'Yes|Yes|No': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of nodes in each wave and network if practical; otherwise report the mean, standard deviation, and range.',
+      notes: SIZE_NOTES
+    },
+    'Yes|No|Yes': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of each type of node in each wave if practical; otherwise report the mean, standard deviation, and range of each type across waves.',
+      notes: SIZE_NOTES
+    },
+    'No|Yes|Yes': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of each type of node in each network if practical; otherwise report the mean, standard deviation, and range of each type across networks.',
+      notes: SIZE_NOTES
+    },
+    'Yes|Yes|Yes': {
+      number: '2.2',
+      item: 'Size',
+      guideline: 'Report the number of each type of node in each wave and network if practical; otherwise report the mean, standard deviation, and range of each type across waves and networks.',
+      notes: SIZE_NOTES
+    }
+  };
+
+  const MISSING_NOTES = 'Missingness occurs in a bounded network when nodes that should be included in the network are not included. Laumann, et al. (1983) cautioned that \u201cbecause it distorts the overall configuration of actors in a system, [it] may render an entire analysis meaningless\u201d.'.replace('Laumann, et al. (1983)', '<a href="https://lccn.loc.gov/82016849" target="_blank" rel="noopener" style="color:#000;">Laumann, et al. (1983)</a>');
+
+  const MISSING_GUIDELINES = {
+    'No|No': {
+      number: '2.4',
+      item: 'Missing',
+      guideline: 'Report the percent of number of missing nodes, or the percent of present nodes (i.e., the response rate).',
+      notes: MISSING_NOTES
+    },
+    'Yes|No': {
+      number: '2.4',
+      item: 'Missing',
+      guideline: 'Report the percent of number of missing nodes, or the percent of present nodes (i.e., the response rate), for each wave if practical; otherwise report the mean, standard deviation, and range.',
+      notes: MISSING_NOTES
+    },
+    'No|Yes': {
+      number: '2.4',
+      item: 'Missing',
+      guideline: 'Report the percent of number of missing nodes, or the percent of present nodes (i.e., the response rate), for each network if practical; otherwise report the mean, standard deviation, and range.',
+      notes: MISSING_NOTES
+    },
+    'Yes|Yes': {
+      number: '2.4',
+      item: 'Missing',
+      guideline: 'Report the percent of number of missing nodes, or the percent of present nodes (i.e., the response rate), for each wave and network if practical; otherwise report the mean, standard deviation, and range.',
+      notes: MISSING_NOTES
+    }
+  };
+
+  const DEGREE_GUIDELINE = {
+    number: '2.5',
+    item: 'Degree',
+    guideline: "Report any restriction(s) on nodes' degree.",
+    notes: 'Degree constraints can arise by data collection (e.g., name up to 5 friends; <a href="https://doi.org/10.1017/nws.2024.2" target="_blank" rel="noopener" style="color:#000;">Neal, 2024</a>) or model specification (e.g., in the <a href="https://doi.org/10.1126/science.286.5439.509" target="_blank" rel="noopener" style="color:#000;">Barabasi & Albert (1999)</a> model, <em>m</em> defines nodes\u2019 minimum degree).'
+  };
+
+  const GUIDELINES = {
+    Empirical: {
+      number: '1.1',
+      item: 'Data',
+      guideline: 'Report the method originally used to collect these data.',
+      notes: 'Empirical data are collected directly (e.g. survey, experiment, observation) or indirectly (e.g., archival, trace; <a href="https://doi.org/10.4135/9781544321486" target="_blank" rel="noopener" style="color:#000;">adams, 2020</a>.)'
+    },
+    Synthetic: {
+      number: '1.1',
+      item: 'Data',
+      guideline: 'Report the data generating model and the values of its parameters.',
+      notes: 'Synthetic data are generated by a model or simulation (e.g., <a href="https://en.wikipedia.org/wiki/Preferential_attachment" target="_blank" rel="noopener" style="color:#000;">Preferential attachment model</a>, <a href="https://en.wikipedia.org/wiki/Exponential_family_random_graph_models" target="_blank" rel="noopener" style="color:#000;">Exponential Random Graph model</a>).'
+    }
+  };
+
+  function esc(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function formatTodayDate(){
+    const d = new Date();
+    return `${d.getDate()} ${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  // Renders one guideline as a <tr>. `g` needs {number, item, guideline, notes}.
+  // Pass { show: false } to skip the row entirely (used for conditional guidelines).
+  // Notes are trusted HTML (they may contain citation links) and are not escaped;
+  // the Notes cell itself is omitted whenever the "Include notes" checkbox is off.
+  function rowHtml(g, { show = true } = {}){
+    if(!show) return '';
+    return `
+        <tr>
+          <td>${esc(g.number)}</td>
+          <td>${esc(g.item)}</td>
+          <td>${esc(g.guideline)}</td>
+          ${includeNotesInput.checked ? `<td>${g.notes}</td>` : ''}
+        </tr>
+    `;
+  }
+
+  function render(){
+    const selected = dataTypeInput.value === 'Synthetic' ? 'Synthetic' : 'Empirical';
+    const row = GUIDELINES[selected];
+    const showEthics = ethicsConcernInput.value === 'Yes';
+    const showPanel = panelDataInput.value === 'Yes';
+    const showMultiple = multipleNetworksInput.value === 'Yes';
+    const showLocation = selected === 'Empirical';
+    const showCitation = hasCitationInput.value === 'Yes';
+    const showNotes = includeNotesInput.checked;
+
+    degreeConstrainedLabel.textContent = `Are any nodes' minimum or maximum degree constrained by the data ${selected === 'Synthetic' ? 'generation' : 'collection'} process?`;
+    missingNodesLabel.textContent = showMultiple
+      ? 'Are any nodes that should be included in the networks missing from the networks?'
+      : 'Are any nodes that should be included in the network missing from the network?';
+    nonSimpleEdgesLabel.textContent = showMultiple ? 'Do the networks contain any self-loops or multi-edges?' : 'Does the network contain any self-loops or multi-edges?';
+    hypergraphEdgesLabel.textContent = showMultiple ? 'Are the networks hypergraphs?' : 'Is the network a hypergraph?';
+    projectedEdgesLabel.textContent = showMultiple
+      ? 'Were the networks generated from other data such that edges represent similarities, co-occurrences, or statistical associations?'
+      : 'Was the network generated from other data such that edges represent similarities, co-occurrences, or statistical associations?';
+    excludedNodesEdgesLabel.textContent = showMultiple
+      ? 'Were any nodes or edges present in raw data excluded in the final networks?'
+      : 'Were any nodes or edges present in raw data excluded in the final network?';
+    aggregatedNodesEdgesLabel.textContent = showMultiple
+      ? 'Were any nodes or edges that were separate in raw data aggregated in the final networks?'
+      : 'Were any nodes or edges that were separate in raw data aggregated in the final network?';
+    imputedNodesEdgesLabel.textContent = showMultiple
+      ? 'Were any nodes or edges unmeasured in raw data, and their presence or absence was imputed or inferred in the final networks?'
+      : 'Were any nodes or edges unmeasured in raw data, and their presence or absence was imputed or inferred in the final network?';
+
+    const showSymmetrizedQuestion = directedEdgesInput.value === 'No';
+    symmetrizedRow.style.display = showSymmetrizedQuestion ? '' : 'none';
+    if(!showSymmetrizedQuestion) symmetrizedEdgesInput.value = 'No';
+
+    const showDichotomizedQuestion = weightedEdgesInput.value === 'No';
+    dichotomizedRow.style.display = showDichotomizedQuestion ? '' : 'none';
+    if(!showDichotomizedQuestion) dichotomizedEdgesInput.value = 'No';
+
+    const ethicsRowHtml = rowHtml(ETHICS_GUIDELINE, { show: showEthics });
+
+    let combinedGuideline13 = [];
+    let combinedNotes13 = [];
+    if(showPanel){
+      combinedGuideline13.push(PANEL_GUIDELINE.guideline);
+      combinedNotes13.push(PANEL_GUIDELINE.notes);
+    }
+    if(showMultiple){
+      combinedGuideline13.push(MULTIPLE_GUIDELINE.guideline);
+      combinedNotes13.push(MULTIPLE_GUIDELINE.notes);
+    }
+    const multipleRowHtml = rowHtml({
+      number: '1.3',
+      item: 'Multiple',
+      guideline: combinedGuideline13.join(' '),
+      notes: combinedNotes13.join(' ')
+    }, { show: showPanel || showMultiple });
+
+    const citationRowHtml = rowHtml(CITATION_GUIDELINE, { show: showCitation });
+
+    const nodesGuideline = multiEntityNodesInput.value === 'Yes' ? NODES_MULTI_GUIDELINE : NODES_SINGLE_GUIDELINE;
+    const nodesRowHtml = rowHtml(nodesGuideline);
+
+    const sizeKey = `${panelDataInput.value}|${multipleNetworksInput.value}|${multiEntityNodesInput.value}`;
+    const sizeGuideline = SIZE_GUIDELINES[sizeKey] || SIZE_GUIDELINES['No|No|No'];
+    const sizeRowHtml = rowHtml(sizeGuideline);
+
+    const locationRowHtml = rowHtml(LOCATION_GUIDELINE, { show: showLocation });
+
+    const timeRowHtml = rowHtml(TIME_GUIDELINE, { show: showLocation });
+
+    const boundaryRowHtml = rowHtml(BOUNDARY_GUIDELINE, { show: showLocation });
+
+    const missingKey = `${panelDataInput.value}|${multipleNetworksInput.value}`;
+    const missingGuideline = MISSING_GUIDELINES[missingKey] || MISSING_GUIDELINES['No|No'];
+    const missingRowHtml = rowHtml(missingGuideline, { show: missingNodesInput.value === 'Yes' });
+
+    const degreeRowHtml = rowHtml(DEGREE_GUIDELINE, { show: degreeConstrainedInput.value === 'Yes' });
+
+    const edgesGuideline = multiRelationEdgesInput.value === 'Yes' ? EDGES_MULTI_GUIDELINE : EDGES_SINGLE_GUIDELINE;
+    const edgesRowHtml = rowHtml(edgesGuideline);
+
+    const directionGuideline = directedEdgesInput.value === 'No'
+      ? DIRECTION_UNDIRECTED_GUIDELINE
+      : (multiRelationEdgesInput.value === 'Yes' ? DIRECTION_DIRECTED_MULTI_GUIDELINE : DIRECTION_DIRECTED_SINGLE_GUIDELINE);
+    const directionRowHtml = rowHtml(directionGuideline);
+
+    const weightGuideline = weightedEdgesInput.value === 'No'
+      ? WEIGHT_UNWEIGHTED_GUIDELINE
+      : (multiRelationEdgesInput.value === 'Yes' ? WEIGHT_WEIGHTED_MULTI_GUIDELINE : WEIGHT_WEIGHTED_SINGLE_GUIDELINE);
+    const weightRowHtml = rowHtml(weightGuideline);
+
+    const nonSimpleRowHtml = rowHtml(NONSIMPLE_GUIDELINE, { show: nonSimpleEdgesInput.value === 'Yes' });
+
+    const bipartiteRowHtml = rowHtml(BIPARTITE_GUIDELINE, { show: multiEntityNodesInput.value === 'Yes' });
+
+    const hypergraphGuideline = showMultiple ? HYPERGRAPH_MULTI_GUIDELINE : HYPERGRAPH_SINGLE_GUIDELINE;
+    const hypergraphRowHtml = rowHtml(hypergraphGuideline, { show: hypergraphEdgesInput.value === 'Yes' });
+
+    let numberGuideline = hypergraphEdgesInput.value === 'Yes' ? NUMBER_GUIDELINE_HYPER : NUMBER_GUIDELINE_SIMPLE;
+    if(showPanel) numberGuideline += ' ' + NUMBER_GUIDELINE_PANEL_SENTENCE;
+    if(showMultiple) numberGuideline += ' ' + NUMBER_GUIDELINE_MULTIPLE_SENTENCE;
+    if(multiRelationEdgesInput.value === 'Yes') numberGuideline += ' ' + NUMBER_GUIDELINE_MULTIRELATION_SENTENCE;
+
+    let numberNotes = hypergraphEdgesInput.value === 'Yes' ? NUMBER_NOTES_HYPER : NUMBER_NOTES_SIMPLE;
+    if(directedEdgesInput.value === 'Yes') numberNotes += ' ' + NUMBER_NOTES_DIRECTED_SENTENCE;
+    if(weightedEdgesInput.value === 'Yes') numberNotes += ' ' + NUMBER_NOTES_WEIGHTED_SENTENCE;
+
+    const numberRowHtml = rowHtml({ number: '3.7', item: 'Number', guideline: numberGuideline, notes: numberNotes });
+
+    const symmetrizedRowHtml = rowHtml(SYMMETRIZED_GUIDELINE, { show: (directedEdgesInput.value === 'No' && symmetrizedEdgesInput.value === 'Yes') });
+
+    const dichotomizedRowHtml = rowHtml(DICHOTOMIZED_GUIDELINE, { show: (weightedEdgesInput.value === 'No' && dichotomizedEdgesInput.value === 'Yes') });
+
+    const projectedRowHtml = rowHtml(PROJECTED_GUIDELINE, { show: projectedEdgesInput.value === 'Yes' });
+
+    const excludedRowHtml = rowHtml(EXCLUDED_GUIDELINE, { show: excludedNodesEdgesInput.value === 'Yes' });
+
+    const aggregatedRowHtml = rowHtml(AGGREGATED_GUIDELINE, { show: aggregatedNodesEdgesInput.value === 'Yes' });
+
+    const imputedRowHtml = rowHtml(IMPUTED_GUIDELINE, { show: imputedNodesEdgesInput.value === 'Yes' });
+
+    const projectName = projectNameInput.value.trim();
+    const subtitleText = projectName
+      ? `Customized for ${projectName} on ${formatTodayDate()}`
+      : `Customized for your project on ${formatTodayDate()}`;
+
+    const html = `
+      <caption>
+        <div class="table-title">Guidelines For Reporting About Network Data</div>
+        <div class="table-subtitle">${esc(subtitleText)}</div>
+      </caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Item</th>
+          <th>Reporting guideline</th>
+          ${showNotes ? '<th>Notes</th>' : ''}
+        </tr>
+      </thead>
+      <tbody>
+        ${rowHtml(row)}
+        ${ethicsRowHtml}
+        ${multipleRowHtml}
+        ${locationRowHtml}
+        ${timeRowHtml}
+        ${rowHtml(AVAILABLE_GUIDELINE)}
+        ${citationRowHtml}
+        ${nodesRowHtml}
+        ${sizeRowHtml}
+        ${boundaryRowHtml}
+        ${missingRowHtml}
+        ${degreeRowHtml}
+        ${edgesRowHtml}
+        ${directionRowHtml}
+        ${weightRowHtml}
+        ${nonSimpleRowHtml}
+        ${bipartiteRowHtml}
+        ${hypergraphRowHtml}
+        ${numberRowHtml}
+        ${symmetrizedRowHtml}
+        ${dichotomizedRowHtml}
+        ${projectedRowHtml}
+        ${excludedRowHtml}
+        ${aggregatedRowHtml}
+        ${imputedRowHtml}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="${showNotes ? 4 : 3}" style="border-bottom:0;">
+            <div class="nf-foot" id="nfFoot">${FOOTER_LABEL} (<a href="${FOOTER_URL}" target="_blank" rel="noopener" id="footerLink" style="color:#000;">${FOOTER_URL}</a>)</div>
+          </td>
+        </tr>
+      </tfoot>
+    `;
+
+    const label = document.getElementById('nutritionLabel');
+    label.innerHTML = html;
+    label.classList.toggle('no-notes', !showNotes);
+    label.classList.remove('flash');
+    void label.offsetWidth;
+    label.classList.add('flash');
+  }
+
+  FIELDS.forEach(f => {
+    f.el.addEventListener(f.kind === 'text' ? 'input' : 'change', render);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    FIELDS.forEach(f => {
+      if(f.kind === 'checkbox') f.el.checked = f.default;
+      else f.el.value = f.default;
+    });
+    render();
+  });
+
+  
+document.getElementById('csvBtn').addEventListener('click', () => {
+  const table = document.getElementById('nutritionLabel');
+  const rows = Array.from(table.querySelectorAll('thead tr, tbody tr'));
+  const csv = rows.map(row => {
+    const cells = Array.from(row.querySelectorAll('th, td')).filter(cell => cell.offsetParent !== null);
+    return cells.map(cell => {
+      let text = cell.innerText
+        .replace(/\r?\n|\r/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      text = text.replace(/"/g, '""');
+      return `"${text}"`;
+    }).join(',');
+  }).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'GRAND_custom.csv';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('downloadBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('downloadBtn');
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Building PDF…';
+    try{
+      const target = document.getElementById('nutritionLabel');
+
+      // Make sure the update "flash" highlight isn't mid-transition —
+      // otherwise its tint gets baked into the captured image.
+      target.classList.remove('flash');
+      // Switch to PDF-only typography (12pt sans-serif headers, 10pt sans-serif entries)
+      // just for the capture, then restore the on-screen styling afterward.
+      target.classList.add('pdf-mode');
+      void target.offsetWidth; // force reflow so the class changes take effect
+
+      const SCALE = 3;
+      const canvas = await html2canvas(target, { scale: SCALE, backgroundColor: '#ffffff' });
+
+      const { jsPDF } = window.jspdf;
+      // convert canvas px (captured at SCALE) to mm at 96dpi baseline
+      const pxToMm = px => px * 25.4 / (96 * SCALE);
+
+      // Fixed US Letter page, 8.5in x 11in, with a modest print margin.
+      const pageWidthMm = 8.5 * 25.4;
+      const pageHeightMm = 11 * 25.4;
+      const marginMm = 12;
+      const contentWidthMm = pageWidthMm - marginMm * 2;
+      const contentHeightMm = pageHeightMm - marginMm * 2;
+
+      // Scale factor to fit the captured table's width to the page's content width.
+      const wMm = pxToMm(canvas.width);
+      const fit = contentWidthMm / wMm;
+      const mmPerCanvasPx = pxToMm(1) * fit;
+      const contentHeightCanvasPxPerPage = contentHeightMm / mmPerCanvasPx;
+
+      const targetRect = target.getBoundingClientRect();
+      const theadEl = target.querySelector('thead');
+      const theadRect = theadEl.getBoundingClientRect();
+      const theadTopPx = (theadRect.top - targetRect.top) * SCALE;
+      const theadBottomPx = (theadRect.bottom - targetRect.top) * SCALE;
+      const theadHeightPx = theadBottomPx - theadTopPx;
+
+      // Every tbody/tfoot row is treated as an atomic, unsplittable unit.
+      const rowEls = Array.from(target.querySelectorAll('tbody tr, tfoot tr'));
+      const rows = rowEls.map(tr => {
+        const r = tr.getBoundingClientRect();
+        return {
+          el: tr,
+          topPx: (r.top - targetRect.top) * SCALE,
+          bottomPx: (r.bottom - targetRect.top) * SCALE
+        };
+      });
+
+      // Paginate: page 1 starts right after the caption + header block;
+      // later pages start fresh with just the repeated header block.
+      const pages = [];
+      let currentPageRows = [];
+      let currentPageIsFirst = true;
+      let currentBodyStartPx = theadBottomPx;
+      let currentAvailable = contentHeightCanvasPxPerPage - theadBottomPx;
+
+      for(const row of rows){
+        const usedSoFar = currentPageRows.length
+          ? (currentPageRows[currentPageRows.length - 1].bottomPx - currentBodyStartPx)
+          : 0;
+        const rowHeight = row.bottomPx - row.topPx;
+        if(currentPageRows.length > 0 && (usedSoFar + rowHeight) > currentAvailable){
+          pages.push({ isFirst: currentPageIsFirst, bodyStartPx: currentBodyStartPx, rows: currentPageRows });
+          currentPageIsFirst = false;
+          currentPageRows = [row];
+          currentBodyStartPx = row.topPx;
+          currentAvailable = contentHeightCanvasPxPerPage - theadHeightPx;
+        }else{
+          currentPageRows.push(row);
+        }
+      }
+      if(currentPageRows.length){
+        pages.push({ isFirst: currentPageIsFirst, bodyStartPx: currentBodyStartPx, rows: currentPageRows });
+      }
+
+      // Build a composite canvas per page: repeated header block on top, then that page's rows.
+      pages.forEach(page => {
+        const bodyTop = page.rows[0].topPx;
+        const bodyBottom = page.rows[page.rows.length - 1].bottomPx;
+        const bodyHeight = bodyBottom - bodyTop;
+        const headerHeight = page.isFirst ? theadBottomPx : theadHeightPx;
+        const compositeHeight = Math.ceil(headerHeight + bodyHeight);
+
+        const destCanvas = document.createElement('canvas');
+        destCanvas.width = canvas.width;
+        destCanvas.height = compositeHeight;
+        const ctx = destCanvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, destCanvas.width, destCanvas.height);
+
+        if(page.isFirst){
+          // Contiguous slice: caption + header + this page's rows.
+          ctx.drawImage(canvas, 0, 0, canvas.width, compositeHeight, 0, 0, canvas.width, compositeHeight);
+        }else{
+          ctx.drawImage(canvas, 0, theadTopPx, canvas.width, theadHeightPx, 0, 0, canvas.width, theadHeightPx);
+          ctx.drawImage(canvas, 0, bodyTop, canvas.width, bodyHeight, 0, headerHeight, canvas.width, bodyHeight);
+        }
+
+        page.destCanvas = destCanvas;
+        page.headerHeight = headerHeight;
+        page.bodyTop = bodyTop;
+      });
+
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [pageWidthMm, pageHeightMm]
+      });
+
+      pages.forEach((page, idx) => {
+        if(idx > 0) pdf.addPage([pageWidthMm, pageHeightMm], 'portrait');
+        pdf.setPage(idx + 1);
+
+        const imgData = page.destCanvas.toDataURL('image/png');
+        const imgHeightMm = page.destCanvas.height * mmPerCanvasPx;
+        pdf.addImage(imgData, 'PNG', marginMm, marginMm, contentWidthMm, imgHeightMm);
+
+        // Re-anchor any links (e.g., citation links, footer link) to their new position on this page.
+        page.rows.forEach(row => {
+          row.el.querySelectorAll('a[href]').forEach(a => {
+            const rect = a.getBoundingClientRect();
+            const aTopPx = (rect.top - targetRect.top) * SCALE;
+            const aLeftPx = (rect.left - targetRect.left) * SCALE;
+            const aWidthPx = rect.width * SCALE;
+            const aHeightPx = rect.height * SCALE;
+            const destYPx = page.headerHeight + (aTopPx - page.bodyTop);
+
+            pdf.link(
+              marginMm + aLeftPx * mmPerCanvasPx,
+              marginMm + destYPx * mmPerCanvasPx,
+              aWidthPx * mmPerCanvasPx,
+              aHeightPx * mmPerCanvasPx,
+              { url: a.href }
+            );
+          });
+        });
+      });
+
+      pdf.save('GRAND_custom.pdf');
+    }catch(err){
+      console.error(err);
+      alert('Something went wrong building the PDF. Please try again.');
+    }finally{
+      document.getElementById('nutritionLabel').classList.remove('pdf-mode');
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>
