@@ -7,7 +7,7 @@ $\rightarrow$ [Short version](https://raw.githubusercontent.com/zpneal/grand-sit
 
 $\rightarrow$ [Long version with notes](https://raw.githubusercontent.com/zpneal/grand-site/main/contents/grand_long.pdf)
 
-$\rightarrow$ [Generate custom guidelines](https://zpneal.github.io/grand-site/contents/grand.html)
+$\rightarrow$ <i class="bi bi-info-square-fill"></i> [Generate custom guidelines](https://zpneal.github.io/grand-site/contents/grand_custom.html)
 
 $\rightarrow$ [Generate custom summary table](https://zpneal.github.io/grand-site/contents/grand_label.html)
 
