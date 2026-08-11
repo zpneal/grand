@@ -1,0 +1,214 @@
+﻿feedback
+"If you have any suggestions or feedback for the working group as they finalize the guidelines, manuscript, and website, please share them here."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+I'll send the feedback in a separate e-mail in the coming week.
+"I have reviewed the current versions of GRAND's materials. I have a few minor comments:
+- a network can contain both directed and undirected links (for example, a road network in a city) - graphs/networks are divided into directed, undirected, and mixed. The description option is that we do not require that the choices directed/undirected be mutually exclusive.
+- an important property of graphs/networks is also simplicity - in a simple network, parallel links are not allowed. An example of a non-simple network is flights from one airport to another.
+- signed networks do not seem to me to be a particularly important category, although it may remain. Recently, networks in which weights are structured data (time series, keyword/tag sets, distributions, intervals, etc.) have become increasingly common.
+- network authorship
+
+I believe that it would be useful to first prepare experimental descriptions of non-trivial networks within the group (each member at least 3) in order to detect possible shortcomings of the current recommendations."
+"Much of my suggestions actually appear to have been picked up nicely (or perhaps, others suggested them too). Thank you! That is very nice to see."
+
+
+Thanks for all the work and the opportunity to take part in this. The final guidelines and manuscript look clear and very useful. I hope this will catch on in the community!
+Great work !
+"Great work on the guidelines. 
+
+A key part that i am really missing from the guidelines is the description of the estimation method of the edges. Especially in psychology in psychometric networks, but surely also in biological networks, edges need to be estimated from the data. While the estimation approach is different in every field, having to estimate the edges is common across several fields. To some extent people might include this information in section 3. Edges. However, i would think it would be very important to explicitly name this in the section something similar to ""if directed"" you could add ""if empirically estimated""  and then add things that people should provide such as estimation method, hyperparameters of the estimation, CI of the estimates, software and package. Happy to brainstorm more about what needs to be added, email me at karoline.huth@maastrichtuniversity.nl."
+"1) GRAND explicitly states that it does not cover simplicial complexes, but I think this can be achieved relatively easily, with a following modest proposal:
+
+1.1) In the Short version, item 3.6, hypergraphs are explicitly mentioned. However, there is no treatment of the related but different structure type of simplicial complexes. These are used in some large network science subfields. I suggest amending item 3.6 to explicitly include simplicial complexes as well as hypergraphs.
+
+1.2) As a consquence, item 3.7 should also explicitly mention statistics about the simplices in a simplicial complex, just like for hyperedges in hypergraphs.
+
+2) Relatedly, some important properties of hypergraphs and simplicial complexes should be also reported when sharing that type of data. When a hypegraph is shared, it is important to know whether it is a uniform hypergraph, i.e. a hypergraph where all hyperedges contain the same number of nodes. If my suggestion #1 is accepted, for simplicial complexes we have the term ""homogeneous"" if all of its maximal faces have the same dimension, this should also be flagged when sharing one.
+
+3) I believe in the long version for point 4.4 the explanation should explicitly mention backboning, as it is normally the most common reason why edges can be excluded. The current explanation reads like backboning, but only implicitly, and might be overlooked."
+
+
+
+This is excellent work. Thank you for considering my earlier feedback. I'm particularly impressed by the tailored custom guidelines functionality on the website!
+
+
+
+"No suggestions or feedback, looks great!"
+
+
+
+"One thing came to mind: Sometimes samples are convenience samples and other times, effort and expense went into attempting a representative sample of a population.  I don't see a place to report that in the current guidelines.  Worth considering whether that belongs in the GRAND guidelines or not."
+"I sent my comment by e-mail to Zachary. Thank you so much again for this initiative and for your great work. This will be very helpful for the sociology discipline at large. Best, Gianluca"
+
+
+"Beautiful job here! I have some small improvements. In particular, when generating the guidelines, the titles would benefit from being more informative. Ex:
+Instead of ""Generate custom summary table"" -&gt; ""Generate custom Network Facts label "".
+""Generate custom guidelines"" -&gt; ""Generate a report based on GRAND"" , since you do not generate the guidelines, but a list with your network information *based on* the guidelines."
+"Thanks you for coming back to me about the GRAND initiative. It is timely, since I am currently committed to create with colleagues guidelines for archaeological fragmentation networks. We'll certainly use the GRAND standard as a ground for this. 
+
+All the best,
+Sébastien"
+
+Thank you for all your work and including our feedback. And good luck!
+Looks good! Thanks again for taking charge of this process:
+Thanks for leading this effort -- it looks great to me. 
+
+
+
+
+
+
+Thanks for coordinating this effort to the benefit of our research community (and beyond).
+It looks fine to me 
+
+Thank you for the incredible work on this. I have already started directing my graduate students to the website. 
+
+.
+
+
+
+
+"I miss some points (which are inter-linked). Networks can be reconstructed from data. This should be mentioned somewhere. It should also be stated how this reconstruction was performed (method, type of data used). Related to this, it would be important to have information about the uncertanties in the data."
+
+
+
+"Thank you for all your excellent work. Would you consider setting up some meetings, perhaps bi-yearly, in which consortium members can discuss feedback and changes? "
+
+"Congratulations, Zachary, on this impressive outcome! All of this will be very useful for network researchers new and old. Thank you for giving the opportunity to participate in this exciting endeavour. Petr"
+
+
+
+"No specific suggestions at this stage. I appreciate the efforts of the working group and wish them success in finalizing the guidelines, manuscript, and website."
+"Hi Neal, 
+I find GRAND very useful as a minimal reporting standard. My main suggestions: First, for survey-based network data, it would be helpful to require reporting the exact name-generator/name-interpreter wording, recall period, roster/free-recall format, and whether nominations outside the roster were allowed. In multi-wave studies it is also critical to name the time between waves. These design choices strongly shape what the edges mean.
+Second, the item on degree constraints could be expanded. If nominations are capped, authors should report the cap, the proportion of respondents reaching it, whether it differs across relations, and whether analyses account for censoring.
+Third, for transformations such as dichotomization, symmetrization, projection, exclusion, aggregation, and imputation, I would suggest reporting not only the method but also how the transformation changes basic network properties (density, isolates, components, reciprocity, centralization, and degree distribution). This would make analytic decisions more transparent and easier to evaluate.
+Finally, with the increasing use or ERGMs and SAOMs (and other models), I suggest adding model-specific reporting guidance. For ERGMs, authors should report structural zeros, constraints, and all parameters in the model (in an Appendix). For SAOMs, authors should report wave spacing, actor composition changes, missing actors/ties by wave, structural zeros, Jaccard Coeffcients. Irrespectively, GoF and model convergence statistics are required. 
+Thanks for the opportunity to contribute,
+Yuval"
+"Maybe ""1.5 Date"" could rather be ""1.5 Time"" (without specifying the precision of the time reported). Some types of observations could depend on the time of day, while others (say related to a forensic investigation) may only have a precision of weeks."
+
+
+
+This looks great!  Thank you for all the effort and attention to detail. 
+"I reviewed the short and long versions of the GRAND, along with the manuscript. These will be great resources, and I thank the GRAND team for this effort to generate them and make them available!
+
+Two minor suggestions (if these have not already been considered);
+
+1. Consider raising the topic of ""double counting"" under the ""Transformations"" section. Many empirical network designs double sample a relationship by asking each participant to report both directions of a directed relation (e.g. ""list people you gave money to"" & ""list people you received money from""). When both actors of a given relation are sampled, this results in two observations of the same tie (e.g. A says they gave money to B, then B says they received money from A). When both observations of a tie are identical, there is no problem, but often this is not the case and the two observations will differ, so researchers need to decide which observation to include in the version of the network used in analysis (see De Bacco et al 2023). In my experience, researchers are not consistent in documenting their approach to this problem, so including it in some way in the GRAND guidelines, or perhaps it would be good to mention it in the ""Notes"" column of the Long version of the guidelines (under ""symmetrized"", ""excluded"", or ""aggregated""?).
+
+2. Consider adding ""Missing"" to the ""Edges"" section. As the fundamental building blocks of networks, information about Nodes and Edges are essential to understanding any network, along with the boundary specification for each.  Within those boundaries, empirical network designs often have ""missing"" nodes, and you have included information about those in GRAND, but the same issue can arise with ""edges,"" although this receives less attention. Some examples of this are mentioned in the ""Notes"" throughout GRAND (e.g. ties that cannot exist within a mode of a bipartite network or alter-alter ties that may not be included in an egocentric network design).  There are other examples that may be worth considering. For example, in a study of social support networks, it's common to ask about different types of support relations (e.g. sharing food, lending money).  Participants may be willing to provide more or less complete information on some relations (e.g. sharing food) but not others (e.g. lending money). This is most clear when people decline to answer a question about one relation but not another.  To the extent a researcher is aware of this issue, it would be good to report it.  I realize this may be a less common issue, but it might be worth including somewhere in the ""Notes"" column of the ""Edges"" section in the Long form of GRANT.
+
+Thank you for the opportunity to contribute to the project via the Consortium!
+
+Citations
+
+De Bacco, C., Contisciani, M., Cardoso-Silva, J., Safdari, H., Lima Borges, G., Baptista, D., ... & Power, E. A. (2023). Latent network models to account for noisy, multiply reported social network data. Journal of the Royal Statistical Society Series A: Statistics in Society, 186(3), 355-375."
+Thank you very much for the inclusion and happy to support this effort. The existing materials look terrific and I look forward to their publication. 
+
+"The manuscript and the guidelines seem to me well written.
+I do not see great difference between short and long notes. My opinion is that less documents is better than many with few differences, but it's only a personal opinion"
+
+"Within the ""edges"" category, I continue to advocate for an item regarding the aggregation / window of time. All edges representing relationships necessarily have a time component to them, whether collected by survey, surveillance, or other. Relationships form, strengthen or weaken, and endure or dissipate. Edges require a time component for their definition. Communications over the prior week, social grooming over the period of observation, travel over the last year; a time component is fundamental and necessary. ""Current close friends"" exclude former close friends and benefit from the specificity of a time horizon. Time is an essential but often overlooked aspect of edge definition. For the exact same edge definitions per the current guidelines, different time windows yield very different networks and network structures. Instantaneous or very short-term social networks are extremely sparse and do not exhibit triadic closure. Closure requires longer-term time windows. I continue to hope that GRAND chooses to include it.
+
+As for the manuscript, I was surprised that neither form of the guidelines is in the main paper itself. That is a decision for the editor, but it was odd to see the justification and need for the guidelines argued in a place that did not include any specific guidelines. I guess it is a process document, but the process would be less interesting to me as a reader than the guidelines.
+
+Thank you for this important work."

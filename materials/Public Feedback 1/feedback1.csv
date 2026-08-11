@@ -1,0 +1,887 @@
+"item","sagree","agree","neutral","disagree","sdisagree","notes"
+"purpose1",30,8,2,1,0,"As I read through the guidelines, it seems like the way I would appraoch some of the items is different if I were to be (for example) putting the data into an archive for others to use/reuse it vs. reporting on it for a paper. I'm not sure if that's the range of use cases intended for this set of guidelines, but including some examples of what we mean by reporting about network research and the types of documents/knowledge objects where these guidelines would be most useful. "
+"style1",24,14,1,2,0,"start each italic sentence with: OPTIONAL or RECOMMENDED. Basically what happens is that one would dive into the guidelines, not reading or remembering that italic means something
+
+=====
+
+This was not entirely clear, although I noticed ( after reading this question) that this was noted at the beginning of the document. This formatting makes it very bound to a visual element, and I ama not sure that we would not have more constraints down the road, that would be hard to encode. What if some properties have default values (if not specified, assume unordered, for instance). Ultimately, this could be designed in a data schema... (maybe not now, but in the future). So it would be good to depart from only a visual formatting of these constraints."
+"tree1",16,17,1,4,3,"""whole"" in whole network is somewhat misleading or confusing. Because its basically everything that is not an eg network. However, a researchers may be very aware that what they have is not, in fact, a ""whole"" network but a partial network of the broader system. In general the guidelines seem v ery much informed by ego network studies, not so much by large-scale network studies such as population-scale network analysis based on administrative registers or even social network site data
+
+=====
+
+The question ""What is the scope of the network(s)"" is too narrow, because researchers may be interested in nodes, edges, subsets of nodes (communities), or subsets of nodes and edges (subnetwork) - ego-centric networks are one out of many other examples. 
+One could split the question ""What is the scope of the network(s)"" into two separate questions:
+1. What is the unit of interest? Node, edge, subset of nodes (communities), subset of edges (subnetwork), or something else?
+2. What is the population of interest?
+
+=====
+
+There should be a box for multiplex networks, or at least a mention of that name in the diagram. Maybe the step after the multimode network could be ""How many types of relations do the edges in the network(s) represent?"" and that would take to multiplex/networks on the side
+
+=====
+
+#1: In the first/top portion of the tree, the ""Many"" arrow label should be changed to ""2+"" to accommodate Bipartite and low-N N-partite networks.
+
+#2: Separating networks as 1 node type vs. 2+ node types is overly broad. It is confusing that networks with a single node type have 3 blocks in this tree to describe them, yet networks with 2+ node types have only a single, agglomerated box (Multimode Network), with no further differentiations as the Single-Node Networks have. Heterogeneous graphs (included in the Multimode Network block) can, for example, also be Hypergraphs and/or Ego Networks, but the current tree structure does not show this.
+
+=====
+
+The final decision (ego vs whole network) is terminologically problematic for people with no social network background,, IF this is for all networks, than the distinction is a bit unclear ( even for me). I assume that things like street networks etc are the whole system box, but I am not sure what Ego would be, despite knowing the terminology for a long time - to me it seems to be a special case of a subnetwork from the system network that is filtered by n-hop (or via other mechanism) from a source node. 
+
+Second, and I am not sure where to put this comment here, I *strongly* dislike the mixing of network and graph in the entire guidelines. As we have noted ( maybe not strongly enough) in the Marshall et al 2018 paper (Street networks...), it is key to distinguish between the Network ( a real thing, where networked entities interact), the reductionist model of this network ( where only the specific relationships, properties and dynamics of this network that are of relevance to an analysis are considered and are well described) and only then the final, graph-based representation where entities are nodes, and relationships edges ( or arcs), weighted or not, bipartitie or multipartitite, hyper or other. In other words, this is what I would liek to also see in the guidelines - tell me what system you are studying, what are the prperties of this system that you are collecting data about, how are these deifned and measured, and only then how you construct a graph from these. 
+
+=====
+
+I felt that this sequential decision tool may omit some combinations of network data. For instance, I can imagine multimode ego-network data, etc. I would find it more intuitive if instead of the sequence, there were only a set of yes/no questions about the above, allowing for any combination of the four aspects queried. I would also consider adding a question about mulilayer/multiplex ties here - I will note later why I think reporting on edges in the current way makes it a bit difficult for multiplex networks.
+
+=====
+
+1) Splitting networks into one vs. all other is to broad. You group bipartite networks together with heterogeneous networks which are very different.
+2) According to the figure its impossible, for example, for a heterogeneous networks to have many edges (hyper graph), or Ego network etc."
+"types1",20,11,1,8,1,"I would separate signed networks from weighted networks. Reason: (1) there are networks whose edges are simplified in +1, 0, and -1, (2) there are network metrics that are defined for weighted networks but not signed, and vice versa. Even you distinguish between signs and weights in the Edge section.
+
+=====
+
+I would suggest replacing “hypergraphs” with “higher-order structures”, as the former represents only one possible instance of the latter. Moreover, “multimode” and “hypergraphs” partially overlap, since multimode systems also include bipartite networks, which can essentially be viewed as hypergraphs. I am also not convinced that dynamic networks should be placed outside the diagram: certain modeling approaches (e.g., stream graphs, interval graphs) are not simply collections of static networks.
+
+=====
+
+I'm not sure how chain/milgram-style data should be categorized in this framing. It would be helpful to clarify if that is considered network data for the purposes of these guidelines.
+
+=====
+
+In addition to the mentioned types of networks, individual and collective outcomes should be reported, and how similar or dissimilar the outcomes of unconnected and connected pairs of nodes are. The reason is that in many applications of networks, the network is not of primary interest, but secondary interest: e.g., networks of exchanges affect economic welfare, but the exchanges are not of primary interest - the economic welfare of individuals and countries are of primary interest. Likewise, in the study of infectious diseases, the contact network is not of primary interest, but individual and public health is.
+
+=====
+
+1. I would consider adding heterogeneous networks for multimode networks.
+2. There is a situation in which we use the ego-centric network approach to build a whole network dataset. I am unsure how you want to classify this type of the dataset.
+
+=====
+
+#1: The guidelines should include the sign (positive or negative) of nodes and edges.
+
+#2: The tree structure lists Complete graphs as one type of Whole Network, yet Incomplete graphs are not included in the guidelines.
+
+=====
+
+Spatial networks are completely neglected. These can be constructed by anchoring only the entities in space ( represented as nodes), but also by anchoring the relationships in space, too. The footprint of the entities also need not be simple points ( they may be netire regions) , still represented as nodes. Hence, the geometry that represents a node may be a polygon, line, or point ( if we stay in 2D). All this matters, because spatial entities may interact at distance despite explicit relationships that are represented in a graph. THey may be linked though multiple relationships at the same time. Even basic graph algoirithms use this - consider A*, that uses not only edge weights, but also in its heiuristic, the geographical distance, to estimate remaining costs.
+
+=====
+
+I actually think these are good common types, and it makes sense to develop specific guidance for these. However, as noted before, I would rather rather see these four types connected by ""and"" rather than ""or"" relations. E.g., if one could report on an egocentric hypergraph, they could follow the guidelines for both types to complete a minimal report.
+
+=====
+
+1) I would also include the sign of edges (e.g., friendship or enemies).
+2) I would report if nodes have attributes or not.
+3) I would report if edges have attributes (except for weight)."
+"data.type1",36,3,0,2,0,"Reporting this is obviously very important. My impression is that there are many networks that are treated as whole networks, while they very well may be not, such as networks of actors involved in developing a policy - the boundary of who should be included is often very fuzzy and based on the judgement call of the researcher and their ability to even reach or know about certain actors involved. The way this is currently handled is through the ""boundary"", which is a perfectly good way to approach this inherently complex issue. But another way may be to distinguish between (reasonably) ""true"" whole networks and ""whole” networks where the researchers acknowledge from the beginning that theirs is a (more or less principled) sample – and for which they are then required to disclose the limits of the sampling strategy (often some form of snowball sampling) in more details than necessary for “true” whole networks.
+
+=====
+
+I agree this should be included - but I am not sure this is about the network ( the real thing, physical or abstract, that wee are studyng - the network of affectionate relatiohsips, or the sewerage network). We then model this networks, and deliberately capture only some of the data about it tht are of relevance, We need to discuss how we define the entities and their relationships ( an affectionate relationships between two people is one only if they exchange more than 3 messages per day with a positive valence, with a positivity of confidence >0.5  measured by XY test etc....). Only then are we able to convert this to a graph, and say what is a node, and what an edge."
+"data.source1",34,4,0,3,0,"The collection of empirical data should describe
+- the population and the unit of interest
+- how a sample of connections from the population network of interest was taken (e.g., ego-centric sample, link-tracing sample)
+- how a sample of outcomes from the population network of interest was generated.
+
+=====
+
+It is unclear what is the distinction. Are computer log data generated, or empirical? Is the intention to distinguish between synthetic and observed data? Would that not be a better terminology?
+
+=====
+
+For empirical, I would ask to clarify if the data is ""raw"" (was collected/generated exactly in the way reported) or ""processed"" (was transformed or dervide from raw data in some way). I am aware that processing is reported later, but it would be useful to flag up already here."
+"data.count1",32,4,0,5,0,"I would just change the example for multiple networks that each represent the same type of system to (e.g., Team 1, Team 2; Site 1, Site 2). Reason: simply to add an example with spatial networks, which have not got examples in the guide but are a very relevant part of the network literature (my background is mainly in biological / ecological networks)
+
+=====
+
+For me it is unclear how someone should report a situation with 3 school classes and 2 waves per class. I strongly recommend the use of a systematic reporting that distinguishes these dimensions, especially looking into the future regarding automatic data extraction. 
+
+=====
+
+This works for static networks or temporally annotated collections of static networks only. In case of more fine grained temporal representation (interval graphs, stream graphs/hypergraphs) it would be useful to have information on the temporal granularity of observation (seconds, minutes, hours...).
+
+=====
+
+Sometimes the temporal span of the dataset is better represented as a time interval (e.g., ""daily between 2023-07-01 and 2025-01-01"") instead of the number of temporal waves.
+
+=====
+
+I do strongly agree on including the number of networks, but you could also add a brief description of their nature (e.g. temporal snapshots, different subsystems..)."
+"data.system1",32,6,0,2,1,"I agree that this should be reported. You might want to add instructions to clarify that the description should be consistent with the other information provided, because the answers in some categories depend on the conceptualization of the network: if I defined the nodes as ""members of parliament of country X at time Y"", then the network is likely clearly bounded. But if I conceptualize and analyze them as ""political elites of country X at time X"" and just happen to focus on mostly MPs, then it becomes a lot less clear if that network has clear boundaries.
+
+=====
+
+I agree but it is not possible to add notes without disagreeing - sorry
+
+The specification of location may need to be refined - for instance, if I say location, this may be ambiguous ( contested geographies, etc) - would a BBOX added to this be useful? ISO code for country or administrative region? 
+
+Did you consider temporal resolution, and also spatial resolution? For time ,it could be hours, day, months, etc. For location, a measurement resolution ( dec degrees, or metres, etc). This is quite important - for instance, if we reconstruct spatial networks based on proximity analysis, we need this information to establish how long did two people stay within a specific proximity to establish a edge ( ie, epidemiological networks). 
+
+
+=====
+
+I like this section, I would just add a report on system/population size and response rates or similar already at this point. This would help to get an early idea about the scope of the network system and how much of it was observed."
+"data.data1",28,4,3,6,0,"Better to be precise: ""Report a link to the data repository."" 
+
+=====
+
+It happens somewhat frequently that the data is published on the university homepage of one of the authors. These webpages are often moved to new addresses or removed entirely when the author leaves the department. It would probably be better to mandate that the network data is archived at a repository like DRYAD (https://datadryad.org/) and that a link should be provided to the data in the repository.
+
+=====
+
+I could imagine this item hindering the advancement of some publications. For example, I sometimes have permission to use data that belongs to a different team and don't have a clear view of why the data is or is not available. It's not always easy to establish a reason for why data may or may not be available when the author is not the owner of the data set. As open data/open science efforts advance, I could see this being a useful criterion to include but have some hesitation about including it now.
+
+=====
+
+The size and formatting details of the data should also be provided. Additionally, if special permission is required to access the data, a description of the access request process should also be provided.
+
+=====
+
+Again - I agree, but we should specify how this is to be done - a DOI, or URL would be optimal ( even if it only contains contact information).
+
+=====
+
+Also report the size of the data, Data type- how to process it (CSV, TSV,...). "
+"nodes.meaning1",36,3,0,2,0,"I think the current description might be confusing for those who have multimode ego network data. Should they follow the multimode instruction or both?
+
+=====
+
+Again - strongly agree, but it is insufficient.
+For instance - if you have a network of junctions connected by street segments, you need to be able to specifym, in detail, what is a junction (is a roundabout a junction, or a collection of junctions?). If a person is a student AND a tutor, how are they going to be represented (ambiguous classes).  "
+"nodes.count1",23,10,1,7,0,"The range means what? Is it min-max, 25-75 percentiles, or mean-sd? It may help with more specifications.
+
+=====
+
+It was unclear what network count >= 5 means: Are six time points of the same network fulfilling the criterion? Or only five different networks in terms of source?
+
+=====
+
+For temporal networks it would be interesting to have some measure of node stability across observations - or at least the overall percentage of nodes that are present throughout all temporal observations. Similarly for multiplex/multilayer networks.
+
+=====
+
+The terms are not precise: e.g.
+- ""For Ego Networks: Report the number of alters."" In a large ego-centric sample of 1,000 ego, should researchers list the number of alters for each of the 1,000 egos? I believe the minimum, median, and maximum number of alters would be more appropriate. 
+- What is ""network count""? For example, what is the ""network count"" in the example mentioned on page 1, concerned with pollinators visiting plants?
+
+=====
+
+This is unclear to me: 'For Ego Networks: Report the number of alters.' If you are asking about the design of the questionnaire, then yes. If you are asking about the actual data, I would suggest including a basic descriptive analysis report (total N, minimum, maximum, mean, etc.).
+
+=====
+
+The cutoff value of 5 should be explained and justified in the guidelines.
+
+=====
+
+Its not clear that small networks (<5) have waves.
+Way was a cutoff of 5 selected?"
+"nodes.attribute1",22,8,2,9,0,"This is an excellent point, but the current wording leaves room for ambiguity about how it should be reported and how detailed the information needs to be, which ultimately reduces the usefulness of this point. I think some recommedations like report used scales would be good
+
+=====
+
+i do agree but there may be a very wide range of attributes, for instane when working with administrative registers. 
+
+=====
+
+My worry is that the number of node-level attributes may be quite lengthy for some datasets, so how to display the full list of attributes becomes a question in need of further consideration.
+
+=====
+
+I believe a maximum range should be established regarding the number of attributes that characterize the actors in the network. I make this point because it is common practice in studies to incorporate actor attributes as variables to establish cohesive subsets within networks, for example, by using actor attributes as grouping variables in cluster analysis. Therefore, establishing a minimum or maximum number of attributes (particularly in egocentric networks) could be a pragmatic option.
+
+=====
+
+I'm not sure if this is intended to refer to all attributes collected for the nodes or only those included in the relevant analysis for the publication. In general, I am uncertain if we are describing the dataset overall or the data specific to the reported analysis. I would suggest we clarify that we're only referring to the attributes that are relevant to the analysis being presented. 
+
+=====
+
+Researchers should report:
+- how many attributes are available;
+- for each attribute, the minimum, media, and maximum;
+- for each attribute, how similar or dissimilar the attributes of unconnected and connected pairs of nodes are;
+- if time-dependent, how the attributes change over time.
+
+
+=====
+
+I think node attributes should be reported, but you might want to consider offering alternatives if there are many attributes (e.g. ego networks with extensive survey responses) - something like a summary description of batches of variables (""standard questions on socio-economic background"").
+
+=====
+
+I think what is optional here should be mandatory. Especially the measurement ( how measured), the descriptive statistics I do not care about so much, this can be easily automated and need not be human reported.
+
+=====
+
+Concerning the optional part, I do feel that (at least) the measurement procedure should be mandatory."
+"edges.direction1",39,2,0,0,0,""
+"edges.weight1",35,2,0,4,0,"As I said earlier, I would add an independent category for signs
+
+=====
+
+weighted and signed are really different things.  signed means edges can be positive or negative, weighted means they are real valued (but on its own usually means positively real valued).  I would include these as two separate items.
+
+=====
+
+I understand by signed networks those whose edges are +1 or -1, and I believe this is quite general. But it is also possible to have weighted, signed networks, e.g., with edges +2,+1, -1, -2. I also believe that people think weighted networks have positive networks. So I would include a possibility that would be ""weighted and signed""
+
+=====
+
+Again, I strongy agree, but I think this is not enough. It needs to be described how the directionaltiy and weight has been established. For instance, for an infection network the direction will be indicated from the person innfected earlier to the person infected later ( or some such wording). Often this is an arbitrary decision tht can have impacts on the analysis. In a transport network, you may normalise the weights or show the raw values - this should be indicated. A numeric value also does not imply simply interpretable weights. We should specify measurement scales (binary, nominal, ordinal, interval, ratio, and possibly domain if circular. Also, units of measurement, and precision of measurement ( resolution)). I can have n1-5-n2 and n3-1-n4, but without knowing that 1 and 5 are likert scale measurements, I would not be able to interpret them correctly as ordinal, and may have assumed that one is 5x stronger than the other. "
+"edges.multiplex1",26,8,0,7,0,"The example is not crystal clear to follow for non English speakers. What about: co-authorship and institution, pollination and location, imports and exports?
+
+=====
+
+The item should be included, but it raised the question of how to respond if my network has multiple ties with different directions/undirected, and so on. 
+
+=====
+
+Additionally, I believe it is necessary to clarify the differences between the various types of relationships evaluated. This could be done by incorporating the statement of the name generator used to elicit the alters that form part of a given ego's personal network.
+
+=====
+
+The wording here and throughout related to multiplexity feels like it could create some confusion, specifically when a network has multiple types of edges between nodes but the reported analysis of the network does not use a multiplex approach. Here's an example of a common type of reporting that comes up in my work: we collect whole network data with a roster question along the lines of ""who do you have any kind of relationship with,"" then follow it up with questions like ""what activities does this relationship include? (example responses: referrals, information sharing, service provision)"" This creates multiplex data according to the guidelines listed here. But sometimes the focus of the report is on identifying the relative prevalence of certain activities within the network (e.g., 10% of relationships include information sharing, while 50% include referrals) or comparing a couple of these as sub-networks to show how they are structurally different. I could imagine that it would be confusing for a reviewer or reader if we used the language of multiplexity to describe this when its not paired with multiplex analysis. Overall, I agree with the need to specify what all types of edges in the analysis are, but I'm uncertain about using the term ""multiplex.""
+
+=====
+
+I agree, but suggest here and elsewhere to use specific examples: e.g., if nodes are adolescents, then the edges could be the number of in-person conversations, the length of the in-person conversations, and the number of text message traded by the teenagers during a specified time period.
+
+=====
+
+It would be informative to allow edges designated as ""Multiplex"" to specify how many edge types.
+
+=====
+
+If it is a multiplex network then how many edge types exist?"
+"edges.structural1",21,9,6,4,1,"I would explicitly mention the self-loops in the definition of ""structural edge"".
+
+=====
+
+I would not make it mandatory. In several scenarios such information does not make sense or is not available at collection time.
+
+=====
+
+this is only relevant in particular research, and not a universal issue in network research. should not be part of a standard like this
+
+=====
+
+In my opinion, this is probably the item that requires the most clarification, both conceptually and operationally. Perhaps more experienced SNA researchers will clearly understand the inclusion of this item; however, for most people it may be somewhat confusing. I suggest including examples of these types of structural zeros in each type of network (whole, ego, etc.).
+
+=====
+
+So this is a distinction between 0 and NULL and possibly FALSE. It should be clear what is indicated, and explicit NULL should be used where necessary to indicate."
+"edges.meaning1",33,2,2,4,0,"similar opinion as for the general multiplexity aspect
+
+=====
+
+Same as above, I believe a category ""weighted and signed"" should be explicitly mentioned
+
+=====
+
+I agree ( again), but it needs to be distinguished whether this is in the network, its model, or in the graph. 
+
+=====
+
+For multimode and multiplex data, it should also be considered that edge characteristics may be different for different layers of the network. For instance, friendship may be directed but affiliation with clubs undirected - both may be part of the multilevel network reported. Similarly, in multiplex networks, one layer may be directed bynary, the other underected weighted, etc.
+
+I think overall it would make sense to report on layers or types of edges separately for network datasets that contain multiple types of edges (multiplex or multilevel networks). For this reason, it may be useful to add the simple-multiplex distinction to the decision tree at the start. Similarly, it may be good to suggest that authors describe each edge type separately, rather than reporting on multiplexity at this step."
+"edges.count1",27,5,4,5,0,"I don't know whether distinguishing between network <5 or >5 is critical. Besides, I do think that if the network is higher-order, the maximum order should be provided. Moreover, is higher order or higher-order?
+
+=====
+
+same opinion as the nodes criterion of five networks
+
+=====
+
+The term ""network count"" is unclear. For example, what is the ""network count"" in the example mentioned on page 1, concerned with pollinators visiting plants?
+
+=====
+
+The cutoff value of 5 should be explained and justified in the guidelines.
+
+=====
+
+Please explain why the 5 cutoff was selected."
+"data.procedure1",27,3,4,7,0,"I agree on the importance of reporting the data-generating model, but I strongly advise against including references to specific libraries (e.g., igraph). The guidelines should remain general and implementation-independent, as there are numerous valid alternatives available. Recommending a specific library would be akin to requiring all researchers to use the same programming language, while network science is inherently multidisciplinary and encompasses diverse methodological backgrounds.
+
+Moreover, authors may have generated their data using novel or custom implementations, which should also be properly documented. I therefore suggest revising the text to mandate reporting the name of the adopted method, accompanied by either a citation (if the method is based on prior work) or an implementation reference, with the latter being mandatory for reproducibility.
+
+=====
+
+If the data collection method is empirical, using a survey, it would be advisable to cite the original study in which the survey was first proposed. For example, cite the work of Manuel Barrera [(Barrera, M., Jr. (1980). A method for the assessment of social support networks in community survey research. Connections, 3, 8–13.] in the case of studies that use the ASSIS to assess structural social support.
+
+=====
+
+The collection of empirical data should describe
+- the population of interest;
+- how a sample of connections from the population network of interest was taken (e.g., ego-centric sample, link-tracing sample);
+- how a sample of attributes from the population network of interest was generated.
+
+=====
+
+If generated the authors should provide a clear description about the theoretical foundations and the role of each parameter. That could be described within the main document or as part of an appendix. Not optional.
+
+=====
+
+As noted above, to be more inclusive and clear, I would call this observed ( or empirical, fine) and synthetic. Generated is unclear, as many networks are resulting from a data generation process ( logs, user interactions, etc, and it is meaningful to distinguish this).
+
+=====
+
+I agree with this step. However, I would add one after this that notes processing/clearning steps, if any data was removed from the original, etc. Again, I am aware that this comes in some form later, but I think it would be useful to a have a high-level summary already here.
+
+=====
+
+Both optional parts should be mandatory. A reference to a paper describing such details, if available, could also do the job."
+"data.ethics1",24,4,4,8,1,"I wonder whether it would be ethical to report and publish a dataset that has _not_ received institutional or ethical approval. I think that this should be left to the journal or archive where the manuscript is published and GRAND should simply assume that any required ethical approvals have taken place.
+
+=====
+
+it should be removed and left out of the standard. There are well defined moments for an ethic chech and this should not come back in a standard that has as purpose to clearly understand what the data is and means
+
+=====
+
+I agree with the optional sentence: ""Provide a detailed description of any approvals, procedures for obtaining informed consent and data security practices such as deidentification"". With adults, I consider informed consent and institutional deidentification to be sufficient, rather than institutional or ethical approval.
+
+=====
+
+The guidelines could specify that if institutional approval was *NOT* obtained, an explanation of why such approval was not needed could be provided.
+
+=====
+
+this should likely only apply for networks where data capture information about people and their spatial behaviour, or of animals that are held in captivity and/or fitted with physical sensors. I do not see a need to do this for wild animals observed by remote sensing, or for say infrastructure networks.  
+
+=====
+
+This should also mention that authors can provide a citation to the paper where the data procedures and ethics are described. 
+
+=====
+
+I think that a detailed description of any approvals, procedures for obtaining informed consent, potential risks should always be present in a dataset description. Also, the people must report the method of data anonymization (which is ideally recommended). Optionally, participants were reimbursed or not can be reported. 
+
+=====
+
+I would also make it minimally required to summarise key ethics processes or add a link to a more detailed ethics document.
+
+=====
+
+I would say that in some cases there no need of IRB and if this is defined by GRAND that would be very helpful. "
+"data.degree1",29,9,1,2,0,"Additionally, I would recommend including the criteria adopted to justify the limitation in the number of alteri
+
+=====
+
+Should be included, but could also go into the section 1.3?
+In addition: the next item reports missingness in nodes. Should there be reporting on missing edges as well?"
+"data.nodes1",18,11,4,8,0,"for the seek of clarity, I suggest simply deleting ""For Ego Networks: Not applicable"" 
+
+=====
+
+same opinion to the network count >= 5 
+
+=====
+
+What is ""network count""? For example, what is the ""network count"" in the example mentioned on page 1, concerned with pollinators visiting plants?
+
+=====
+
+As I noted previously, the ego-centric approach can be used to build a whole network with an appropriate research design.
+
+=====
+
+The cutoff value of 5 should be explained and justified in the guidelines.
+
+=====
+
+Should be reported, but could also go to section 1.2
+
+=====
+
+This does not allow for all options. For instance, nwtworks may be filtered by geographical area - then it is impossible to state what fraction is not reported. Yet, they have a specific boundary, although this may not be well defined, but clearly it is not unbounded.
+
+In geography, this is well known as determinate objects with vague boundaries, which I believe somewhat applies to networks too. 
+
+It would be good to state how the boundary was determined, and what attempts have been made to minimise the imapct of the boundary on the analytical results.
+
+=====
+
+I would also ask authors to report on coverage, nonresponse and similar issues here, as applicable."
+"trans.sym1",29,6,1,4,1,"In some studies, the process of transforming relational data (e.g., symmetrizing or dichotomizing) is carried out at various points in the research. It would be interesting to indicate if additional modifications were made during the research process, providing justification for these decisions.
+
+=====
+
+The detailed description should be mandatory
+
+=====
+
+If reporting gets too onerous, section 2.3 is probably where I would start cutting requirements. Some of the items to report here could also be covered in the edge or node description, but having a specific section may be a good way to force people to be more explicit.
+
+=====
+
+I think the description of the transformation should be always provided, otherwise the data are not reusable.
+
+=====
+
+To me, this reads quite sterile and technical here. I would embed this to the data processing and cleaning section I suggested earlier. This would present specific transformations more organically as part of the data collection and analysis process."
+"trans.bin1",31,6,1,3,0,"Again, the detailed description should be mandatory
+
+=====
+
+same as before - transformation should not be optional
+
+=====
+
+I just have the same reservations as for the previous question: This makes sense but could be embedded in a broader reporting on data processing/cleaning."
+"trans.proj1",29,6,0,6,0,"Some studies present networks as Mode 1 (for example, a co-occurrence network of academic participation in a conference) without specifying that the network is actually a 2-Mode network (actors X events). In these cases, it is necessary to specify this operation due to the theoretical and empirical implications underlying this type of modification.
+
+=====
+
+Projection technique should be explained by the author to improve transparency and replicability. That could be as part of the main document or well as an appendix.
+
+=====
+
+Again, detailed description should be provided
+
+=====
+
+There are many ways to turn non-network data into a network and finding a limited number of concise descriptions may be difficult here. Maybe allowing for a more detailed description in Meaning in 1.3 is a better way to go? Or having an item ""how were edges construed?"" in 1.3?
+
+=====
+
+same about transformation
+
+=====
+
+Same as earlier, and I would elevate this as a specific type of empirical data (processed), as mentioned earlier."
+"trans.exclude1",33,5,0,3,0,"Again, the optional part should be mandatory. All can be in appendices etc.
+
+=====
+
+Rationale for exclusion criteria should not be optional. 
+
+=====
+
+Agree with the necessaty of this, but would discuss it in the context of coverage, nonresponse, and data removal."
+"trans.impute1",33,4,0,4,0,"Imputation technique and assumptions must be fully described to improve transparency and replicability.
+
+=====
+
+Once again, details are needed
+
+=====
+
+same about imputation aas transformations
+
+=====
+
+Same as earlier: important but could be presented as part of a wider narrative."
+"connected1",17,10,5,7,2,"I suggest deleting ""If directed: Report whether the network is strongly connected, weakly connected, or unconnected"" since is ambiguous and depends on the system.
+
+=====
+
+Add strongly and weakly connected to the glossary.
+
+=====
+
+this is a question that only has relevance in a particular research context. For instance, i would be more interested in how many connected components are there. Often in social science 'whole' networks, one would study the dominant component only. 
+
+=====
+
+Most of the other guidelines feel intuitive to me, but I'm not sure why this would be relevant to report. It's generally not something I look for in my work with social networks, so it makes me wonder if this is something that might be more relevant for other types of networks? Will there be any guidance explaining the reason for including criteria like this? 
+
+=====
+
+Perhaps the guidelines could ask reporters to report on network structure measures such as connectedness, average distance, and compactness.
+
+=====
+
+Please consider that some authors could explore ""ego networks"" removing the ""ego"" node. That perspective provide alternative views of how the ""ego network"" configures.  In some cases, that could generate an unconnected network.
+
+=====
+
+IMO an item that could be dropped if the reporting gets too onerous. 
+
+=====
+
+I think average degress, variance of degrees and edge probabilities / weight distributions would be enough to report (maybe number of strong components as well).
+
+=====
+
+Depends if it adds information that is valuable for understanding the results. Its impossible to report every centrality measure (in this case density)."
+"connectivity1",18,7,6,8,2,"I agree on including network density, but I strongly disagree on using mean degree.
+This indicator is not meaningful in the presence of long-tailed or scale-free degree distributions. Instead, I would recommend reporting the family of the distribution that best fits the data, ideally supported by a statistical test (e.g., Kolmogorov–Smirnov, Chi-square, or Shapiro–Wilk for normality).
+Subsequently, the analysis should include indicators that are meaningful for the identified distribution class, whether based on the fit or the empirical data.
+
+Even if the degree distribution were approximately normal, the mean degree alone—without its standard deviation—would still provide limited insight.
+
+=====
+
+density is perhaps the least interesting network statistic there is. 
+
+=====
+
+Describing the structural properties of each network type is crucial for understanding the system under study. In this regard, for egocentric and whole networks, I consider it necessary to include the following points (which are also the most frequently reported), in addition to those already covered in the guide:
+Egocentric networks: Size; average degree; density.
+Whole networks: Size; density; centralization; number of components or clusters; and reciprocity (in the case of directed networks).
+
+=====
+
+I'm not sure I understand the value-add of including this in the guidelines, when it could be computed with other data in the guidelines (e.g., # of nodes, # of ties, directedness). It seems more like a nice to have item rather than a strict guideline.
+
+=====
+
+Providing both edge density AND mean degree could provide a better description of network structure.
+
+=====
+
+They have already provided the number of nodes and the number of edges, I find this redundant
+
+=====
+
+The cutoff value of 5 should be explained and justified in the guidelines.
+
+For ""If signed: Report edge density or mean degree separately for positive and negative edges."" --> Both of these should be reported, rather than either/or.
+
+=====
+
+This should be inferrable from what is reported in 1.2 and 1.3, should't it?
+
+=====
+
+I agree, but think if all before is described well, then these statistics can be easily computed. 
+
+=====
+
+It is not clear to me, why report either? density is not the same as average degree."
+"other1",0,0,0,0,0,"For clarity, in the glossary, I would also add the definition of multilevel network and include the word ""layer"", since many researchers outside network science are familiar with the concept of multilayer network.
+
+=====
+
+Authors should include a reference to the software used to compute various metrics.
+
+General guidance should be provided on how to report the structural metrics that are used. For example, if reporting degree distribution be sure to compare to other distributions and don’t just fit the distribution to only a power-law.
+
+It is helpful to readers to include a compare/contrast with another related metrics. For example, there are dozens of centrality metrics…why was X used instead of Y? Another example is community detection, why one vs. another algorithm?
+
+Provide general guidelines for comparing two networks (e.g., use normalized/standardized metrics, rather than raw metrics). 
+
+Perhaps suggest statistics or heuristics that can be used to demonstrate a statistically significant difference in a metric for 2 (or more) networks (especially in the case where the metric is not based on a distribution, making it less amenable to conventional statistics). 
+
+Provide general guidelines for spread of infection/activation/information/etc. across a network (or what should be included if a random walk or directed walk is used). That is, remind authors to include information about the various parameter settings. 
+
+Provide general guidelines for percolation/damage to a network. Give examples of comparisons between random vs targeted removal of nodes or to the intact network. Give example of removal of nodes vs. removal of edges (and does it matter?). 
+
+In unconnected networks include information about number/percentage of nodes/edges found in the giant component, the smaller components, and isolates. 
+
+
+=====
+
+In the case of attributed nodes, it would be interesting—though not mandatory—to report label assortativity, as it provides insight into how node attributes correlate with the network structure.
+
+=====
+
+Similarly to how missing nodes are reported, missing _edges_ should also be reported. In this case I mean edges whose existence has not been tested explicitly. For instance, in a brain connectivity network built via empirical means, it may be the case that the existence of a connection between certain areas has not been tested, and it is important to distinguish between pairs of areas where the connection has  been _tested_ and _found not to exist_ and pairs of areas where the connection has not been tested.
+
+=====
+
+related to 2.1, ""how the network was bounded"" should NOT be optional, but should always be explained
+
+=====
+
+I miss terms such as centrality, modularity or clustering, but I am not sure if they are relevant to the purpose of the questionnaire.
+
+=====
+
+There are some cases that seemed relevant to consider for section 2.3 on data transformation. The two that came to mind for me are: 1. when folks aggregate ties from multiplex networks. For example, all ties that involve some kind of exchange behavior get aggregated to create an exange network from a dataset that includes information exchange, financial exchange, and other non-exchange activities(the non-exchange activities would be dropped and all other ties would be aggregated to generate the network). This might be a specific case of the 'excluding' sub-section, but it didn't feel lik it was well-represented by the current description. 2. Situations where the nodes are transformed in some way. For example, it's common to collect network data with a name generator question with no roster. In that case, the researcher needs to do some kind of work to clean the node list to address inevitable duplicates. I think it's important for authors to indicate how they deal with this (e.g., using a fuzzy match tool, human review of the list to identify duplicates, etc.). 
+
+=====
+
+I think the definitions need to be clearer -- one of the major uses for this that I see is that people who are not trained in network data will want to use it and I am not convenced they could do with the current definitions and guidelines.
+
+=====
+
+I believe that there three additional types of information that should be reported:
+1. The population of interest about which the researchers intend to make statements: e.g., when studying collaborations within public companies A and B along with individual and.collective outcomes, the population might be the population of all public companies.
+2. The reasons for drawing the boundary, i.e., the reasons for determining including and excluding nodes in the population of interest.
+3. Additional structure: e.g., community structure in the form of overlapping or non-overlapping communities, spatial structure, or any other form of structure that is relevant for studying networks and individual and collective outcomes of interest.
+
+=====
+
+I think some more basic descriptives should be included next to avg degree/density:
+transitive-closure
+reciprocity (for directed)
+
+I also wonder if we could enhance our understanding of networks if it was required to report some centralizations or core-periphery measures. Why? While I personally do not have great intuition for what a (normalized) degree centralization of 0.5 means, I think if I had seen these values reported/calculated myself for the many, many networks I have seen, it might be more meaningful to me and, I assume, other. Which in turn spark deeper understanding.
+
+=====
+
+global or local clustering coefficients.
+
+=====
+
+2.3 Data: Transformation - Sparsification (e.g. thresholding, backboneing, spanning tree, ect.) report the method and parameters used.  Provide a detailed description of the sparsification method.
+
+=====
+
+How it is coded: list of (directed) pairs, adjacency matrix, list of neighbors... 
+
+=====
+
+Multimode networks should have more fine-grained reporting options.
+
+=====
+
+It is sort of there in 2.1, but I wonder whether there shouldn't be a ""how measured/construed"" item in 1.2 and 1.3 in addition to the item ""Meaning"". For example: if edge-meaning is ""friendship"" and method ""observational"" (or ""archival""), then at least I would still not know what the researcher did there (if method is ""survey"" I could guess what they asked the respondent, but might still want to know if it was a closed list or an open-ended request for friendship nominations).
+
+=====
+
+See my comment throughout. I think it woudl realy be useful to distinguish between network and it model, and the resulting graph. This is a significant pbarrier to re-use of data now ( consider the amount of studies working with street networks that are not well described).
+
+=====
+
+One key type of network data that seems to be missing are networks constructed through behavioural observation. This is common in anthropology and animal behaviour, and is where researchers collect data through focal follows or scan samples over a (relatively long) period of time. It would necessitate other important guiding items related to imbalanced sampling and data transformation. 
+
+One other point, is that in whole/socio-centric SNA we're often advised to report other relevant whole-network measures, such as proportion of reciprocal/transitive ties. In longitudinal networks, I've always also reported a stability/change statistic (e.g., Jaccard index, Hamming distance). 
+
+I'm happy to discuss any of these points, if you'd like! 
+
+=====
+
+'- reliability (edge validation)
+- NA in attributes (as far as I see on missing nodes are included, no attributes and edges)
+- software used - both for data collection and analysis
+- sampling design and response rate if applicable
+- temporal scope
+
+=====
+
+As I noted at specific points earlier, I would add a bit more emphasis to steps of data collection, processing and clearning. Otherwise, I think many important details are already part of the guidelines!
+
+=====
+
+1. authors of the dataset
+2. format of network description
+3. single/multi-file description
+4. link to dataset
+
+
+=====
+
+For me the most important issue was to distinguish between types of networks with more than a single type of node and edge. "
+"comments",0,0,0,0,0,"Thank you for the work! Regarding the format, I missed figures. But I know that is a big pandora box. 
+Thank you but I don't need the TangoCard! Just save it for other participants or donate it to a NGO of your choice. 
+
+=====
+
+Probably not always, but a one-liner description of networks (or categories) is usually helpful for searchers to find data if reports are used to create a database.
+
+=====
+
+
+I would like to express my gratitude to the entire project team for their hard work. This is a high-quality draft, and I find the project both really interesting and relevant.
+
+I've outlined a few areas that could improve the usability and long-term utility of the guidelines:
+1. Enhance clarity with examples.
+To help users quickly understand expectations, I recommend incorporating illustrative examples throughout the guidelines. These examples would clearly demonstrate the desired output and formatting standards.
+
+2. Explicit Reporting Format Guidance:
+Providing an upfront, clear statement detailing the preferred reporting format and structure would help all users. Clarifying whether a paragraph-based narrative (like MICE standards) or a structured, tabular format (like PRISMA) is expected will reduce initial confusion.
+
+3. Integrating Automated LLM Extraction: 
+I suggest including considerations for automated information extraction via large language models (LLMs). Given that LLMs are an increasingly common part of data processing and align with the project's scope, integrating this perspective now could be beneficial. 
+Key considerations include:
+- Developing standards for the consistent phrasing of common elements (e.g., ties), perhaps with examples.
+- Establishing clear structural standards for reporting formats, especially if tables are the preferred solution, to improve machine readability.
+- Exploring a dual reporting standard, such as a supplementary JSON-like appendix for automated extraction alongside the standard human-readable text.
+
+Addressing these aspects during the initial phase could facilitate future methodological advancements.
+
+Thank you again for producing these insightful guidelines.
+
+=====
+
+I felt that the guidance provided in sections 1 and 2 already has a pretty high level of adherence in the literature. Where a bit more guidance (or suggestions, or reminders) might be needed is Section 3 (the structural properties of a network). I agree that X vs Y property might be dependent on the research question or analysis, but reminding authors that IF they report X they should be sure to include this, that, and other information. If they report Y, then other bits would be best practice to report. Providing just a few examples might be enough to help an author generalize to other structural measures that aren't explicitly described.  
+
+=====
+
+1.1: for clarity (and for new researchers), I think there should be a note saying something along the lines of ""this does not concern multiplex networks, which are covered by section 1.3""
+1.2: node counts for more than 5 networks should not only report range, but also average network size
+1.2: descriptive statistics for attributes should specify the minimum of such statistics to be reported (e.g., relative frequencies of each category for categorical variables and range, average, and std deviation for numeric variables)
+2.1 related to ethics, if ethical approval was not necessary (very common for using open source data, archival data etc.), this should also be mentioned
+
+=====
+
+I've played with the GRAND R package, and the tables generated by that package cover a much smaller scope of information. My impression based on that package (and some of the ""nutrition facts"" styled tables), would be that the information organized by GRAND would be displayed as a table somewhere in the data section of a manuscript. However, the comprehensive list of network properties on display here is far too long for such a table. My question is, then, where the full set of information is going to be stored. Is it less that all of this gets contained in a table, and rather GRAND provides a checklist of information that authors must address at least SOMEWHERE in a manuscript? Or is the expectation that all of this DOES go in one or a few extensive summary tables, which are perhaps included in a manuscript's appendix? 
+
+Assuming all this information is supposed to be displayed in a table format, the GRAND team should provide some more detailed formatting guidelines for summarizing networks with a multiple sources of complexity. If you have <= 5 networks as well as multiple modes of nodes or types of edges, for example, the number of columns you'd have to report for node/edge counts could get quite unwieldy. And then guidelines on how many separate tables this information should be consolidated to would be useful. I personally see node and edge properties being broken into separate tables, as well as a third table about broader structural properties. Additionally, I could see more ""meta-level"" information (e.g. data collection and generating process, IRB approval) being housed in its own table-- it feels like a distinct category of information relative to things like density, connectivity, etc.
+
+=====
+
+No additional comments.
+
+=====
+
+In general, I find the guide coherent and very useful for authors, editors, and journal reviewers alike. While specific guides will surely be developed for each network type, I think it would be helpful to include a graphic illustrating each network type in the initial diagram for greater clarity. Another recommendation, which I'm not sure where to include, concerns cases where relational structures of specific actors are analyzed independently and treated as egocentric networks, but which actually correspond to the ""extraction"" or ""isolation"" of a specific node's network from a larger network. For example, UCINET and Netdraw have specific commands for isolating (and in Netdraw, visualizing) networks of specific actors. In my opinion, these types of operations, while valid, must be explained and justified. Although they are treated as egocentric networks, in practice the information is not obtained directly from Ego, but rather from the direct or indirect relationships that the other nodes in the whole network have reported having or not having with a given actor. 
+I appreciate the effort you are making to promote quality of SNA research.
+
+Best regards,
+Ignacio Ramos-Vidal
+
+=====
+
+Thanks for the chance to review the guidelines! These look really promising. 
+
+=====
+
+I think everything needs to be defined better, probably some figures and tables and clear examples.
+
+=====
+
+Well done Zack!
+
+=====
+
+I think it's quite complete. The answers where I marked as ""somewhat agree"" is because I consider them more optional than ""a must"".
+
+=====
+
+Thank you so much for your work on building the guideline!
+
+=====
+
+To improve usability, it could be adopted a check list where authors can mark whether they have employed the suggested reporting item. 
+Also, please consider to create some repository that allows the use of the guideline. A reference point is how the PRISMA guideline has been operationalised (https://www.prisma-statement.org/protocols). I believe this could increase citation count.
+
+=====
+
+thanks for leading this effort!  I hope it catches on!
+
+=====
+
+All in all it looks like great work to me. It will be very useful (if people do follow it)
+
+=====
+
+Multimode networks should have more fine-grained reporting options, and these should be represented in the decision tree figure. Also, more guidelines for the reporting of missing edges could be included. Node turnover in time series/waves could be included.
+
+=====
+
+I think it might help to clarify the purpose of these guidelines some more. Is this a guideline for the peer review process - and if so when talking about one's own research and network data or when simply discussing the data of other researchers in more depth? Or is this a guideline for the meta-data to provide when submitting network data to a replication archive? One could consider different requirements depending on the purpose, and whether the actual network data is made available (so that others might calculate measures regarding network structure themselves) or not.
+
+=====
+
+Two suggestions: 1) It might be helpful to provide an example in the limitations section about boundary specification, as done elsewhere in the guidelines. E.g., Number of nodes relative to the village population size for a village network. 2) Using ""generated"" for non-real-world data may be confusing since we often use ""name generating"" survey questions to collect real-world network data. An alternative might be to use ""synthetic"" data.
+
+=====
+
+Thank you for the great initiative! Happy to discuss more about these commetns: tomkom@unimelb.edu.au (Martin Tomko)
+
+=====
+
+This seems like a really great initiative and I would really like the opportunity to contribute to it as a coauthor, if you think that I'd be of any help! 
+
+
+=====
+
+I like this project.  However, the overall purpose/motivation of GRAND is unclear. It would help if readers knew about why GRAND is required - has reporting in the past been inconsistent/problematic?  In the flowchart on p.2, the term 'scope' is unclear/undefined (it is also underlined but not in the Glossary). 
+
+=====
+
+In relation to ethics and data collection processes, for empirical studies, I would suggest adding a suggestion for a positionality statement from author(s) to explain the relationships between the academic team and the participants. Our interpretations shape the visualizations and results; thus, it is important to be transparent with those assumptions. Additionally, I would be curious to know how the results have been shared back to the community studied and any methodological implications (using CBPR methods, engaging community-based research assistants for data collection and analysis, etc.).
+
+=====
+
+Thank you for the opportunity to participate in this initiative. 
+
+=====
+
+In 1.2 : Describe how the attributes were measured , and provide sample descriptive statistics for each. -
+ - Attributes are not always measured
+In 1.3 - Method : Report the name of the data generating model (e.g., sample smallworld() in igraph v2.1.4) with a citation, and the values of the function parameters. Provide a detailed description of the data generating model, including its theoretical foundation  and the role of each parameter.
+         I'd say theoretical relevance for the current study
+In 3 Connectivity
+    Not always relevant in a study, I would Italized
+
+
+=====
+
+Several items marked as optional should be mandatory for transparency and reproducibility.
+Could be useful to introduce a companion checklist for compliance checking.
+
+=====
+
+These guidelines are very helpful. I'll be interested to see how widely they are adopted and where this reporting might take place. I can imagine that many humanities researchers who are using simpler tools like NodeGoat will be confused and possibly put off, but that may be salutary if it makes them learn a bit more about networks!
+
+=====
+
+Thanks for the opportunity to feed into this. It sounds like an exciting and important project. I would be happy to contribute further if there's any need.
+
+=====
+
+The comments from my email to Zachary:
+
+I am providing some comments on the GRAND draft in this email. I inserted the numbered positions of my comments in the GRAND draft. 
+
+1. My background is in graph theory. I started with vertex, edge, and arc (and line = edge or arc). When other fields joined the network analysis, I slowly moved to node, link, edge = undirected link, arc = directed link.
+
+2. Also, nodes can have different properties (attributes). These values can be measured in different scales(numerical, ordinal, nominal/categorical). Values of properties and weights can also be other types of objects
+  - values from an algebraic structure
+    https://www.tandfonline.com/doi/pdf/10.1080/0022250X.1994.9990135
+  - temporal quantities
+    https://link.springer.com/article/10.1007/s13278-016-0330-4
+    https://www.sciencedirect.com/science/article/abs/pii/S1751157719301439
+  - distributions
+    https://github.com/bavla/SDA/blob/main/docs/bikes.pdf
+  - intervals
+    https://dl.acm.org/doi/10.1007/s10618-023-00975-z
+  - functions: (not the best example) Figure 2 in
+    https://www.tandfonline.com/doi/epdf/10.1080/27658449.2021.2020399
+  - ...
+The network description can be extended with graphical/visualization information (coordinates, colors, shapes, ...)  
+ 
+3. A hypergraph structure can be described as a two-mode network (nodes, links) - (v,e) is a link in a two-mode network iff the node v belongs to the link e in the hypergraph.
+A special type of hypergraph is the multiway network
+https://link.springer.com/article/10.1007/s13278-024-01283-0
+
+4. Many networks from network science are used for statistical overall analysis - they usually have nodes without labels. In detailed network analysis, labels are crucial for interpreting results. Regarding privacy issues, labels are not necessarily IDs; they can be types describing the role of a node in the described system. The information labeled/ not labeled should be provided. I would encourage authors to include labels.
+
+5. An option would be that GRAND provides a list of frequent transformation methods. Then the method name would be sufficient.
+
+6. What about the number of components, size of the largest component, ...
+It would also be useful to add other characteristics, such as maximum degree, core number, minimum/maximum weight, acyclic, planar, ...
+
+7. Often, the networks were obtained by reformating an older version or extracted from some data source. I think that the original source has to be cited, and the authors of the current version. It would also be useful to provide references to documents about the system described by the network and papers analyzing it.
+
+8. It is important to know which format is used for network description. The list of standard formats could be provided by GRAND.
+
+Additional ideas can be found in our recent paper
+https://aile3.ijs.si/dunja/SiKDD2025/Papers/IS2024_-_SIKDD_2025_paper_9.pdf
+published in Proceedings of Information Society 2025, SiKDD, 6–10 October 2025, Ljubljana, Slovenia, p. 102-105
+https://is.ijs.si/wp-content/uploads/2025/11/IS2025_Volume-C.pdf
+and some additional details in
+https://arxiv.org/abs/2505.00912
+https://arxiv.org/abs/2505.00921
+An example of network description in Pajek datasets
+https://github.com/bavla/Nets/blob/master/data/Pajek/dic/EAT/eat.md
+
+Some additional comments:
+
+A. Other, more detailed classifications could be used for a decision tree
+B. A network can contain both directed and undirected links - for example, streets in a town
+C. Signed networks are weighted networks; they can also be considered multi-relational (multiplex)
+D. Is multiplex a node or network property?
+E. For structural links - how are they represented? They can form special relations (no-links, fixed-links) in a multi-relational network
+F. In addition to the transformed network, I would also encourage the publication of (or a link to) the original network. When transforming a network, we often lose or distort information.
+G. The network description should also contain information on whether the loops are allowed. And their number.
+H. average degree = (2 * #links - #loops) / #nodes
+max degree is more interesting
+
+
+=====
+
+Handling of Missing Edges in addition to nodes (that was mentioned), also the % of missing edges. Are nodes stable across all waves (node birth and death)?
+
+=====
+
+Just a small typo. At section 1.3, within 'Meaning' , ""reciever"" should be ""receiver""."

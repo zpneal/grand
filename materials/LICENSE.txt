@@ -1,0 +1,1 @@
+All files in this directory are distributed under a CC-BY 4.0 License. Add uses of these files should cite BOTH the GitHub repository itself AND the grand manuscript.
