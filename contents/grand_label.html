@@ -10,7 +10,6 @@
   :root{
     --ink-900:#161a15;
     --ink-800:#20261e;
-    --ink-700:#2b332a;
     --bone:#f2efe6;
     --bone-dim:#a9ae9f;
     --spice:#e2a53c;
@@ -134,8 +133,34 @@
     margin:0 4px;
     min-width:8px;
   }
-  .row input{
-    flex:0 0 96px;
+  /* Wraps label+leader as a single fixed-width column so that
+     whatever follows (row-value) always starts at the same x across
+     every row in the Network section — this is what makes the entry
+     boxes' LEFT edges line up even though the boxes themselves are
+     different widths (a single 420px text field vs. a number+select
+     pair vs. a checkbox+select pair). Shrinks only as a last resort
+     (min-width:0) so very narrow viewports still avoid overflow. */
+  .row-head{
+    display:flex;
+    align-items:center;
+    flex:0 0 130px;
+  }
+  /* The entry box(es) for a row. Left-aligned (flex default), so
+     boxes sit flush against row-head regardless of their own width —
+     this is the column whose left edge stays constant row to row.
+     Wraps rather than shrinking row-head (which would break the
+     alignment) if a row's controls don't all fit on one line at
+     narrow widths — e.g. the Data source row's checkbox + select. */
+  .row-value{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    flex:1 1 auto;
+    min-width:0;
+  }
+  .row input,
+  .row select{
     background:var(--ink-900);
     border:1px solid var(--line);
     color:var(--bone);
@@ -143,34 +168,66 @@
     font-size:13px;
     padding:7px 9px;
     border-radius:2px;
+  }
+  .row input{
+    flex:0 0 96px;
     text-align:right;
   }
   .row input[type="text"]{
     flex:0 0 420px;
     text-align:left;
   }
+  /* Inside the aligned rows (row-value), text boxes fill the
+     available width up to the old 420px cap instead of staying a
+     rigid 420px — this is what lets row-head stay a constant width
+     (and boxes' left edges align) without ever overflowing narrow
+     viewports. Same specificity as the rule above, so source order
+     makes this one win for row-value's inputs specifically. */
+  .row-value input[type="text"]{
+    flex:1 1 auto;
+    min-width:140px;
+    max-width:420px;
+  }
   .row select{
     flex:0 0 160px;
-    background:var(--ink-900);
-    border:1px solid var(--line);
-    color:var(--bone);
-    font-family:'IBM Plex Mono', monospace;
-    font-size:13px;
-    padding:7px 9px;
-    border-radius:2px;
     text-align:left;
   }
+  .row input:focus,
   .row select:focus{
-    outline:none;
-    border-color:var(--spice);
-  }
-  .row input:focus{
     outline:none;
     border-color:var(--spice);
   }
   .row input::placeholder{
     color:var(--bone-dim);
     opacity:1;
+  }
+  /* Subtle inline warning for the Availability/Citation fields when
+     the typed value doesn't look like a DOI or URL. Reuses the coral
+     tone already used for destructive/attention states (remove-type
+     button hover) so it reads as "notice", not an error dialog. */
+  .row input.field-warn{
+    border-color:#d9736c;
+  }
+  .field-hint{
+    font-size:11px;
+    line-height:1.4;
+    color:#d9736c;
+    margin:-6px 0 10px;
+  }
+  .field-hint[hidden]{
+    display:none;
+  }
+  /* Shown under the download/share buttons only if the jsPDF or
+     LZString CDN scripts failed to load (network issue, ad-blocker,
+     etc). Reuses the same "notice" coral tone as the field hints. */
+  .lib-warning{
+    font-size:11px;
+    line-height:1.4;
+    color:#d9736c;
+    margin:10px 0 0;
+  }
+  .lib-warning[hidden]{
+    display:none;
   }
   .unit{
     flex:0 0 auto;
@@ -193,6 +250,9 @@
     cursor:pointer;
     transition:border-color .15s ease;
   }
+  .checkbox-control[hidden]{
+    display:none;
+  }
   .checkbox-control:hover{border-color:var(--spice-dim);}
   .checkbox-control:focus-within{border-color:var(--spice);}
   .checkbox-control input[type="checkbox"]{
@@ -211,7 +271,10 @@
     cursor:pointer;
   }
 
-  /* Help badge — small "?" indicator with hover tooltip */
+  /* Help badge — small "?" indicator with a hover/focus/tap tooltip.
+     Opens on mouse hover, on keyboard :focus, and via the .show-tooltip
+     class (toggled by JS on tap, since touch devices don't reliably
+     fire :hover). */
   .help-badge{
     position:relative;
     display:inline-flex;
@@ -228,10 +291,18 @@
     font-size:9px;
     font-weight:700;
     line-height:1;
-    cursor:help;
+    cursor:pointer;
   }
-  .help-badge:hover{
+  .help-badge:hover,
+  .help-badge:focus{
     border-color:var(--spice);
+  }
+  .help-badge:focus{
+    outline:none;
+  }
+  .help-badge:focus-visible{
+    outline:2px solid var(--spice);
+    outline-offset:2px;
   }
   .help-badge .help-tooltip{
     display:none;
@@ -253,7 +324,9 @@
     z-index:20;
     box-shadow:0 4px 10px rgba(0,0,0,.35);
   }
-  .help-badge:hover .help-tooltip{
+  .help-badge:hover .help-tooltip,
+  .help-badge:focus .help-tooltip,
+  .help-badge.show-tooltip .help-tooltip{
     display:block;
   }
 
@@ -377,6 +450,20 @@
     background:#fff;
     transition:box-shadow .2s ease;
   }
+  /* Visually hidden but still present for screen readers / the PDF's
+     accessibility tree (used for table captions and field labels that
+     are implied visually but not spelled out on the label itself). */
+  .sr-only{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+  .nutrition-label table{width:100%;border-collapse:collapse;}
+  .nutrition-label caption{caption-side:top;margin:0;padding:0;}
   .nf-title{
     font-size:32px;
     font-weight:800;
@@ -385,7 +472,6 @@
     line-height:1;
   }
   .nf-thick{border-bottom:9px solid #000;margin:6px 0 2px;}
-  .nf-med{border-bottom:5px solid #000;margin:4px 0;}
   .nf-thin{border-bottom:1px solid #000;margin:3px 0;}
   .nf-servsize{
     display:flex;
@@ -393,53 +479,44 @@
     font-weight:800;
     font-size:16px;
     padding:2px 0;
+    margin:0;
   }
   .nf-multiple{
     font-size:10.5px;
     font-weight:400;
     color:#000;
+    margin:0;
     margin-top:-2px;
     padding-bottom:2px;
   }
-  .nf-amtper{font-size:12px;font-weight:700;margin-top:6px;}
-  .nf-cal-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    padding:2px 0 0;
-  }
-  .nf-cal-label{font-size:22px;font-weight:800;}
-  .nf-cal-value{font-size:34px;font-weight:800;}
-  .nf-network-na{
-    font-size:16px;
-    font-weight:800;
-    padding:6px 0 4px;
-  }
-  .nf-net-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
+  .nf-net-row th, .nf-net-row td,
+  .nf-node-row th, .nf-node-row td{
     font-size:13px;
-    padding:3px 0;
     border-bottom:1px solid #000;
+    vertical-align:baseline;
   }
-  .nf-net-row.no-border{border-bottom:0;}
-  .nf-net-row .k{font-weight:800;}
-  .nf-net-row .v{
-    font-weight:400;
-    display:flex;
+  .nf-net-row th,
+  .nf-net-row td{
+    padding:3px 0;
+  }
+  .nf-net-row th{font-weight:800;text-align:left;white-space:nowrap;}
+  .nf-net-row td{font-weight:400;text-align:right;padding-left:10px;}
+  .nf-net-row.no-border th,
+  .nf-net-row.no-border td{border-bottom:0;}
+  .nf-value-wrap{
+    display:inline-flex;
     align-items:center;
     justify-content:flex-end;
     gap:6px;
-    margin-left:10px;
+    max-width:100%;
     min-width:0;
   }
-  .nf-net-row .v .vtext{
+  .nf-value-wrap .vtext{
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
   }
-  .nf-net-row .v a{
+  .nf-value-wrap a{
     color:#000;
     text-decoration:underline;
   }
@@ -466,23 +543,17 @@
     font-weight:800;
     font-size:13px;
     padding:3px 0 2px;
+    margin:0;
   }
-  .nf-node-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    font-size:13px;
+  .nf-node-row th,
+  .nf-node-row td{
     font-weight:400;
     padding:2px 0;
-    margin-left:14px;
-    border-bottom:1px solid #000;
   }
-  .nf-node-row.no-border{border-bottom:0;}
-  .nf-node-row .n{
-    margin-left:8px;
-    text-align:right;
-    white-space:nowrap;
-  }
+  .nf-node-row th{text-align:left;padding-left:14px;}
+  .nf-node-row td{text-align:right;white-space:nowrap;padding-left:8px;}
+  .nf-node-row.no-border th,
+  .nf-node-row.no-border td{border-bottom:0;}
   .nf-node-row .edge-meta{
     font-style:italic;
     font-size:11px;
@@ -503,47 +574,29 @@
     font-style:italic;
     font-size:11px;
   }
-  .nf-dv-header{
-    text-align:right;
-    font-size:11px;
-    font-weight:800;
-    padding-bottom:2px;
-  }
-  .nf-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-    padding:2px 0;
-    border-bottom:1px solid #000;
-  }
-  .nf-row.indent1{padding-left:14px;}
-  .nf-row.indent2{padding-left:28px;font-size:12.5px;}
-  .nf-row .name b{font-weight:800;}
-  .nf-row .dv{font-weight:800;white-space:nowrap;margin-left:8px;}
-  .nf-vitrow{
-    display:flex;
-    justify-content:space-between;
-    font-size:12.5px;
-    padding:2px 0;
-    border-bottom:1px solid #000;
-  }
-  .nf-vitrow .dv{font-weight:800;}
   .nf-transform-title{
     font-size:13px;
     font-weight:800;
     padding:3px 0 2px;
+    margin:0;
   }
   .nf-transform-list{
     font-size:12.5px;
     font-weight:400;
-    padding-bottom:4px;
     line-height:1.4;
+    margin:0;
+    padding:0 0 5px;
+    list-style:none;
+    border-bottom:9px solid #000;
   }
+  .nf-transform-list li{display:inline;}
+  .nf-transform-list li:not(:last-child)::after{content:"\2022";margin:0 6px;}
   .nf-contains{
     font-size:12.5px;
     font-weight:400;
     text-transform:uppercase;
     padding:4px 0 2px;
+    margin:0;
     line-height:1.4;
   }
   .nf-foot{
@@ -604,56 +657,86 @@
         <summary>Network</summary>
         <div class="section-body">
         <div class="row">
-          <label for="networkName">Network name</label>
-          <span class="leader"></span>
-          <input type="text" id="networkName">
-        </div>
-        <div class="row">
-          <label for="dataSource"><span class="label-text">Data source</span><span class="help-badge">?<span class="help-tooltip">Empirical data may be collected using a variety of methods. Synthetic data is created by a generating model.</span></span></label>
-          <span class="leader"></span>
-          <div class="checkbox-control inline-check">
-            <input type="checkbox" id="ethicsApproval">
-            <label for="ethicsApproval">Received ethics approval</label>
+          <div class="row-head">
+            <label for="networkName"><span class="label-text">Network name</span></label>
+            <span class="leader"></span>
           </div>
-          <select id="dataSource">
-            <option value="">—</option>
-            <option value="Survey">Survey</option>
-            <option value="Observation">Observation</option>
-            <option value="Interview">Interview</option>
-            <option value="Archival">Archival</option>
-            <option value="Generating model">Generating model</option>
-          </select>
+          <div class="row-value">
+            <input type="text" id="networkName">
+          </div>
         </div>
         <div class="row">
-          <label for="location"><span class="label-text">Location</span><span class="help-badge">?<span class="help-tooltip">The location that the data are intended to represent. Examples of possible locations include institutional locations (e.g., a company, a school), geographic locations (e.g., a country, a city), and digital locations (e.g., a social media platform).</span></span></label>
-          <span class="leader"></span>
-          <input type="text" id="location">
+          <div class="row-head">
+            <label for="dataSource"><span class="label-text">Data source</span><span class="help-badge">?<span class="help-tooltip">Empirical data may be collected using a variety of methods. Synthetic data is created by a generating model.</span></span></label>
+            <span class="leader"></span>
+          </div>
+          <div class="row-value">
+            <div class="checkbox-control inline-check" id="ethicsApprovalWrap">
+              <input type="checkbox" id="ethicsApproval">
+              <label for="ethicsApproval">Received ethics approval</label>
+            </div>
+            <select id="dataSource">
+              <option value="">—</option>
+              <option value="Survey">Survey</option>
+              <option value="Observation">Observation</option>
+              <option value="Interview">Interview</option>
+              <option value="Archival">Archival</option>
+              <option value="Generating model">Generating model</option>
+            </select>
+          </div>
         </div>
         <div class="row">
-          <label for="time"><span class="label-text">Time</span><span class="help-badge">?<span class="help-tooltip">The time(s) that the data are intended to represent. This is not necessarily the same as when the data were collected or compiled.</span></span></label>
-          <span class="leader"></span>
-          <input type="text" id="time">
+          <div class="row-head">
+            <label for="location"><span class="label-text">Location</span><span class="help-badge">?<span class="help-tooltip">The location that the data are intended to represent. Examples of possible locations include institutional locations (e.g., a company, a school), geographic locations (e.g., a country, a city), and digital locations (e.g., a social media platform).</span></span></label>
+            <span class="leader"></span>
+          </div>
+          <div class="row-value">
+            <input type="text" id="location">
+          </div>
         </div>
         <div class="row">
-          <label for="multipleValue"><span class="label-text">Multiple</span><span class="help-badge">?<span class="help-tooltip">A single network dataset can contain multiple temporal waves of the same network (i.e., a panel), a network from each of multiple sites (e.g., communication networks in 10 companies), or a network from each of multiple egos (e.g., personal social networks of 10 people).</span></span></label>
-          <span class="leader"></span>
-          <input type="number" id="multipleValue" style="text-align:left;">
-          <select id="multipleUnit">
-            <option value="waves">waves</option>
-            <option value="networks">networks</option>
-            <option value="ego networks">ego networks</option>
-          </select>
+          <div class="row-head">
+            <label for="time"><span class="label-text">Time</span><span class="help-badge">?<span class="help-tooltip">The time(s) that the data are intended to represent. This is not necessarily the same as when the data were collected or compiled.</span></span></label>
+            <span class="leader"></span>
+          </div>
+          <div class="row-value">
+            <input type="text" id="time">
+          </div>
         </div>
         <div class="row">
-          <label for="availability"><span class="label-text">Availability</span><span class="help-badge">?<span class="help-tooltip">A DOI or URL to a repository containing these data.</span></span></label>
-          <span class="leader"></span>
-          <input type="text" id="availability">
+          <div class="row-head">
+            <label for="multipleValue"><span class="label-text">Multiple</span><span class="help-badge">?<span class="help-tooltip">A single network dataset can contain multiple temporal waves of the same network (i.e., a panel), a network from each of multiple sites (e.g., communication networks in 10 companies), or a network from each of multiple egos (e.g., personal social networks of 10 people).</span></span></label>
+            <span class="leader"></span>
+          </div>
+          <div class="row-value">
+            <input type="number" id="multipleValue" style="text-align:left;">
+            <select id="multipleUnit">
+              <option value="waves">waves</option>
+              <option value="networks">networks</option>
+              <option value="ego networks">ego networks</option>
+            </select>
+          </div>
         </div>
         <div class="row">
-          <label for="citation"><span class="label-text">Citation</span><span class="help-badge">?<span class="help-tooltip">A DOI or URL to a manuscript describing these data.</span></span></label>
-          <span class="leader"></span>
-          <input type="text" id="citation">
+          <div class="row-head">
+            <label for="availability"><span class="label-text">Availability</span><span class="help-badge">?<span class="help-tooltip">A DOI or URL to a repository containing these data.</span></span></label>
+            <span class="leader"></span>
+          </div>
+          <div class="row-value">
+            <input type="text" id="availability">
+          </div>
         </div>
+        <p class="field-hint" id="availabilityHint" hidden>Doesn't look like a DOI or URL — check for typos.</p>
+        <div class="row">
+          <div class="row-head">
+            <label for="citation"><span class="label-text">Citation</span><span class="help-badge">?<span class="help-tooltip">A DOI or URL to a manuscript describing these data.</span></span></label>
+            <span class="leader"></span>
+          </div>
+          <div class="row-value">
+            <input type="text" id="citation">
+          </div>
+        </div>
+        <p class="field-hint" id="citationHint" hidden>Doesn't look like a DOI or URL — check for typos.</p>
         <div class="contains-prompt" id="containsPrompt">This network contains</div>
         <div class="check-grid">
           <div class="checkbox-control">
@@ -684,53 +767,7 @@
         <summary>Nodes</summary>
         <div class="section-body">
 
-        <div class="node-type-group" data-type="1">
-          <div class="type-box">
-            <div class="type-box-label"><span>Type 1</span></div>
-            <div class="row">
-              <label for="nodeMeaning1"><span class="label-text">Meaning</span><span class="help-badge">?<span class="help-tooltip">The entity that this type of node is intended to represent.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="nodeMeaning1">
-            </div>
-            <div class="row">
-              <label for="nodeNumber1"><span class="label-text">Number</span><span class="help-badge">?<span class="help-tooltip">The number of this type of node. If there are multiple waves/networks, the number of nodes in each wave/network if practical; otherwise the mean, standard deviation, and range.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="nodeNumber1" style="text-align:left;">
-            </div>
-          </div>
-        </div>
-
-        <div class="node-type-group" data-type="2" style="display:none;">
-          <div class="type-box">
-            <div class="type-box-label"><span>Type 2</span><button type="button" class="remove-type-btn" data-kind="node" data-type="2">− Remove</button></div>
-            <div class="row">
-              <label for="nodeMeaning2"><span class="label-text">Meaning</span><span class="help-badge">?<span class="help-tooltip">The entity that this type of node is intended to represent.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="nodeMeaning2">
-            </div>
-            <div class="row">
-              <label for="nodeNumber2"><span class="label-text">Number</span><span class="help-badge">?<span class="help-tooltip">The number of this type of node. If there are multiple waves/networks, the number of nodes in each wave/network if practical; otherwise the mean, standard deviation, and range.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="nodeNumber2" style="text-align:left;">
-            </div>
-          </div>
-        </div>
-
-        <div class="node-type-group" data-type="3" style="display:none;">
-          <div class="type-box">
-            <div class="type-box-label"><span>Type 3</span><button type="button" class="remove-type-btn" data-kind="node" data-type="3">− Remove</button></div>
-            <div class="row">
-              <label for="nodeMeaning3"><span class="label-text">Meaning</span><span class="help-badge">?<span class="help-tooltip">The entity that this type of node is intended to represent.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="nodeMeaning3">
-            </div>
-            <div class="row">
-              <label for="nodeNumber3"><span class="label-text">Number</span><span class="help-badge">?<span class="help-tooltip">The number of this type of node. If there are multiple waves/networks, the number of nodes in each wave/network if practical; otherwise the mean, standard deviation, and range.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="nodeNumber3" style="text-align:left;">
-            </div>
-          </div>
-        </div>
+        <div id="nodeTypeGroups"></div>
 
         <button type="button" class="add-type-btn" id="addNodeTypeBtn">+ Add node type</button>
         </div>
@@ -740,110 +777,7 @@
         <summary>Edges</summary>
         <div class="section-body">
 
-        <div class="edge-type-group" data-type="1">
-          <div class="type-box">
-            <div class="type-box-label"><span>Type 1</span></div>
-            <div class="row">
-              <label for="edgeMeaning1"><span class="label-text">Meaning</span><span class="help-badge">?<span class="help-tooltip">The relationship that this type of edge is intended to represent.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="edgeMeaning1">
-            </div>
-            <div class="row">
-              <label for="edgeNumber1"><span class="label-text">Number</span><span class="help-badge">?<span class="help-tooltip">The number of this type of edge. If there are multiple waves/networks, the number of edges in each wave/network if practical; otherwise the mean, standard deviation, and range.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="edgeNumber1" style="text-align:left;">
-            </div>
-            <div class="row">
-              <label for="edgeDirection1"><span class="label-text">Direction</span><span class="help-badge">?<span class="help-tooltip">An undirected edge connects two nodes (e.g., i and j are connected, i−j), while a directed edge points from one node toward another (e.g., i sends to j, i →j).</span></span></label>
-              <span class="leader"></span>
-              <select id="edgeDirection1">
-                <option value="">—</option>
-                <option value="Undirected">Undirected</option>
-                <option value="Directed">Directed</option>
-              </select>
-            </div>
-            <div class="row">
-              <label for="edgeWeighting1"><span class="label-text">Weighting</span><span class="help-badge">?<span class="help-tooltip">Unweighted edges are either present (e.g., ‘friends’) or absent (e.g. ‘not friends’). Weighted edges are assigned a value that may represent a continuous or ordinal count (e.g., years of friendship), frequency (e.g., of communication), intensity (e.g., of interpersonal closeness), etc. Signed edges are either positive (e.g., ‘friendship’) or negative (e.g., ‘antagonism’).</span></span></label>
-              <span class="leader"></span>
-              <select id="edgeWeighting1">
-                <option value="">—</option>
-                <option value="Unweighted">Unweighted</option>
-                <option value="Weighted">Weighted</option>
-                <option value="Signed">Signed</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="edge-type-group" data-type="2" style="display:none;">
-          <div class="type-box">
-            <div class="type-box-label"><span>Type 2</span><button type="button" class="remove-type-btn" data-kind="edge" data-type="2">− Remove</button></div>
-            <div class="row">
-              <label for="edgeMeaning2"><span class="label-text">Meaning</span><span class="help-badge">?<span class="help-tooltip">The relationship that this type of edge is intended to represent.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="edgeMeaning2">
-            </div>
-            <div class="row">
-              <label for="edgeNumber2"><span class="label-text">Number</span><span class="help-badge">?<span class="help-tooltip">The number of this type of edge. If there are multiple waves/networks, the number of edges in each wave/network if practical; otherwise the mean, standard deviation, and range.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="edgeNumber2" style="text-align:left;">
-            </div>
-            <div class="row">
-              <label for="edgeDirection2"><span class="label-text">Direction</span><span class="help-badge">?<span class="help-tooltip">An undirected edge connects two nodes (e.g., i and j are connected, i−j), while a directed edge points from one node toward another (e.g., i sends to j, i →j).</span></span></label>
-              <span class="leader"></span>
-              <select id="edgeDirection2">
-                <option value="">—</option>
-                <option value="Undirected">Undirected</option>
-                <option value="Directed">Directed</option>
-              </select>
-            </div>
-            <div class="row">
-              <label for="edgeWeighting2"><span class="label-text">Weighting</span><span class="help-badge">?<span class="help-tooltip">Unweighted edges are either present (e.g., ‘friends’) or absent (e.g. ‘not friends’). Weighted edges are assigned a value that may represent a continuous or ordinal count (e.g., years of friendship), frequency (e.g., of communication), intensity (e.g., of interpersonal closeness), etc. Signed edges are either positive (e.g., ‘friendship’) or negative (e.g., ‘antagonism’).</span></span></label>
-              <span class="leader"></span>
-              <select id="edgeWeighting2">
-                <option value="">—</option>
-                <option value="Unweighted">Unweighted</option>
-                <option value="Weighted">Weighted</option>
-                <option value="Signed">Signed</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="edge-type-group" data-type="3" style="display:none;">
-          <div class="type-box">
-            <div class="type-box-label"><span>Type 3</span><button type="button" class="remove-type-btn" data-kind="edge" data-type="3">− Remove</button></div>
-            <div class="row">
-              <label for="edgeMeaning3"><span class="label-text">Meaning</span><span class="help-badge">?<span class="help-tooltip">The relationship that this type of edge is intended to represent.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="edgeMeaning3">
-            </div>
-            <div class="row">
-              <label for="edgeNumber3"><span class="label-text">Number</span><span class="help-badge">?<span class="help-tooltip">The number of this type of edge. If there are multiple waves/networks, the number of edges in each wave/network if practical; otherwise the mean, standard deviation, and range.</span></span></label>
-              <span class="leader"></span>
-              <input type="text" id="edgeNumber3" style="text-align:left;">
-            </div>
-            <div class="row">
-              <label for="edgeDirection3"><span class="label-text">Direction</span><span class="help-badge">?<span class="help-tooltip">An undirected edge connects two nodes (e.g., i and j are connected, i−j), while a directed edge points from one node toward another (e.g., i sends to j, i →j).</span></span></label>
-              <span class="leader"></span>
-              <select id="edgeDirection3">
-                <option value="">—</option>
-                <option value="Undirected">Undirected</option>
-                <option value="Directed">Directed</option>
-              </select>
-            </div>
-            <div class="row">
-              <label for="edgeWeighting3"><span class="label-text">Weighting</span><span class="help-badge">?<span class="help-tooltip">Unweighted edges are either present (e.g., ‘friends’) or absent (e.g. ‘not friends’). Weighted edges are assigned a value that may represent a continuous or ordinal count (e.g., years of friendship), frequency (e.g., of communication), intensity (e.g., of interpersonal closeness), etc. Signed edges are either positive (e.g., ‘friendship’) or negative (e.g., ‘antagonism’).</span></span></label>
-              <span class="leader"></span>
-              <select id="edgeWeighting3">
-                <option value="">—</option>
-                <option value="Unweighted">Unweighted</option>
-                <option value="Weighted">Weighted</option>
-                <option value="Signed">Signed</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <div id="edgeTypeGroups"></div>
 
         <button type="button" class="add-type-btn" id="addEdgeTypeBtn">+ Add edge type</button>
         </div>
@@ -893,28 +827,54 @@
           <div class="nutrition-label" id="nutritionLabel">
             <!-- filled by JS -->
           </div>
-          <div class="nf-foot-outside" id="nfFootOutside">
+          <footer class="nf-foot-outside" id="nfFootOutside">
             <!-- filled by JS -->
-          </div>
+          </footer>
         </div>
       </div>
       <div class="download-row">
         <button class="btn primary" id="downloadBtn" type="button">Download PDF</button>
         <button class="btn" id="shareBtn" type="button">Copy share link</button>
       </div>
+      <p class="lib-warning" id="pdfLibWarning" hidden></p>
+      <p class="lib-warning" id="shareLibWarning" hidden></p>
     </div>
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 <script>
   const FOOTER_LABEL = 'Guidelines for Reporting About Network Data';
   const FOOTER_URL = 'https://www.grand-statement.org';
 
-  const ids = ['networkName'];
+  // ---------- CDN FEATURE DETECTION ----------
+  // jsPDF and LZString load from cdnjs with no bundled fallback. Both
+  // <script> tags above are plain (not async/defer), so the browser
+  // finishes or fails each one before this inline script runs — by
+  // this point window.jspdf / window.LZString are either fully there
+  // or permanently missing (blocked by an ad-blocker, offline, CDN
+  // down, etc). Check once, up front, and disable + explain rather
+  // than letting the buttons fail later with just a console error or
+  // a generic alert.
+  const PDF_LIB_OK = typeof window.jspdf !== 'undefined' && typeof window.jspdf.jsPDF === 'function';
+  const LZ_LIB_OK = typeof window.LZString !== 'undefined'
+    && typeof window.LZString.compressToEncodedURIComponent === 'function'
+    && typeof window.LZString.decompressFromEncodedURIComponent === 'function';
+  const LIB_FAIL_HINT = "didn't load — this is usually an ad-blocker, browser extension, or network/firewall blocking cdnjs.cloudflare.com. Try disabling any blockers and reloading the page.";
 
-  const networkFieldIds = ['dataSource','ethicsApproval','location','time','multipleValue','multipleUnit','availability','citation'];
+  function disableForMissingLib(btnId, warnId, libName){
+    const btn = document.getElementById(btnId);
+    const warn = document.getElementById(warnId);
+    btn.disabled = true;
+    btn.title = `${libName} library ${LIB_FAIL_HINT}`;
+    warn.textContent = `Unavailable: the ${libName} library ${LIB_FAIL_HINT}`;
+    warn.hidden = false;
+  }
+  if(!PDF_LIB_OK) disableForMissingLib('downloadBtn', 'pdfLibWarning', 'PDF export (jsPDF)');
+  if(!LZ_LIB_OK) disableForMissingLib('shareBtn', 'shareLibWarning', 'share-link compression (LZString)');
+
+  const networkFieldIds = ['networkName','dataSource','ethicsApproval','location','time','multipleValue','multipleUnit','availability','citation'];
 
   const transformOptions = [
     { id:'t-symmetrized', label:'Symmetrized' },
@@ -933,14 +893,22 @@
     { id:'c-hyperedges', label:'Hyper-edges' }
   ];
 
-  const inputs = {};
-  ids.forEach(id => inputs[id] = document.getElementById(id));
-  const transformInputs = {};
-  transformOptions.forEach(t => transformInputs[t.id] = document.getElementById(t.id));
-  const containsInputs = {};
-  containsOptions.forEach(t => containsInputs[t.id] = document.getElementById(t.id));
-  const networkInputs = {};
-  networkFieldIds.forEach(id => networkInputs[id] = document.getElementById(id));
+  // Builds an id -> element map from a list of ids, or from a list of
+  // {id, ...} objects when getId is given to pull the id out of each —
+  // covers both networkFieldIds (plain id strings) and
+  // transformOptions/containsOptions ({id, label} objects) with one
+  // function instead of three copies of the same forEach.
+  function inputMap(items, getId){
+    const map = {};
+    items.forEach(item => {
+      const id = getId ? getId(item) : item;
+      map[id] = document.getElementById(id);
+    });
+    return map;
+  }
+  const transformInputs = inputMap(transformOptions, t => t.id);
+  const containsInputs = inputMap(containsOptions, t => t.id);
+  const networkInputs = inputMap(networkFieldIds);
 
   function esc(str){
     const div = document.createElement('div');
@@ -954,18 +922,16 @@
     return 'https://' + trimmed;
   }
 
-  function render(){
-    const s = {
-      networkName: inputs.networkName.value || '',
-    };
+  // Pulls every field out of the form and returns the derived, ready-to-
+  // render data (which rows exist, inline-mode flags, etc). Both the
+  // on-screen preview (render, below) and the PDF export use this same
+  // function so the two outputs can't drift apart.
+  function gatherLabelData(){
+    const networkName = networkInputs.networkName.value || '';
 
     const multipleNum = parseFloat(networkInputs.multipleValue.value);
     const multipleValid = !isNaN(multipleNum) && multipleNum > 1;
     const multipleUnitText = networkInputs.multipleUnit.value || 'waves';
-
-    document.getElementById('containsPrompt').textContent = multipleValid
-      ? 'These networks contain'
-      : 'This network contains';
 
     const networkFieldDefs = [
       { label:'Source', value: networkInputs.dataSource.value, link:false },
@@ -974,109 +940,192 @@
       { label:'Available at', value: networkInputs.availability.value, link:true },
       { label:'Details in', value: networkInputs.citation.value, link:true }
     ];
-
     const ethicsApproved = networkInputs.ethicsApproval.checked;
-
-    const networkRows = networkFieldDefs.filter(f => f.value && f.value.trim() !== '');
-    const networkRowsHtml = networkRows
-      .map((f, i) => {
+    const networkRows = networkFieldDefs
+      .filter(f => f.value && f.value.trim() !== '')
+      .map(f => {
         const raw = f.value.trim();
-        const valueHtml = f.link
-          ? `<a href="${esc(safeHref(raw))}" target="_blank" rel="noopener">${esc(raw)}</a>`
-          : esc(raw);
-        const badgeHtml = (f.label === 'Source' && ethicsApproved)
-          ? `<span class="ethics-badge"><span class="check">&check;</span>Ethics Approved</span>`
-          : '';
-        const isLast = i === networkRows.length - 1;
-        return `<div class="nf-net-row${isLast ? ' no-border' : ''}"><span class="k">${esc(f.label)}</span><span class="v"><span class="vtext">${valueHtml}</span>${badgeHtml}</span></div>`;
-      })
-      .join('');
+        return {
+          label: f.label,
+          raw,
+          link: f.link,
+          href: f.link ? safeHref(raw) : null,
+          badge: f.label === 'Source' && ethicsApproved
+        };
+      });
 
-    const checkedTransforms = transformOptions
-      .filter(t => transformInputs[t.id].checked)
-      .map(t => t.label);
-    const transformsText = checkedTransforms.length ? checkedTransforms.join(' &bull; ') : 'None';
+    const checkedTransforms = transformOptions.filter(t => transformInputs[t.id].checked).map(t => t.label);
+    const checkedContains = containsOptions.filter(t => containsInputs[t.id].checked).map(t => t.label.toUpperCase());
 
-    const checkedContains = containsOptions
-      .filter(t => containsInputs[t.id].checked)
-      .map(t => t.label.toUpperCase());
-    const containsHtml = checkedContains.length
-      ? `<div class="nf-contains"><b>CONTAINS:</b> ${esc(checkedContains.join(', '))}</div>`
+    const nodeTypeDefs = typeDefsFor('node', NODE_FIELDS);
+    const nodeTypeCount = nodeManager.getTypeCount();
+    const nodeRows = nodeTypeDefs.filter(t => t.type <= nodeTypeCount && (t.always || NODE_FIELDS.some(f => t[f.key.toLowerCase()] !== '')));
+    const nodeInlineMode = nodeTypeCount === 1 && nodeTypeDefs[0].meaning === '';
+
+    const edgeTypeDefs = typeDefsFor('edge', EDGE_FIELDS);
+    const edgeTypeCount = edgeManager.getTypeCount();
+    const edgeRows = edgeTypeDefs.filter(t => t.type <= edgeTypeCount && (t.always || EDGE_FIELDS.some(f => t[f.key.toLowerCase()] !== '')));
+    const edgeInlineMode = edgeTypeCount === 1 && edgeTypeDefs[0].meaning === '';
+    const edgeInlineMeta = [];
+    if(edgeTypeDefs[0].direction !== '') edgeInlineMeta.push(edgeTypeDefs[0].direction);
+    if(edgeTypeDefs[0].weighting !== '') edgeInlineMeta.push(edgeTypeDefs[0].weighting);
+
+    return {
+      networkName, multipleValid, multipleNum, multipleUnitText,
+      networkRows,
+      nodeRows, nodeInlineMode, nodeType1: nodeTypeDefs[0],
+      edgeRows, edgeInlineMode, edgeType1: edgeTypeDefs[0], edgeInlineMeta,
+      checkedTransforms, checkedContains
+    };
+  }
+
+  // ---------- SHARED LAYOUT PLAN ----------
+  // render() (CSS/DOM) and buildLabelPdf() (raw jsPDF primitives) stay
+  // two genuinely separate drawing systems — one leans on the browser's
+  // layout engine, the other hand-computes vector geometry so the PDF's
+  // text stays real, selectable, and linkable instead of a rasterized
+  // screenshot. Unifying the actual drawing isn't realistic without
+  // reimplementing a layout engine. But the *sequence* of sections, and
+  // whether an optional section (currently just "Contains") appears at
+  // all, are decisions rather than drawing code — this list is the one
+  // place those decisions live, so a reorder or an added/removed
+  // section can't silently happen in one renderer without the other.
+  // Each step name below fans out to that renderer's own drawing code
+  // via a small lookup object, so the pixel-level implementation stays
+  // exactly as before, only the sequencing is now shared.
+  const LAYOUT_STEPS = [
+    'title', 'name', 'barAfterName',
+    'nodes', 'barAfterNodes',
+    'edges', 'barAfterEdges',
+    'networkDetails', 'barAfterDetails',
+    'transformations', 'barAfterTransformations',
+    'contains'
+  ];
+
+  function buildLayoutPlan(d){
+    // Only "contains" is ever skipped outright today; everything else
+    // in LAYOUT_STEPS always appears (its content may just be empty —
+    // e.g. an empty network-details table still gets its surrounding
+    // bars, matching the label's existing look). New optional sections
+    // should add their skip condition here rather than as a one-off
+    // check inside just one of the two renderers.
+    const skip = { contains: d.checkedContains.length === 0 };
+    return LAYOUT_STEPS.filter(step => !skip[step]);
+  }
+
+  // The "Received ethics approval" checkbox only makes sense once a
+  // data source is chosen (ethics approval is a property of how the
+  // data were collected) — keep it hidden until then.
+  function updateEthicsApprovalVisibility(){
+    const wrap = document.getElementById('ethicsApprovalWrap');
+    if(!wrap) return;
+    wrap.hidden = networkInputs.dataSource.value === '';
+  }
+
+  function render(){
+    updateEthicsApprovalVisibility();
+    const d = gatherLabelData();
+
+    document.getElementById('containsPrompt').textContent = d.multipleValid
+      ? 'These networks contain'
+      : 'This network contains';
+
+    const networkRowsHtml = d.networkRows.length ? `
+      <table>
+        <caption class="sr-only">Network details</caption>
+        <tbody>
+          ${d.networkRows
+            .map((f, i) => {
+              const valueHtml = f.link
+                ? `<a href="${esc(f.href)}" target="_blank" rel="noopener">${esc(f.raw)}</a>`
+                : esc(f.raw);
+              const badgeHtml = f.badge
+                ? `<span class="ethics-badge"><span class="check" aria-hidden="true">&check;</span>Ethics Approved</span>`
+                : '';
+              const isLast = i === d.networkRows.length - 1;
+              return `<tr class="nf-net-row${isLast ? ' no-border' : ''}"><th scope="row">${esc(f.label)}</th><td><span class="nf-value-wrap"><span class="vtext">${valueHtml}</span>${badgeHtml}</span></td></tr>`;
+            })
+            .join('')}
+        </tbody>
+      </table>` : '';
+
+    const transformsHtml = d.checkedTransforms.length
+      ? `<ul class="nf-transform-list">${d.checkedTransforms.map(l => `<li>${esc(l)}</li>`).join('')}</ul>`
+      : `<p class="nf-transform-list">None</p>`;
+
+    const containsHtml = d.checkedContains.length
+      ? `<p class="nf-contains"><strong>CONTAINS:</strong> ${esc(d.checkedContains.join(', '))}</p>`
       : '';
 
-    const selectedNodeTypeCount = nodeTypeCount;
-    const nodeTypeDefs = [
-      { type:1, meaning: document.getElementById('nodeMeaning1').value.trim(), number: document.getElementById('nodeNumber1').value.trim(), always:true },
-      { type:2, meaning: document.getElementById('nodeMeaning2').value.trim(), number: document.getElementById('nodeNumber2').value.trim(), always:false },
-      { type:3, meaning: document.getElementById('nodeMeaning3').value.trim(), number: document.getElementById('nodeNumber3').value.trim(), always:false }
-    ];
-    const nodeRows = nodeTypeDefs.filter(t => t.type <= selectedNodeTypeCount && (t.always || t.meaning !== '' || t.number !== ''));
-    const nodeRowsHtml = nodeRows
-      .map((t, i) => {
-        const isLast = i === nodeRows.length - 1;
-        return `<div class="nf-node-row${isLast ? ' no-border' : ''}"><span class="m">${esc(t.meaning)}</span><span class="n">${esc(t.number)}</span></div>`;
-      })
-      .join('');
+    const nodeRowsHtml = d.nodeRows.length ? `
+      <table>
+        <caption class="sr-only">Node types and counts</caption>
+        <tbody>
+          ${d.nodeRows
+            .map((t, i) => {
+              const isLast = i === d.nodeRows.length - 1;
+              return `<tr class="nf-node-row${isLast ? ' no-border' : ''}"><th scope="row">${esc(t.meaning)}</th><td>${esc(t.number)}</td></tr>`;
+            })
+            .join('')}
+        </tbody>
+      </table>` : '';
 
-    const nodeInlineMode = selectedNodeTypeCount === 1 && nodeTypeDefs[0].meaning === '';
-    const nodeTitleHtml = nodeInlineMode
-      ? `<div class="nf-nodes-title nf-nodes-title-inline"><span>Nodes</span><span class="n">${esc(nodeTypeDefs[0].number)}</span></div>`
-      : `<div class="nf-nodes-title">Nodes</div>`;
-    const nodeBodyHtml = nodeInlineMode ? '' : nodeRowsHtml;
+    const nodeTitleHtml = d.nodeInlineMode
+      ? `<h2 class="nf-nodes-title nf-nodes-title-inline"><span>Nodes</span><span class="n">${esc(d.nodeType1.number)}</span></h2>`
+      : `<h2 class="nf-nodes-title">Nodes</h2>`;
+    const nodeBodyHtml = d.nodeInlineMode ? '' : nodeRowsHtml;
 
-    const selectedEdgeTypeCount = edgeTypeCount;
-    const edgeTypeDefs = [
-      { type:1, meaning: document.getElementById('edgeMeaning1').value.trim(), number: document.getElementById('edgeNumber1').value.trim(), direction: document.getElementById('edgeDirection1').value.trim(), weighting: document.getElementById('edgeWeighting1').value.trim(), always:true },
-      { type:2, meaning: document.getElementById('edgeMeaning2').value.trim(), number: document.getElementById('edgeNumber2').value.trim(), direction: document.getElementById('edgeDirection2').value.trim(), weighting: document.getElementById('edgeWeighting2').value.trim(), always:false },
-      { type:3, meaning: document.getElementById('edgeMeaning3').value.trim(), number: document.getElementById('edgeNumber3').value.trim(), direction: document.getElementById('edgeDirection3').value.trim(), weighting: document.getElementById('edgeWeighting3').value.trim(), always:false }
-    ];
-    const edgeRows = edgeTypeDefs.filter(t => t.type <= selectedEdgeTypeCount && (t.always || t.meaning !== '' || t.number !== '' || t.direction !== '' || t.weighting !== ''));
-    const edgeRowsHtml = edgeRows
-      .map((t, i) => {
-        const isLast = i === edgeRows.length - 1;
-        const metaParts = [];
-        if(t.direction !== '') metaParts.push(t.direction);
-        if(t.weighting !== '') metaParts.push(t.weighting);
-        const metaHtml = metaParts.length
-          ? ` <span class="edge-meta">(${esc(metaParts.join(', '))})</span>`
-          : '';
-        return `<div class="nf-node-row${isLast ? ' no-border' : ''}"><span class="m">${esc(t.meaning)}${metaHtml}</span><span class="n">${esc(t.number)}</span></div>`;
-      })
-      .join('');
+    const edgeRowsHtml = d.edgeRows.length ? `
+      <table>
+        <caption class="sr-only">Edge types and counts</caption>
+        <tbody>
+          ${d.edgeRows
+            .map((t, i) => {
+              const isLast = i === d.edgeRows.length - 1;
+              const metaParts = [];
+              if(t.direction !== '') metaParts.push(t.direction);
+              if(t.weighting !== '') metaParts.push(t.weighting);
+              const metaHtml = metaParts.length
+                ? ` <span class="edge-meta">(${esc(metaParts.join(', '))})</span>`
+                : '';
+              return `<tr class="nf-node-row${isLast ? ' no-border' : ''}"><th scope="row">${esc(t.meaning)}${metaHtml}</th><td>${esc(t.number)}</td></tr>`;
+            })
+            .join('')}
+        </tbody>
+      </table>` : '';
 
-    const edgeInlineMode = selectedEdgeTypeCount === 1 && edgeTypeDefs[0].meaning === '';
-    const edgeInlineMetaParts = [];
-    if(edgeTypeDefs[0].direction !== '') edgeInlineMetaParts.push(edgeTypeDefs[0].direction);
-    if(edgeTypeDefs[0].weighting !== '') edgeInlineMetaParts.push(edgeTypeDefs[0].weighting);
-    const edgeInlineMetaHtml = edgeInlineMetaParts.length
-      ? ` <span class="edge-meta">(${esc(edgeInlineMetaParts.join(', '))})</span>`
+    const edgeInlineMetaHtml = d.edgeInlineMeta.length
+      ? ` <span class="edge-meta">(${esc(d.edgeInlineMeta.join(', '))})</span>`
       : '';
-    const edgeTitleHtml = edgeInlineMode
-      ? `<div class="nf-nodes-title nf-nodes-title-inline"><span>Edges${edgeInlineMetaHtml}</span><span class="n">${esc(edgeTypeDefs[0].number)}</span></div>`
-      : `<div class="nf-nodes-title">Edges</div>`;
-    const edgeBodyHtml = edgeInlineMode ? '' : edgeRowsHtml;
+    const edgeTitleHtml = d.edgeInlineMode
+      ? `<h2 class="nf-nodes-title nf-nodes-title-inline"><span>Edges${edgeInlineMetaHtml}</span><span class="n">${esc(d.edgeType1.number)}</span></h2>`
+      : `<h2 class="nf-nodes-title">Edges</h2>`;
+    const edgeBodyHtml = d.edgeInlineMode ? '' : edgeRowsHtml;
 
-    const html = `
-      <div class="nf-title">Network Facts</div>
-      <div class="nf-servsize"><span>${esc(s.networkName)}</span></div>
-      ${multipleValid ? `<div class="nf-multiple">${esc(String(multipleNum))} ${esc(multipleUnitText)}</div>` : ''}
-      <div class="nf-thick"></div>
+    // Each step returns the HTML for that section. Bar steps mostly
+    // return an explicit divider <div> — except barAfterTransformations,
+    // which is a no-op here because .nf-transform-list already draws
+    // its own border-bottom for that bar (see its CSS rule); the PDF
+    // side has no such cascading-border shortcut, so it still needs an
+    // explicit draw call for that same step (see sectionDrawers below).
+    const sectionHtml = {
+      title: () => `<h1 class="nf-title">Network Facts</h1>`,
+      name: () => `
+        <p class="nf-servsize"><span class="sr-only">Network name: </span><span>${esc(d.networkName)}</span></p>
+        ${d.multipleValid ? `<p class="nf-multiple">${esc(String(d.multipleNum))} ${esc(d.multipleUnitText)}</p>` : ''}`,
+      barAfterName: () => `<div class="nf-thick"></div>`,
+      nodes: () => `${nodeTitleHtml}${nodeBodyHtml}`,
+      barAfterNodes: () => `<div class="nf-thin"></div>`,
+      edges: () => `${edgeTitleHtml}${edgeBodyHtml}`,
+      barAfterEdges: () => `<div class="nf-thick"></div>`,
+      networkDetails: () => networkRowsHtml,
+      barAfterDetails: () => `<div class="nf-thick"></div>`,
+      transformations: () => `<h2 class="nf-transform-title">Transformations</h2>${transformsHtml}`,
+      barAfterTransformations: () => '',
+      contains: () => containsHtml
+    };
 
-      ${nodeTitleHtml}
-      ${nodeBodyHtml}
-      <div class="nf-thin"></div>
-
-      ${edgeTitleHtml}
-      ${edgeBodyHtml}
-      <div class="nf-thick"></div>
-
-      ${networkRowsHtml}
-      <div class="nf-thick"></div>
-
-      <div class="nf-transform-title">Transformations</div>
-      <div class="nf-transform-list" style="border-bottom:9px solid #000; padding-bottom:5px;">${transformsText}</div>
-      ${containsHtml}
-    `;
+    const html = buildLayoutPlan(d).map(step => sectionHtml[step]()).join('\n');
 
     const label = document.getElementById('nutritionLabel');
     label.innerHTML = html;
@@ -1085,10 +1134,21 @@
     label.classList.add('flash');
 
     document.getElementById('nfFootOutside').innerHTML =
-      `${FOOTER_LABEL} (<a href="${FOOTER_URL}" target="_blank" rel="noopener" id="footerLink" style="color:#000;">${FOOTER_URL}</a>)`;
+      `${FOOTER_LABEL} (<a href="${FOOTER_URL}" target="_blank" rel="noopener" style="color:#000;">${FOOTER_URL}</a>)`;
   }
 
-  ids.forEach(id => inputs[id].addEventListener('input', render));
+  // Ethics approval is a property of a specific data-collection
+  // method — if the method changes, a previously-checked approval no
+  // longer applies to it, so clear it rather than let it silently
+  // carry over. Attached before the generic render-trigger listener
+  // below (registered on the same 'change' event) so the preview's
+  // ethics badge reflects the cleared state on the very next render.
+  networkInputs.dataSource.addEventListener('change', () => {
+    if(networkInputs.ethicsApproval.checked){
+      networkInputs.ethicsApproval.checked = false;
+    }
+  });
+
   transformOptions.forEach(t => transformInputs[t.id].addEventListener('change', render));
   containsOptions.forEach(t => containsInputs[t.id].addEventListener('change', render));
   networkFieldIds.forEach(id => {
@@ -1096,118 +1156,270 @@
     networkInputs[id].addEventListener(evt, render);
   });
 
+  // ---------- LIGHTWEIGHT DOI/URL CHECK (availability & citation) ----------
+  // Not a strict validator — just enough to flag a plain-text note or an
+  // obvious typo in a field meant to hold a DOI or URL. Never blocks
+  // anything; an empty field is always fine.
+  function looksLikeDoiOrUrl(raw){
+    const s = raw.trim();
+    if(s === '') return true;
+    if(/\s/.test(s)) return false;
+    // Bare DOI ("10.xxxx/xxxx...") or a doi.org resolver link.
+    if(/^10\.\d{4,9}\/\S+$/.test(s)) return true;
+    if(/^(https?:\/\/)?(dx\.)?doi\.org\/10\.\d{4,9}\/\S+$/i.test(s)) return true;
+    // General URL: a dotted domain with a plausible TLD, optional
+    // scheme/path — matches the same bare-domain style safeHref() accepts.
+    if(/^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?(\/\S*)?$/i.test(s)) return true;
+    return false;
+  }
+
+  const linkFieldIds = ['availability', 'citation'];
+  function checkLinkField(id){
+    const input = networkInputs[id];
+    const hint = document.getElementById(id + 'Hint');
+    if(!input || !hint) return;
+    const ok = looksLikeDoiOrUrl(input.value);
+    input.classList.toggle('field-warn', !ok);
+    hint.hidden = ok;
+  }
+  linkFieldIds.forEach(id => {
+    networkInputs[id].addEventListener('input', () => checkLinkField(id));
+  });
+
+  // ---------- NODE/EDGE TYPE GROUPS (generated, not hand-duplicated) ----------
+  // Nodes and Edges both let the user describe up to MAX_TYPES "types"
+  // (e.g. two node types: students and teachers). The Type-N boxes — and
+  // all the add/remove/visibility logic around them — used to be
+  // hand-duplicated per kind; they're now built from one field spec per
+  // kind plus a single shared manager, so nodes and edges can't drift
+  // out of sync with each other the way two hand-written copies could.
   const MAX_TYPES = 3;
-  let nodeTypeCount = 1;
-  let edgeTypeCount = 1;
 
-  const nodeTypeGroups = Array.from(document.querySelectorAll('.node-type-group'));
-  const nodeFieldIds = ['nodeMeaning1','nodeNumber1','nodeMeaning2','nodeNumber2','nodeMeaning3','nodeNumber3'];
-  const addNodeTypeBtn = document.getElementById('addNodeTypeBtn');
-
-  function clearNodeType(t){
-    document.getElementById('nodeMeaning'+t).value = '';
-    document.getElementById('nodeNumber'+t).value = '';
-  }
-
-  function updateNodeTypeVisibility(){
-    nodeTypeGroups.forEach(g => {
-      const t = parseInt(g.dataset.type, 10);
-      g.style.display = t <= nodeTypeCount ? '' : 'none';
-      const removeBtn = g.querySelector('.remove-type-btn');
-      if(removeBtn) removeBtn.style.display = (t === nodeTypeCount && nodeTypeCount > 1) ? '' : 'none';
-    });
-    addNodeTypeBtn.style.display = nodeTypeCount < MAX_TYPES ? '' : 'none';
-  }
-  addNodeTypeBtn.addEventListener('click', () => {
-    if(nodeTypeCount < MAX_TYPES){
-      nodeTypeCount++;
-      updateNodeTypeVisibility();
-      render();
-    }
-  });
-  document.querySelectorAll('.remove-type-btn[data-kind="node"]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const t = parseInt(btn.dataset.type, 10);
-      clearNodeType(t);
-      nodeTypeCount = t - 1;
-      updateNodeTypeVisibility();
-      render();
-    });
-  });
-  nodeFieldIds.forEach(id => {
-    document.getElementById(id).addEventListener('input', render);
-  });
-  updateNodeTypeVisibility();
-
-  const edgeTypeGroups = Array.from(document.querySelectorAll('.edge-type-group'));
-  const edgeFieldIds = [
-    'edgeMeaning1','edgeNumber1','edgeDirection1','edgeWeighting1',
-    'edgeMeaning2','edgeNumber2','edgeDirection2','edgeWeighting2',
-    'edgeMeaning3','edgeNumber3','edgeDirection3','edgeWeighting3'
+  const NODE_FIELDS = [
+    { key: 'Meaning', control: 'text', label: 'Meaning',
+      help: 'The entity that this type of node is intended to represent.' },
+    { key: 'Number', control: 'text', label: 'Number', leftAlign: true,
+      help: 'The number of this type of node. If there are multiple waves/networks, the number of nodes in each wave/network if practical; otherwise the mean, standard deviation, and range.' }
   ];
-  const addEdgeTypeBtn = document.getElementById('addEdgeTypeBtn');
 
-  function clearEdgeType(t){
-    document.getElementById('edgeMeaning'+t).value = '';
-    document.getElementById('edgeNumber'+t).value = '';
-    document.getElementById('edgeDirection'+t).value = '';
-    document.getElementById('edgeWeighting'+t).value = '';
-  }
+  const EDGE_FIELDS = [
+    { key: 'Meaning', control: 'text', label: 'Meaning',
+      help: 'The relationship that this type of edge is intended to represent.' },
+    { key: 'Number', control: 'text', label: 'Number', leftAlign: true,
+      help: 'The number of this type of edge. If there are multiple waves/networks, the number of edges in each wave/network if practical; otherwise the mean, standard deviation, and range.' },
+    { key: 'Direction', control: 'select', label: 'Direction',
+      help: 'An undirected edge connects two nodes (e.g., i and j are connected, i−j), while a directed edge points from one node toward another (e.g., i sends to j, i →j).',
+      options: [['', '—'], ['Undirected', 'Undirected'], ['Directed', 'Directed']] },
+    { key: 'Weighting', control: 'select', label: 'Weighting',
+      help: 'Unweighted edges are either present (e.g., ‘friends’) or absent (e.g. ‘not friends’). Weighted edges are assigned a value that may represent a continuous or ordinal count (e.g., years of friendship), frequency (e.g., of communication), intensity (e.g., of interpersonal closeness), etc. Signed edges are either positive (e.g., ‘friendship’) or negative (e.g., ‘antagonism’).',
+      options: [['', '—'], ['Unweighted', 'Unweighted'], ['Weighted', 'Weighted'], ['Signed', 'Signed']] }
+  ];
 
-  function updateEdgeTypeVisibility(){
-    edgeTypeGroups.forEach(g => {
-      const t = parseInt(g.dataset.type, 10);
-      g.style.display = t <= edgeTypeCount ? '' : 'none';
-      const removeBtn = g.querySelector('.remove-type-btn');
-      if(removeBtn) removeBtn.style.display = (t === edgeTypeCount && edgeTypeCount > 1) ? '' : 'none';
-    });
-    addEdgeTypeBtn.style.display = edgeTypeCount < MAX_TYPES ? '' : 'none';
-  }
-  addEdgeTypeBtn.addEventListener('click', () => {
-    if(edgeTypeCount < MAX_TYPES){
-      edgeTypeCount++;
-      updateEdgeTypeVisibility();
-      render();
+  function fieldIdsFor(kind, fields){
+    const ids = [];
+    for(let n = 1; n <= MAX_TYPES; n++){
+      fields.forEach(f => ids.push(kind + f.key + n));
     }
-  });
-  document.querySelectorAll('.remove-type-btn[data-kind="edge"]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const t = parseInt(btn.dataset.type, 10);
-      clearEdgeType(t);
-      edgeTypeCount = t - 1;
-      updateEdgeTypeVisibility();
-      render();
+    return ids;
+  }
+
+  // Builds the { type, always, meaning, number, [direction, weighting] }
+  // def for every type slot (1..MAX_TYPES) from the live DOM values,
+  // regardless of how many slots are currently visible — callers filter
+  // down to the visible/non-empty ones themselves (see gatherLabelData).
+  function typeDefsFor(kind, fields){
+    const defs = [];
+    for(let n = 1; n <= MAX_TYPES; n++){
+      const def = { type: n, always: n === 1 };
+      fields.forEach(f => { def[f.key.toLowerCase()] = document.getElementById(kind + f.key + n).value.trim(); });
+      defs.push(def);
+    }
+    return defs;
+  }
+
+  function fieldRowHTML(kind, field, n){
+    const id = kind + field.key + n;
+    const control = field.control === 'select'
+      ? `<select id="${id}">${field.options.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select>`
+      : `<input type="text" id="${id}"${field.leftAlign ? ' style="text-align:left;"' : ''}>`;
+    return `
+            <div class="row">
+              <div class="row-head">
+                <label for="${id}"><span class="label-text">${field.label}</span><span class="help-badge">?<span class="help-tooltip">${field.help}</span></span></label>
+                <span class="leader"></span>
+              </div>
+              <div class="row-value">
+                ${control}
+              </div>
+            </div>`;
+  }
+
+  function typeBoxHTML(kind, fields, n){
+    const removeBtn = n > 1 ? `<button type="button" class="remove-type-btn" data-kind="${kind}" data-type="${n}">− Remove</button>` : '';
+    const hideStyle = n > 1 ? ' style="display:none;"' : '';
+    return `
+        <div class="${kind}-type-group" data-type="${n}"${hideStyle}>
+          <div class="type-box">
+            <div class="type-box-label"><span>Type ${n}</span>${removeBtn}</div>${fields.map(f => fieldRowHTML(kind, f, n)).join('')}
+          </div>
+        </div>`;
+  }
+
+  // Builds the DOM for one kind ('node' or 'edge') into containerEl,
+  // wires up its add/remove/visibility behavior and per-field render
+  // triggers, and returns an object that gatherLabelData(), collectState(),
+  // applyState(), and the reset button all share instead of each kind
+  // needing its own copy of this logic.
+  function setupTypeManager(kind, fields, containerEl, addBtn){
+    containerEl.innerHTML = Array.from({length: MAX_TYPES}, (_, i) => typeBoxHTML(kind, fields, i + 1)).join('');
+
+    let typeCount = 1;
+    const groups = Array.from(containerEl.querySelectorAll('.' + kind + '-type-group'));
+    const fieldIds = fieldIdsFor(kind, fields);
+
+    function clearType(n){
+      fields.forEach(f => { document.getElementById(kind + f.key + n).value = ''; });
+    }
+
+    function updateVisibility(){
+      groups.forEach(g => {
+        const n = parseInt(g.dataset.type, 10);
+        g.style.display = n <= typeCount ? '' : 'none';
+        const removeBtn = g.querySelector('.remove-type-btn');
+        if(removeBtn) removeBtn.style.display = (n === typeCount && typeCount > 1) ? '' : 'none';
+      });
+      addBtn.style.display = typeCount < MAX_TYPES ? '' : 'none';
+    }
+
+    addBtn.addEventListener('click', () => {
+      if(typeCount < MAX_TYPES){
+        typeCount++;
+        updateVisibility();
+        render();
+      }
+    });
+    containerEl.querySelectorAll('.remove-type-btn[data-kind="' + kind + '"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const n = parseInt(btn.dataset.type, 10);
+        clearType(n);
+        typeCount = n - 1;
+        updateVisibility();
+        render();
+      });
+    });
+    fieldIds.forEach(id => {
+      const el = document.getElementById(id);
+      const evt = el.tagName === 'SELECT' ? 'change' : 'input';
+      el.addEventListener(evt, render);
+    });
+    updateVisibility();
+
+    return {
+      fieldIds,
+      getTypeCount: () => typeCount,
+      setTypeCount: (n) => { typeCount = Math.min(Math.max(parseInt(n, 10) || 1, 1), MAX_TYPES); },
+      updateVisibility,
+      reset: () => {
+        typeCount = 1;
+        fieldIds.forEach(id => { document.getElementById(id).value = ''; });
+        updateVisibility();
+      }
+    };
+  }
+
+  const nodeManager = setupTypeManager('node', NODE_FIELDS, document.getElementById('nodeTypeGroups'), document.getElementById('addNodeTypeBtn'));
+  const edgeManager = setupTypeManager('edge', EDGE_FIELDS, document.getElementById('edgeTypeGroups'), document.getElementById('addEdgeTypeBtn'));
+
+  // ---------- HELP TOOLTIPS: keyboard + touch + screen reader support ----------
+  // The "?" badges show extra guidance on :hover for mouse users (via
+  // CSS above). This wires up the same content for keyboard users
+  // (focus/blur, tab + Enter/Space/Escape), touch users (tap-to-toggle,
+  // since touch devices don't reliably fire :hover), and screen reader
+  // users (aria-describedby, so the tooltip text is announced even
+  // though it's visually hidden by default).
+  document.querySelectorAll('.help-badge').forEach((badge, i) => {
+    const tooltip = badge.querySelector('.help-tooltip');
+    if(!tooltip) return;
+
+    const tooltipId = 'help-tooltip-' + i;
+    tooltip.id = tooltipId;
+
+    // Pull in the nearby field name (e.g. "Data source") so screen
+    // reader users hear what the badge is about, not just "button".
+    const labelText = badge.closest('label')?.querySelector('.label-text');
+    const fieldName = labelText ? labelText.textContent.trim() : null;
+
+    badge.setAttribute('tabindex', '0');
+    badge.setAttribute('role', 'button');
+    badge.setAttribute('aria-describedby', tooltipId);
+    badge.setAttribute('aria-expanded', 'false');
+    badge.setAttribute('aria-label', fieldName ? `More info: ${fieldName}` : 'More information');
+
+    function openTip(){
+      badge.classList.add('show-tooltip');
+      badge.setAttribute('aria-expanded', 'true');
+    }
+    function closeTip(){
+      badge.classList.remove('show-tooltip');
+      badge.setAttribute('aria-expanded', 'false');
+    }
+
+    badge.addEventListener('focus', openTip);
+    badge.addEventListener('blur', closeTip);
+
+    // Tap/click toggles independently of focus — covers touch devices,
+    // where tapping a span doesn't always move keyboard focus.
+    badge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if(badge.classList.contains('show-tooltip')){
+        closeTip();
+      } else {
+        document.querySelectorAll('.help-badge.show-tooltip').forEach(other => {
+          if(other !== badge){
+            other.classList.remove('show-tooltip');
+            other.setAttribute('aria-expanded', 'false');
+          }
+        });
+        openTip();
+      }
+    });
+
+    badge.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        badge.click();
+      } else if(e.key === 'Escape'){
+        closeTip();
+        badge.blur();
+      }
     });
   });
-  edgeFieldIds.forEach(id => {
-    const el = document.getElementById(id);
-    const evt = el.tagName === 'SELECT' ? 'change' : 'input';
-    el.addEventListener(evt, render);
+  // Tapping/clicking anywhere else closes any tap-opened tooltip.
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.help-badge.show-tooltip').forEach(b => {
+      b.classList.remove('show-tooltip');
+      b.setAttribute('aria-expanded', 'false');
+    });
   });
-  updateEdgeTypeVisibility();
 
   // ---------- SHARE LINK: encode/decode all form state in the URL ----------
   function collectState(){
     const state = {};
-    ids.forEach(id => { state[id] = inputs[id].value; });
     networkFieldIds.forEach(id => {
       const el = networkInputs[id];
       state[id] = el.type === 'checkbox' ? el.checked : el.value;
     });
     transformOptions.forEach(t => { state[t.id] = transformInputs[t.id].checked; });
     containsOptions.forEach(t => { state[t.id] = containsInputs[t.id].checked; });
-    state.nodeTypeCount = nodeTypeCount;
-    nodeFieldIds.forEach(id => { state[id] = document.getElementById(id).value; });
-    state.edgeTypeCount = edgeTypeCount;
-    edgeFieldIds.forEach(id => { state[id] = document.getElementById(id).value; });
+    state.nodeTypeCount = nodeManager.getTypeCount();
+    nodeManager.fieldIds.forEach(id => { state[id] = document.getElementById(id).value; });
+    state.edgeTypeCount = edgeManager.getTypeCount();
+    edgeManager.fieldIds.forEach(id => { state[id] = document.getElementById(id).value; });
     return state;
   }
 
   function applyState(state){
     if(!state || typeof state !== 'object') return;
-    ids.forEach(id => {
-      if(id in state) inputs[id].value = state[id] || '';
-    });
     networkFieldIds.forEach(id => {
       if(!(id in state)) return;
       const el = networkInputs[id];
@@ -1221,37 +1433,61 @@
       if(t.id in state) containsInputs[t.id].checked = !!state[t.id];
     });
     if('nodeTypeCount' in state){
-      nodeTypeCount = Math.min(Math.max(parseInt(state.nodeTypeCount, 10) || 1, 1), MAX_TYPES);
+      nodeManager.setTypeCount(state.nodeTypeCount);
     }
-    nodeFieldIds.forEach(id => {
+    nodeManager.fieldIds.forEach(id => {
       if(id in state) document.getElementById(id).value = state[id] || '';
     });
-    updateNodeTypeVisibility();
+    nodeManager.updateVisibility();
     if('edgeTypeCount' in state){
-      edgeTypeCount = Math.min(Math.max(parseInt(state.edgeTypeCount, 10) || 1, 1), MAX_TYPES);
+      edgeManager.setTypeCount(state.edgeTypeCount);
     }
-    edgeFieldIds.forEach(id => {
+    edgeManager.fieldIds.forEach(id => {
       if(id in state) document.getElementById(id).value = state[id] || '';
     });
-    updateEdgeTypeVisibility();
+    edgeManager.updateVisibility();
   }
 
   function buildShareUrl(){
     const json = JSON.stringify(collectState());
+    // Compressed and placed in the URL hash (not a ?query=) so links are
+    // much shorter and the payload never gets sent to a server/logged.
+    const compressed = LZString.compressToEncodedURIComponent(json);
     const base = location.origin + location.pathname;
-    return base + '?data=' + encodeURIComponent(json);
+    return base + '#s=' + compressed;
   }
 
   function loadStateFromUrl(){
     try{
+      const hashParams = new URLSearchParams(location.hash.replace(/^#/, ''));
+      const compressed = hashParams.get('s');
+      if(compressed){
+        if(!LZ_LIB_OK){
+          // This link carries shared data, but nothing can be filled
+          // in without the library that decodes it — say so clearly
+          // rather than silently loading a blank form.
+          alert('This link contains shared label data, but it could not be loaded because the share-link library (LZString) ' + LIB_FAIL_HINT);
+          return;
+        }
+        const json = LZString.decompressFromEncodedURIComponent(compressed);
+        if(json) applyState(JSON.parse(json));
+        linkFieldIds.forEach(checkLinkField);
+        return;
+      }
+      // Legacy links used an uncompressed ?data= query param — still honored.
       const raw = new URLSearchParams(location.search).get('data');
       if(raw) applyState(JSON.parse(raw));
+      linkFieldIds.forEach(checkLinkField);
     }catch(e){
       console.error('Could not load shared data from URL', e);
     }
   }
 
   document.getElementById('shareBtn').addEventListener('click', async () => {
+    if(!LZ_LIB_OK){
+      alert('Share links aren\'t available: the share-link library (LZString) ' + LIB_FAIL_HINT);
+      return;
+    }
     const btn = document.getElementById('shareBtn');
     const original = btn.textContent;
     const url = buildShareUrl();
@@ -1265,10 +1501,6 @@
   });
 
   document.getElementById('resetBtn').addEventListener('click', () => {
-    ids.forEach(id => {
-      if(id === 'networkName') inputs[id].value = '';
-      else inputs[id].value = 0;
-    });
     transformOptions.forEach(t => transformInputs[t.id].checked = false);
     containsOptions.forEach(t => containsInputs[t.id].checked = false);
     networkFieldIds.forEach(id => {
@@ -1276,71 +1508,379 @@
       else if(id === 'multipleUnit') networkInputs[id].value = 'waves';
       else networkInputs[id].value = '';
     });
-    nodeTypeCount = 1;
-    nodeFieldIds.forEach(id => { document.getElementById(id).value = ''; });
-    updateNodeTypeVisibility();
-    edgeTypeCount = 1;
-    edgeFieldIds.forEach(id => { document.getElementById(id).value = ''; });
-    updateEdgeTypeVisibility();
+    nodeManager.reset();
+    edgeManager.reset();
+    linkFieldIds.forEach(checkLinkField);
     render();
   });
 
-  document.getElementById('downloadBtn').addEventListener('click', async () => {
+  // ---------- PDF EXPORT ----------
+  // Draws the label directly with jsPDF's own text/line/rect primitives
+  // (never rasterizes the DOM), so the result has real, selectable,
+  // searchable text and real link annotations — just built by hand
+  // instead of relying on the browser's print pipeline. pdf.save()
+  // triggers an immediate, silent file download: no print dialog.
+  //
+  // Layout runs in two passes on the same instructions: pass 1 measures
+  // (font metrics require a live jsPDF instance, so we still create one,
+  // we just skip every actual draw call) to find the exact content
+  // height, then pass 2 creates a page sized to fit and draws for real.
+  function buildLabelPdf(){
+    const { jsPDF } = window.jspdf;
+    const d = gatherLabelData();
+
+    const OUTER_MARGIN = 6;   // page margin around the card, mm
+    const CARD_W = 88;        // card outer width (border to border), mm
+    const BORDER_W = 0.9;     // card border thickness, mm
+    const INNER_PAD = 3;      // padding between border and text, mm
+    const CONTENT_W = CARD_W - BORDER_W * 2 - INNER_PAD * 2;
+    // NOTE: everything below is drawn in *card-local* coordinates, where
+    // (0,0) is the card's own top-left corner. The single OUTER_MARGIN
+    // offset is applied once, uniformly, by withOffset() at draw time —
+    // it must not also be baked in here.
+    const contentX = BORDER_W + INNER_PAD;
+
+    const F_TITLE = 22, F_NAME = 12, F_MULT = 8, F_SECTION = 10,
+          F_ROW = 9.5, F_META = 7.5, F_TRANS = 8.5, F_CONTAINS = 8.5, F_FOOT = 7.5;
+    const ROW_H = 5.2, SECTION_H = 5.6, TITLE_H = 9.4, NAME_LINE_H = 5.3,
+          MULT_H = 4, TRANS_LINE_H = 4.6, CONTAINS_LINE_H = 4.6, FOOT_LINE_H = 3.9;
+    const THICK_H = 2.3, THIN_H = 0.3;
+    const GAP_S = 1, GAP_M = 1.6;
+
+    const baselineIn = h => h * 0.7; // approximate visual vertical centering within a row of height h
+
+    let y = 0;
+    const linkRects = []; // {x, y, w, h, url} — populated fully only on the real (draw) pass
+
+    function textRight(pdf, draw, text, size, style, rowH){
+      pdf.setFont('helvetica', style);
+      pdf.setFontSize(size);
+      const w = pdf.getTextWidth(text);
+      if(draw) pdf.text(text, contentX + CONTENT_W - w, y + baselineIn(rowH));
+      return w;
+    }
+
+    function hairline(pdf, draw, atY){
+      if(!draw) return;
+      pdf.setDrawColor(0, 0, 0);
+      pdf.setLineWidth(0.18);
+      pdf.line(contentX, atY, contentX + CONTENT_W, atY);
+    }
+
+    // Ellipsizes `text` to fit within maxWidth at the PDF's current
+    // font/size, mirroring the ellipsis truncation the on-screen
+    // preview already applies via CSS (.vtext{text-overflow:ellipsis}).
+    // Used wherever a value shares its row with something else fixed
+    // in place (e.g. the Ethics Approved badge) so long text can never
+    // be drawn on top of it.
+    function truncateToWidth(pdf, text, maxWidth){
+      if(pdf.getTextWidth(text) <= maxWidth) return text;
+      const ellipsis = '…';
+      let lo = 0, hi = text.length;
+      while(lo < hi){
+        const mid = Math.ceil((lo + hi) / 2);
+        if(pdf.getTextWidth(text.slice(0, mid) + ellipsis) <= maxWidth){
+          lo = mid;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      return text.slice(0, lo) + ellipsis;
+    }
+
+    function blackBar(pdf, draw, h){
+      if(draw){
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(contentX, y, CONTENT_W, h, 'F');
+      }
+      y += h;
+    }
+
+    // A left label (th) + right value (td) row, optionally with a
+    // bottom hairline. Returns nothing; advances y by ROW_H.
+    function dataRow(pdf, draw, leftText, leftStyle, leftSize, rightText, indent, showLine, italicSuffix, linkHref){
+      pdf.setFont('helvetica', leftStyle);
+      pdf.setFontSize(leftSize);
+      if(draw) pdf.text(leftText, contentX + indent, y + baselineIn(ROW_H));
+      let afterLeftX = contentX + indent + pdf.getTextWidth(leftText);
+      if(italicSuffix){
+        pdf.setFont('helvetica', 'italic');
+        pdf.setFontSize(F_META);
+        const metaText = ' ' + italicSuffix;
+        if(draw) pdf.text(metaText, afterLeftX, y + baselineIn(ROW_H));
+        afterLeftX += pdf.getTextWidth(metaText);
+      }
+      if(rightText !== null && rightText !== undefined && rightText !== ''){
+        const w = textRight(pdf, draw, rightText, F_ROW, 'normal', ROW_H);
+        if(linkHref && draw){
+          linkRects.push({ x: contentX + CONTENT_W - w, y, w, h: ROW_H, url: linkHref });
+        }
+      }
+      if(showLine) hairline(pdf, draw, y + ROW_H);
+      y += ROW_H;
+    }
+
+    // Wraps `text` to CONTENT_W and draws each line left-aligned,
+    // advancing y by lineH per line. Returns the number of lines.
+    function wrappedBlock(pdf, draw, text, size, style, lineH, maxWidth, x){
+      pdf.setFont('helvetica', style);
+      pdf.setFontSize(size);
+      const lines = text ? pdf.splitTextToSize(text, maxWidth != null ? maxWidth : CONTENT_W) : [''];
+      lines.forEach(line => {
+        if(draw) pdf.text(line, x != null ? x : contentX, y + baselineIn(lineH));
+        y += lineH;
+      });
+      return lines.length;
+    }
+
+    function typeSection(pdf, draw, title, rows, inlineMode, type1, inlineMeta){
+      if(inlineMode){
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(F_SECTION);
+        if(draw) pdf.text(title, contentX, y + baselineIn(SECTION_H));
+        let afterTitleX = contentX + pdf.getTextWidth(title);
+        if(inlineMeta && inlineMeta.length){
+          pdf.setFont('helvetica', 'italic');
+          pdf.setFontSize(F_META);
+          const metaText = ' (' + inlineMeta.join(', ') + ')';
+          if(draw) pdf.text(metaText, afterTitleX, y + baselineIn(SECTION_H));
+        }
+        if(type1.number){
+          textRight(pdf, draw, type1.number, F_SECTION, 'normal', SECTION_H);
+        }
+        y += SECTION_H;
+        return;
+      }
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(F_SECTION);
+      if(draw) pdf.text(title, contentX, y + baselineIn(SECTION_H));
+      y += SECTION_H;
+      rows.forEach((r, i) => {
+        const meta = [];
+        if(r.direction) meta.push(r.direction);
+        if(r.weighting) meta.push(r.weighting);
+        dataRow(pdf, draw, r.meaning, 'normal', F_ROW, r.number, 3, i < rows.length - 1, meta.length ? '(' + meta.join(', ') + ')' : null, null);
+      });
+    }
+
+    function runPass(pdf, draw){
+      y = 0;
+      y += BORDER_W + INNER_PAD;
+
+      // Each drawer is exactly the drawing code that used to sit
+      // inline in this function, unchanged — only pulled behind a name
+      // so the *order* they run in comes from LAYOUT_STEPS (shared with
+      // render()) instead of being hardcoded a second time here.
+      const sectionDrawers = {
+        title: () => {
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(F_TITLE);
+          if(draw) pdf.text('Network Facts', contentX, y + baselineIn(TITLE_H));
+          y += TITLE_H;
+        },
+        name: () => {
+          wrappedBlock(pdf, draw, d.networkName, F_NAME, 'bold', NAME_LINE_H);
+          if(d.multipleValid){
+            wrappedBlock(pdf, draw, `${d.multipleNum} ${d.multipleUnitText}`, F_MULT, 'normal', MULT_H);
+          }
+        },
+        barAfterName: () => {
+          y += 0.6;
+          blackBar(pdf, draw, THICK_H);
+          y += GAP_M;
+        },
+        nodes: () => {
+          typeSection(pdf, draw, 'Nodes', d.nodeRows, d.nodeInlineMode, d.nodeType1, null);
+        },
+        barAfterNodes: () => {
+          blackBar(pdf, draw, THIN_H);
+          y += GAP_S;
+        },
+        edges: () => {
+          typeSection(pdf, draw, 'Edges', d.edgeRows, d.edgeInlineMode, d.edgeType1, d.edgeInlineMeta);
+        },
+        barAfterEdges: () => {
+          y += 0.5;
+          blackBar(pdf, draw, THICK_H);
+          y += GAP_M;
+        },
+        networkDetails: () => {
+          d.networkRows.forEach((f, i) => {
+            if(f.badge){
+              // "Source" with an ethics badge: label, short value, then a
+              // small hand-drawn badge pinned to the right edge.
+              pdf.setFont('helvetica', 'bold');
+              pdf.setFontSize(F_ROW);
+              if(draw) pdf.text(f.label, contentX, y + baselineIn(ROW_H));
+              const labelW = pdf.getTextWidth(f.label);
+
+              const badgeLabel = 'Ethics Approved';
+              pdf.setFont('helvetica', 'bold');
+              pdf.setFontSize(7);
+              const badgeTextW = pdf.getTextWidth(badgeLabel);
+              const badgeH = 3.6, badgePadX = 2, checkW = 2.6;
+              const badgeW = checkW + badgeTextW + badgePadX * 2;
+              const badgeX = contentX + CONTENT_W - badgeW;
+              const badgeY = y + (ROW_H - badgeH) / 2;
+
+              if(draw){
+                pdf.setDrawColor(60, 60, 60);
+                pdf.setFillColor(238, 238, 238);
+                pdf.setLineWidth(0.15);
+                pdf.roundedRect(badgeX, badgeY, badgeW, badgeH, badgeH / 2, badgeH / 2, 'FD');
+                // hand-drawn checkmark so we never depend on a font glyph
+                pdf.setDrawColor(40, 40, 40);
+                pdf.setLineWidth(0.3);
+                const cx = badgeX + badgePadX * 0.55, cyMid = badgeY + badgeH / 2;
+                pdf.line(cx, cyMid, cx + 0.7, cyMid + 0.9);
+                pdf.line(cx + 0.7, cyMid + 0.9, cx + 1.8, cyMid - 1);
+                pdf.setFont('helvetica', 'bold');
+                pdf.setFontSize(7);
+                pdf.setTextColor(40, 40, 40);
+                pdf.text(badgeLabel, badgeX + badgePadX + checkW, cyMid + 1);
+                pdf.setTextColor(0, 0, 0);
+              }
+
+              pdf.setFont('helvetica', 'normal');
+              pdf.setFontSize(F_ROW);
+              const valueMaxW = CONTENT_W - labelW - 3 - badgeW - 3;
+              const valueText = truncateToWidth(pdf, f.raw, valueMaxW);
+              if(draw) pdf.text(valueText, contentX + labelW + 3, y + baselineIn(ROW_H));
+              if(i < d.networkRows.length - 1) hairline(pdf, draw, y + ROW_H);
+              y += ROW_H;
+            } else {
+              dataRow(pdf, draw, f.label, 'bold', F_ROW, f.raw, 0, i < d.networkRows.length - 1, null, f.href);
+            }
+          });
+        },
+        barAfterDetails: () => {
+          y += 0.5;
+          blackBar(pdf, draw, THICK_H);
+          y += GAP_M;
+        },
+        transformations: () => {
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(F_SECTION);
+          if(draw) pdf.text('Transformations', contentX, y + baselineIn(SECTION_H));
+          y += SECTION_H;
+
+          const transformsText = d.checkedTransforms.length ? d.checkedTransforms.join('  •  ') : 'None';
+          wrappedBlock(pdf, draw, transformsText, F_TRANS, 'normal', TRANS_LINE_H);
+        },
+        barAfterTransformations: () => {
+          y += 0.6;
+          blackBar(pdf, draw, THICK_H);
+          y += 1.3;
+        },
+        // buildLayoutPlan already omits this step entirely when there's
+        // nothing to show, so — unlike the original inline code — this
+        // drawer doesn't need its own `if(d.checkedContains.length)` guard.
+        contains: () => {
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(F_CONTAINS);
+          const label = 'CONTAINS: ';
+          if(draw) pdf.text(label, contentX, y + baselineIn(CONTAINS_LINE_H));
+          const labelW = pdf.getTextWidth(label);
+          wrappedBlock(pdf, draw, d.checkedContains.join(', '), F_CONTAINS, 'normal', CONTAINS_LINE_H, CONTENT_W - labelW, contentX + labelW);
+        }
+      };
+
+      buildLayoutPlan(d).forEach(step => sectionDrawers[step]());
+
+      y += INNER_PAD + BORDER_W;
+      return y; // total card height
+    }
+
+    // Pass 1: measure only (throwaway page size, nothing actually drawn)
+    const probe = new jsPDF({ unit: 'mm', format: [CARD_W, 400] });
+    const cardH = runPass(probe, false);
+
+    // Footer credit line lives below the card; measure it too.
+    const footerText = `${FOOTER_LABEL} (${FOOTER_URL})`;
+    probe.setFont('helvetica', 'normal');
+    probe.setFontSize(F_FOOT);
+    const footerLines = probe.splitTextToSize(footerText, CARD_W);
+    const footerH = footerLines.length * FOOT_LINE_H;
+
+    const pageW = CARD_W + OUTER_MARGIN * 2;
+    const pageH = OUTER_MARGIN + cardH + GAP_M + footerH + OUTER_MARGIN;
+
+    // Pass 2: draw for real onto a page sized to fit exactly.
+    // jsPDF forces portrait (swapping width/height) unless told
+    // otherwise, which would silently corrupt this layout on short
+    // labels where pageW > pageH — so orientation must be explicit.
+    const orientation = pageW >= pageH ? 'l' : 'p';
+    const pdf = new jsPDF({ unit: 'mm', format: [pageW, pageH], orientation });
+    pdf.setProperties({ title: d.networkName ? `Network Facts – ${d.networkName}` : 'Network Facts label' });
+
+    pdf.setDrawColor(0, 0, 0);
+    pdf.setLineWidth(BORDER_W);
+    pdf.rect(
+      OUTER_MARGIN + BORDER_W / 2,
+      OUTER_MARGIN + BORDER_W / 2,
+      CARD_W - BORDER_W,
+      cardH - BORDER_W,
+      'S'
+    );
+
+    // Shift the whole drawing pass down/right by OUTER_MARGIN by
+    // temporarily wrapping text/rect/line calls — simplest is to just
+    // translate by drawing through a small proxy that adds the offset.
+    const offsetPdf = withOffset(pdf, OUTER_MARGIN, OUTER_MARGIN);
+    runPass(offsetPdf, true);
+    linkRects.forEach(r => {
+      pdf.link(OUTER_MARGIN + r.x, OUTER_MARGIN + r.y, r.w, r.h, { url: r.url });
+    });
+
+    // Footer credit line, below the card, with a real link.
+    let fy = OUTER_MARGIN + cardH + GAP_M;
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(F_FOOT);
+    pdf.setTextColor(0, 0, 0);
+    footerLines.forEach(line => {
+      pdf.text(line, OUTER_MARGIN, fy + baselineIn(FOOT_LINE_H));
+      fy += FOOT_LINE_H;
+    });
+    // Link the whole footer block (credit text + URL) to the GRAND site.
+    pdf.link(OUTER_MARGIN, OUTER_MARGIN + cardH + GAP_M, CARD_W, footerH, { url: FOOTER_URL });
+
+    return pdf;
+  }
+
+  // Wraps a jsPDF instance so every x/y-taking draw call is offset by
+  // (dx, dy), letting the layout code above be written in card-local
+  // coordinates while still landing correctly on the page.
+  function withOffset(pdf, dx, dy){
+    return {
+      setFont: (...a) => pdf.setFont(...a),
+      setFontSize: (...a) => pdf.setFontSize(...a),
+      setDrawColor: (...a) => pdf.setDrawColor(...a),
+      setFillColor: (...a) => pdf.setFillColor(...a),
+      setTextColor: (...a) => pdf.setTextColor(...a),
+      setLineWidth: (...a) => pdf.setLineWidth(...a),
+      getTextWidth: (...a) => pdf.getTextWidth(...a),
+      splitTextToSize: (...a) => pdf.splitTextToSize(...a),
+      text: (t, x, y, opts) => pdf.text(t, x + dx, y + dy, opts),
+      rect: (x, y, w, h, style) => pdf.rect(x + dx, y + dy, w, h, style),
+      line: (x1, y1, x2, y2) => pdf.line(x1 + dx, y1 + dy, x2 + dx, y2 + dy),
+      roundedRect: (x, y, w, h, rx, ry, style) => pdf.roundedRect(x + dx, y + dy, w, h, rx, ry, style)
+    };
+  }
+
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    if(!PDF_LIB_OK){
+      alert('PDF export isn\'t available: the PDF library (jsPDF) ' + LIB_FAIL_HINT);
+      return;
+    }
     const btn = document.getElementById('downloadBtn');
     const original = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'Building PDF…';
     try{
-      const target = document.getElementById('labelCapture');
-      const label = document.getElementById('nutritionLabel');
-
-      // Make sure the update "flash" highlight isn't mid-transition —
-      // otherwise its tint gets baked into the captured image.
-      label.classList.remove('flash');
-      void label.offsetWidth; // force reflow so the class removal takes effect
-
-      // Capture with a transparent background instead of the label's
-      // normal white fill.
-      const prevBg = label.style.backgroundColor;
-      label.style.backgroundColor = 'transparent';
-      const canvas = await html2canvas(target, { scale: 3, backgroundColor: null });
-      label.style.backgroundColor = prevBg;
-
-      const imgData = canvas.toDataURL('image/png');
-
-      const { jsPDF } = window.jspdf;
-      // convert canvas px to mm at 96dpi baseline, keep aspect ratio
-      const pxToMm = px => px * 25.4 / (96 * 3);
-      const wMm = pxToMm(canvas.width);
-      const hMm = pxToMm(canvas.height);
-      const margin = 0;
-
-      const pageWidth = wMm + margin * 2;
-      const pageHeight = hMm + margin * 2;
-
-      const pdf = new jsPDF({
-        orientation: pageWidth > pageHeight ? 'landscape' : 'portrait',
-        unit: 'mm',
-        format: [pageWidth, pageHeight]
-      });
-
-      pdf.addImage(imgData, 'PNG', margin, margin, wMm, hMm);
-
-      // The footer (including the URL) is baked into the label image above.
-      // Overlay an invisible clickable region exactly over the rendered URL
-      // text so it still works as a live link in the PDF.
-      const linkEl = document.getElementById('footerLink');
-      const labelRect = target.getBoundingClientRect();
-      const linkRect = linkEl.getBoundingClientRect();
-      const scaleX = wMm / labelRect.width;
-      const scaleY = hMm / labelRect.height;
-      const linkX = margin + (linkRect.left - labelRect.left) * scaleX;
-      const linkY = margin + (linkRect.top - labelRect.top) * scaleY;
-      const linkW = linkRect.width * scaleX;
-      const linkH = linkRect.height * scaleY;
-      pdf.link(linkX, linkY, linkW, linkH, { url: FOOTER_URL });
-
-      pdf.save('nutrition-facts-label.pdf');
+      const pdf = buildLabelPdf();
+      const rawName = networkInputs.networkName.value;
+      const filename = (rawName ? rawName.trim().replace(/[^\w\-]+/g, '_').slice(0, 60) : '') || 'network-facts-label';
+      pdf.save(`${filename}.pdf`);
     }catch(err){
       console.error(err);
       alert('Something went wrong building the PDF. Please try again.');
