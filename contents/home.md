@@ -13,7 +13,7 @@ The **G**uidelines for **R**eporting **A**bout **N**etwork **D**ata (GRAND) aim 
 
 <i class="bi bi-table"></i> [Generate custom summary "Network Facts" table](https://zpneal.github.io/grand/contents/grand_label.html)
 
-<i class="bi bi-files"></i> [GRAND Archives]([https://zpneal.github.io/grand/contents/grand_label.html](https://github.com/zpneal/grand/tree/main/materials))
+<i class="bi bi-files"></i> [GRAND Archives][https://github.com/zpneal/grand/tree/main/materials](https://github.com/zpneal/grand/tree/main/materials)
 
 Please cite GRAND as: *Neal, Z. P., Carley, K., Contractor, N., De Domenico, M., Hollway, J., Labianca, G., Landry, N. W., Lazer, D., Lubbers, M., Neal, J. W., Ortiz, F., Peixoto, T., Pescosolido, B., Prell, C., Teixeira, A. S., and the GRAND Consortium. (2026). [Guidelines for Reporting About Network Data](https://raw.githubusercontent.com/zpneal/grand/main/contents/grand_manuscript.pdf). https://www.grand-statement.org.*
 
