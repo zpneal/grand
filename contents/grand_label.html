@@ -516,6 +516,26 @@
     text-overflow:ellipsis;
     white-space:nowrap;
   }
+  /* Availability/Citation can hold a long URL or DOI. Instead of
+     ellipsizing, these two rows wrap onto multiple lines, right-aligned
+     like the other rows' values. The label column width is pinned (via
+     inline style, see render()) to the width of "Available at"
+     specifically, so the left wrap margin sits in the same place on
+     both rows regardless of which one is shown. */
+  .nf-net-row.nf-net-row-wrap td{
+    text-align:right;
+  }
+  .nf-net-row.nf-net-row-wrap .nf-value-wrap{
+    justify-content:flex-end;
+    align-items:flex-end;
+  }
+  .nf-net-row.nf-net-row-wrap .vtext{
+    white-space:normal;
+    overflow:visible;
+    text-overflow:clip;
+    overflow-wrap:anywhere;
+    text-align:right;
+  }
   .nf-value-wrap a{
     color:#000;
     text-decoration:underline;
@@ -921,6 +941,16 @@
     if(/^https?:\/\//i.test(trimmed)) return trimmed;
     return 'https://' + trimmed;
   }
+  // If a value looks like a DOI — either a bare "10.xxxx/xxxx..." or a
+  // doi.org resolver link wrapped around one — pull out just the DOI
+  // portion. Used so the Citation row can show the bare DOI as its label
+  // while still linking through the doi.org resolver.
+  function extractDoi(raw){
+    const s = raw.trim();
+    if(/^10\.\d{4,9}\/\S+$/.test(s)) return s;
+    const m = /^(?:https?:\/\/)?(?:dx\.)?doi\.org\/(10\.\d{4,9}\/\S+)$/i.exec(s);
+    return m ? m[1] : null;
+  }
 
   // Pulls every field out of the form and returns the derived, ready-to-
   // render data (which rows exist, inline-mode flags, etc). Both the
@@ -937,19 +967,25 @@
       { label:'Source', value: networkInputs.dataSource.value, link:false },
       { label:'Location', value: networkInputs.location.value, link:false },
       { label:'Time', value: networkInputs.time.value, link:false },
-      { label:'Available at', value: networkInputs.availability.value, link:true },
-      { label:'Details in', value: networkInputs.citation.value, link:true }
+      { label:'Available at', value: networkInputs.availability.value, link:true, wrap:true },
+      { label:'Details in', value: networkInputs.citation.value, link:true, doi:true, wrap:true }
     ];
     const ethicsApproved = networkInputs.ethicsApproval.checked;
     const networkRows = networkFieldDefs
       .filter(f => f.value && f.value.trim() !== '')
       .map(f => {
-        const raw = f.value.trim();
+        const typed = f.value.trim();
+        // Citation field: if the entry looks like a DOI (bare or wrapped
+        // in a doi.org link), show just the DOI and link through the
+        // doi.org resolver, rather than displaying whatever the user typed.
+        const doi = f.doi ? extractDoi(typed) : null;
+        const raw = doi || typed;
         return {
           label: f.label,
           raw,
+          wrap: !!f.wrap,
           link: f.link,
-          href: f.link ? safeHref(raw) : null,
+          href: doi ? ('https://doi.org/' + doi) : (f.link ? safeHref(raw) : null),
           badge: f.label === 'Source' && ethicsApproved
         };
       });
@@ -1022,6 +1058,20 @@
     wrap.hidden = networkInputs.dataSource.value === '';
   }
 
+  // Measures rendered text width in CSS px for a given font, via an
+  // offscreen canvas — used to pin the Availability/Citation wrap
+  // margin to a fixed x regardless of which of those two labels is
+  // actually shown on a given row (see render()).
+  const _measureCanvas = document.createElement('canvas');
+  const _measureCtx = _measureCanvas.getContext('2d');
+  function measureTextPx(text, font){
+    _measureCtx.font = font;
+    return _measureCtx.measureText(text).width;
+  }
+  // Matches the .nf-net-row th rule (font-weight:800, font-size:13px,
+  // font-family:Helvetica, Arial, sans-serif from .nutrition-label).
+  const NET_LABEL_FONT = '800 13px Helvetica, Arial, sans-serif';
+
   function render(){
     updateEthicsApprovalVisibility();
     const d = gatherLabelData();
@@ -1029,6 +1079,14 @@
     document.getElementById('containsPrompt').textContent = d.multipleValid
       ? 'These networks contain'
       : 'This network contains';
+
+    // Availability/Citation rows wrap their value text instead of
+    // ellipsizing it, and must both start that wrapped text at the same
+    // x-position — measured from "Available at" specifically — whether
+    // or not the Available-at row itself is present. Pin every label
+    // cell in this table to that measured width so the column can't
+    // shrink to fit whichever labels happen to be shown.
+    const netLabelColW = Math.ceil(measureTextPx('Available at', NET_LABEL_FONT));
 
     const networkRowsHtml = d.networkRows.length ? `
       <table>
@@ -1043,7 +1101,8 @@
                 ? `<span class="ethics-badge"><span class="check" aria-hidden="true">&check;</span>Ethics Approved</span>`
                 : '';
               const isLast = i === d.networkRows.length - 1;
-              return `<tr class="nf-net-row${isLast ? ' no-border' : ''}"><th scope="row">${esc(f.label)}</th><td><span class="nf-value-wrap"><span class="vtext">${valueHtml}</span>${badgeHtml}</span></td></tr>`;
+              const rowClass = `nf-net-row${isLast ? ' no-border' : ''}${f.wrap ? ' nf-net-row-wrap' : ''}`;
+              return `<tr class="${rowClass}"><th scope="row" style="width:${netLabelColW}px">${esc(f.label)}</th><td><span class="nf-value-wrap"><span class="vtext">${valueHtml}</span>${badgeHtml}</span></td></tr>`;
             })
             .join('')}
         </tbody>
@@ -1620,6 +1679,41 @@
       y += ROW_H;
     }
 
+    // Like dataRow, but for a value that may need to wrap onto multiple
+    // lines (Availability/Citation can hold a long URL or DOI). Each
+    // wrapped line is right-aligned against the content's right edge,
+    // like the other rows' values — but the left wrap margin those
+    // lines can't cross is pinned to a fixed x, measured from the width
+    // of "Available at" specifically, not whichever label this row
+    // actually has, so it sits in the same place whether or not the
+    // Available-at row itself is shown. Advances y by ROW_H per line.
+    function wrapValueRow(pdf, draw, leftText, rightText, linkHref, showLine){
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(F_ROW);
+      if(draw) pdf.text(leftText, contentX, y + baselineIn(ROW_H));
+
+      const wrapGap = 3;
+      const wrapX = contentX + pdf.getTextWidth('Available at') + wrapGap;
+      const wrapW = contentX + CONTENT_W - wrapX;
+      const rightEdge = contentX + CONTENT_W;
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(F_ROW);
+      const lines = rightText ? pdf.splitTextToSize(rightText, wrapW) : [''];
+
+      lines.forEach((line, li) => {
+        const w = pdf.getTextWidth(line);
+        const lineX = rightEdge - w;
+        if(draw) pdf.text(line, lineX, y + baselineIn(ROW_H));
+        if(linkHref && draw){
+          linkRects.push({ x: lineX, y, w, h: ROW_H, url: linkHref });
+        }
+        const isLastLine = li === lines.length - 1;
+        if(isLastLine && showLine) hairline(pdf, draw, y + ROW_H);
+        y += ROW_H;
+      });
+    }
+
     // Wraps `text` to CONTENT_W and draws each line left-aligned,
     // advancing y by lineH per line. Returns the number of lines.
     function wrappedBlock(pdf, draw, text, size, style, lineH, maxWidth, x){
@@ -1748,6 +1842,8 @@
               if(draw) pdf.text(valueText, contentX + labelW + 3, y + baselineIn(ROW_H));
               if(i < d.networkRows.length - 1) hairline(pdf, draw, y + ROW_H);
               y += ROW_H;
+            } else if(f.wrap){
+              wrapValueRow(pdf, draw, f.label, f.raw, f.href, i < d.networkRows.length - 1);
             } else {
               dataRow(pdf, draw, f.label, 'bold', F_ROW, f.raw, 0, i < d.networkRows.length - 1, null, f.href);
             }
